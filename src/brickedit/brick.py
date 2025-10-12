@@ -1,27 +1,33 @@
-import bt
-from exceptions import BrickError
-from vec import Vec3, Vec4
-
 from copy import deepcopy
 from typing import Optional, Self, Callable
 
+from . import bt
+from .exceptions import BrickError
+from .vec import Vec3, Vec4
+
 
 class Brick:
-    
+
     __slots__ = ('_meta', 'pos', 'rot', 'ppatch')
-    
-    def __init__(self, meta: bt.BrickMeta, pos: Optional[Vec3] = None, rot: Optional[Vec3] = None, ppatch: Optional[dict[str, object]] = None):
+
+    def __init__(self,
+                 meta: bt.BrickMeta,
+                 pos: Optional[Vec3] = None,
+                 rot: Optional[Vec3] = None,
+                 ppatch: Optional[dict[str, object]] = None
+                 ):
         self._meta = meta
         self.pos = pos if pos is not None else Vec3(0, 0, 0)
         self.rot = rot if rot is not None else Vec3(0, 0, 0)
         self.ppatch: dict[str, object] = {} if ppatch is None else ppatch
-        
+
     def meta(self) -> bt.BrickMeta:
         """Returns the BrickMeta of this brick."""
         return self._meta
-    
+
     def get_property(self, p: str) -> object:
-        """Gets a property of the brick. If it has been modified, returns the modified value. Otherwise, returns a deepcopy of the default value from the BrickMeta.
+        """Gets a property of the brick. If it has been modified, returns the modified value.
+        Otherwise, returns a deepcopy of the default value from the BrickMeta.
 
         Args:
             p (str): The name of the property to get.
@@ -35,7 +41,7 @@ class Brick:
             if pobj is None:
                 raise BrickError(f"Property '{p}' does not exist on brick type '{self._meta.name}'")
             return deepcopy(pobj)
-        
+
     def set_property(self, p: str, v: object) -> Self:
         """Sets a property of the brick.
 
@@ -48,15 +54,16 @@ class Brick:
         """
         self.ppatch[p] = v
         return self
-    
+
     def edit_property(self, p: str, lf: Callable[[object], object]) -> Self:
-        """Edits a property of a brick using a lambda function.
-        BE counts None properties as not set -> ignored, goes to default. You may use this to reset a property, however Brick.reset_property is usually preferred.
-        
+        """
+        Edits a property of a brick using a lambda function.
+        BrickEdit counts None properties as not set -> ignored, goes to default.
+        You may use this to reset a property, however Brick.reset_property is usually preferred.
         """
         self.ppatch[p] = lf(self.get_property(p))
         return self
-    
+
     def reset_property(self, p: str) -> Self:
         """Resets a property of the brick to its default value.
 

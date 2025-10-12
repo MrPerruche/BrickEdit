@@ -2,6 +2,9 @@ from typing import Final
 
 from src.brickedit import *
 
+
+print('good')
+
 # Internal name variable
 MY_PROPERTY: Final[str] = 'MyProperty'
 
@@ -17,10 +20,10 @@ class MyPropertyMeta(p.PropertyMeta[str]):
     @staticmethod
     def serialize(v: str, version: int) -> bytearray:
         # Enums are often stored as a utf-8 string prefixed by its length as a UInteger8
-        return serialization.UInteger8.serialize(len(v)) + serialization.String.serialize(v)
+        return serialization.UInteger8.serialize(len(v)) + serialization.EnumValue.serialize(v)
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> str:
         # Enums are often stored as a utf-8 string prefixed by its length as a UInteger8
         # Given be already slices the bytearray to only contain the property value, we can skip the first byte
-        return serialization.String.deserialize(v[1: ])
+        return serialization.EnumValue.deserialize(v[1: ])

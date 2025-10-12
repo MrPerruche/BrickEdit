@@ -5,14 +5,14 @@ from abc import ABC, abstractmethod
 
 
 class Vec(ABC):
-    
+
     """Abstract base class for vector types."""
-    
-    
+
+
     @abstractmethod
     def as_tuple(self) -> tuple[float, ...]:
         pass
-    
+
     def magnitude(self) -> float:
         """Calculate the magnitude (length) of the vector.
         Uses a slower, general implementation for vectors of any dimension provided in class Vec.
@@ -33,11 +33,10 @@ class Vec(ABC):
         if mag == 0:
             return self.__class__(*(0 for _ in range(len(self))))
         return self.__class__(*(n / mag for n in self.as_tuple()))
-    
+
     @abstractmethod
     def __len__(self) -> int:
         """Number of dimensions in the vector."""
-        pass
 
     def __add__(self, other) -> Self:
         """Add two vectors.

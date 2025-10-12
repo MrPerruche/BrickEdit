@@ -3,12 +3,13 @@ from typing import Type
 import copy
 
 class BrickMeta(ABC):
-    
+
     __slots__ = ('_name', 'p')
-    
+
     def __init__(self, name: str, *args, **kwargs):
         """
-        BrickMeta is a meta class for brick types: each brick type is an instance of a class inheriting BrickMeta.
+        BrickMeta is a meta class for brick types:
+        each brick type is an instance of a class inheriting BrickMeta.
         It holds the name of the brick type and its default properties.
         Args and kwargs are passed to base_properties and allow you to 
         """
@@ -26,4 +27,3 @@ class BrickMeta(ABC):
         Only ran once by BE to initialize self.p in __init__ of BrickMeta.
         May be used to reinitialize modded properties or inspect original properties.
         """
-        pass

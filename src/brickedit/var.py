@@ -1,3 +1,3 @@
 from typing import Final
 
-MODERN_VERSION: Final[int] = 15
+MODERN_VERSION: Final[int] = 16
