@@ -14,9 +14,9 @@ Are you a beginner in computer science or unfamiliar with Python? This short sec
 
 -----
 
-Note: as of the time of writing, BRMK does not let modders add their own property types. The methods to create your own properties are nonetheless documented here for future proofing, whether BRMK adds custom property support or brickedit becomes outdated.
+Note: as of the time of writing, BRMK does not let modders add their own property types. The methods to create your own properties are nonetheless documented here for future proofing, whether BRMK adds custom property support or brci becomes outdated.
 
-This module contains everything to handle properties in brickedit:
+This module contains everything to handle properties in brci:
 - `PropertyMeta`: Class defining how to serialize and deserialize all properties. Its subclasses contains all its possible values throughout the versions.
 - `pmeta_registry`: A dictionary binding all `PropertyMeta`s subclasses to properties' internal name as string.
 - `@register`: Registers `PropertyMeta`s subclasses to `pmeta_registry`. For example: `@register(BRICK_MATERIAL)`.
@@ -33,17 +33,17 @@ Each subclass of `PropertyMeta[T]` must define the following:
 
 ## Internal name variable (QoL)
 
-BrickEdit defines and recommend you to define for each `PropertyMeta` subclass a variable (as a final screaming snake case) named after the property, and holding the internal name of the property.
+Brci defines and recommend you to define for each `PropertyMeta` subclass a variable (as a final screaming snake case) named after the property, and holding the internal name of the property.
 
 For example: `BRICK_MATERIAL: Final[str] = "BrickMaterial"` for the `BrickMaterial` class.
 
 ## Registration: `@register`
 
-BrickEdit will not know of a property unless you register it. To register a property, use the `@register(name: str, registry: dict[str, Type[PropertyMeta[Any]]] = pmeta_registry)`.
+Brci will not know of a property unless you register it. To register a property, use the `@register(name: str, registry: dict[str, Type[PropertyMeta[Any]]] = pmeta_registry)`.
 
 - `name` (`str`): is the internal name of the variable. For example, for `BrickMaterial`: `register(BRICK_MATERIAL)`
 
-- `registry` (`dict[str, Type[PropertyMeta[Any]]] = pmeta_registry`): is the registry to add the entry to. By default this argument does not have to be specified and properties will be registered to brickedit's register.
+- `registry` (`dict[str, Type[PropertyMeta[Any]]] = pmeta_registry`): is the registry to add the entry to. By default this argument does not have to be specified and properties will be registered to brci's register.
 
 
 ## Example of a full implementation of a property
