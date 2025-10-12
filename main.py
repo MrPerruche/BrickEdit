@@ -1,6 +1,6 @@
 from typing import Final
 
-from src.be import *
+from src.brickedit import *
 
 # Internal name variable
 MY_PROPERTY: Final[str] = 'MyProperty'
