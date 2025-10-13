@@ -1,3 +1,5 @@
 from typing import Final
 
-MODERN_VERSION: Final[int] = 16
+LATEST: Final[int] = 16
+STABLE: Final[int] = 15
+LEGACY: Final[int] = 5 # FIXME: Is this correct?
