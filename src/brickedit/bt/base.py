@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Type
-import copy
 
 class BrickMeta(ABC):
 
@@ -24,6 +22,6 @@ class BrickMeta(ABC):
         """
         Default properties of a brick class.
         It creates a new dictionary each time to avoid shared mutable state.
-        Only ran once by BE to initialize self.p in __init__ of BrickMeta.
+        Only ran once by brickedit to initialize self.p in __init__ of BrickMeta.
         May be used to reinitialize modded properties or inspect original properties.
         """

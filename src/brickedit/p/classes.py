@@ -22,3 +22,4 @@ class BrickMaterial(PropertyMeta):
         if version > 6:
             return InvalidVersion
         return s.EnumValue.deserialize(v)
+

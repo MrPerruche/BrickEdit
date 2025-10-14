@@ -12,5 +12,5 @@ class ScalableBrickMeta(BrickMeta):
         return {
             p.BRICK_MATERIAL: p.BrickMaterial.PLASTIC
         }
-        
+
 SCALABLE_BRICK = ScalableBrickMeta('ScalableBrick')
