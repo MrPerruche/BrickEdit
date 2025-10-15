@@ -11,7 +11,9 @@ class Vec(ABC):
 
     @abstractmethod
     def as_tuple(self) -> tuple[float, ...]:
-        pass
+        """Convert the vector to a tuple of floats.
+        Returns:
+            tuple[float, ...]: The vector as a tuple of floats."""
 
     def magnitude(self) -> float:
         """Calculate the magnitude (length) of the vector.
@@ -62,9 +64,10 @@ class Vec(ABC):
         return self.__mul__(other)
 
 
+
 @dataclass(frozen=True, slots=True)
 class Vec2(Vec):
-    
+
     """
     A 2D vector class with basic operations.
     Used to store scales, etc.
@@ -73,13 +76,13 @@ class Vec2(Vec):
         x (float): The x component of the vector.
         y (float): The y component of the vector.
     """
-    
+
     x: float
     y: float
-    
+
     def as_tuple(self) -> tuple[float, float]:
         return (self.x, self.y)
-    
+
     def magnitude(self) -> float:
         """
         Calculate the magnitude (length) of the vector.
@@ -88,7 +91,7 @@ class Vec2(Vec):
             float: The magnitude of the vector.
         """
         return sqrt(self.x**2 + self.y**2)
-    
+
     def normalize(self) -> Self:
         """
         Normalize the vector to have a magnitude of 1.
@@ -100,7 +103,7 @@ class Vec2(Vec):
         if mag == 0:
             return self.__class__(0, 0)
         return self.__class__(self.x / mag, self.y / mag)
-    
+
     def __len__(self):
         return 2
 
@@ -119,9 +122,10 @@ class Vec2(Vec):
     def __rmul__(self, other: float) -> Self:
         return self.__mul__(other)
 
+
 @dataclass(frozen=True, slots=True)
 class Vec3(Vec):
-    
+
     """
     A 3D vector class with basic operations.
     Used to store coordinates, scales, colors, etc.
@@ -131,14 +135,14 @@ class Vec3(Vec):
         y (float): The y component of the vector.
         z (float): The z component of the vector.
     """
-    
+
     x: float
     y: float
     z: float
-    
+
     def as_tuple(self) -> tuple[float, float, float]:
         return (self.x, self.y, self.z)
-    
+
     def magnitude(self) -> float:
         """
         Calculate the magnitude (length) of the vector.
@@ -147,7 +151,7 @@ class Vec3(Vec):
             float: The magnitude of the vector.
         """
         return sqrt(self.x**2 + self.y**2 + self.z**2)
-    
+
     def normalize(self) -> Self:
         """
         Normalize the vector to have a magnitude of 1.
@@ -159,7 +163,7 @@ class Vec3(Vec):
         if mag == 0:
             return self.__class__(0, 0, 0)
         return self.__class__(self.x / mag, self.y / mag, self.z / mag)
-    
+
     def __len__(self):
         return 3
 
@@ -177,6 +181,8 @@ class Vec3(Vec):
 
     def __rmul__(self, other: float) -> Self:
         return self.__mul__(other)
+
+
 
 @dataclass(frozen=True, slots=True)
 class Vec4(Vec):
@@ -196,7 +202,7 @@ class Vec4(Vec):
     y: float
     z: float
     w: float
-    
+
     def as_tuple(self) -> tuple[float, float, float, float]:
         return (self.x, self.y, self.z, self.w)
 
