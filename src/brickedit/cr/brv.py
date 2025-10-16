@@ -41,7 +41,7 @@ class BRVFile:
         if self.version != other.version:
             raise ValueError("Cannot paste BRV files with different versions.")
 
-        new = BRVFile()
+        new = self.__class__()
         new.version = self.version
 
         new.bricks.extend(other.bricks)
