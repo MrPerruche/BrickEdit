@@ -47,3 +47,6 @@ class BRVFile:
         new.bricks.extend(other.bricks)
         new.bricks.extend(self.bricks)
         return new
+
+    def __add__(self, other):
+        return other.paste(self) # Paste onto *us*.
