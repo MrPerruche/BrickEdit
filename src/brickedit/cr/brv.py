@@ -1,6 +1,7 @@
 """BRV file handling."""
 from ..brick import Brick
 from ..var import FILE_EXP_VERSION
+from typing import Self
 
 class BRVFile:
     """A Brick Rigs vehicle file.
@@ -24,3 +25,25 @@ class BRVFile:
             None"""
 
         self.bricks.append(brick)
+
+
+
+    def paste(self, other: Self) -> Self:
+        """Paste this vehicle file instance onto another, effectively concatenating them.
+        Does not modify either of the original files.
+
+        Arguments:
+            other (BRVFile): The vehicle file to paste onto.
+        
+        Returns:
+            Self: The concatenated vehicle file."""
+
+        if self.version != other.version:
+            raise ValueError("Cannot paste BRV files with different versions.")
+
+        new = BRVFile()
+        new.version = self.version
+
+        new.bricks.extend(other.bricks)
+        new.bricks.extend(self.bricks)
+        return new
