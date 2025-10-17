@@ -1,29 +1,23 @@
+from brickedit import *
+
 from typing import Final
+import os
 
-from src.brickedit import *
+CREATION_NAME: Final[str] = "TestCreation"
+WRITE_PATH: Final[str] = os.path.join(BRICKRIGS_SAVEDREMASTERED, CREATION_NAME)
+PYRAMID_SIZE: Final[int] = 11
+STEP_SIZE: Final[float] = 0.6
 
+v: VehicleHelper = vh.ValueHelper(FILE_MAIN_VERSION, default_unit=units.METER)
+brv = BRVFile()
+brm = BRMFile(name='Test creation')
 
-print('good')
+for i in range(0, PYRAMID_SIZE):
+    width = STEP_SIZE * (PYRAMID_SIZE - i) # Meters
+    pos_z = STEP_SIZE * (i + 0.5)
+    brv.add(Brick(bt.SCALABLE_BRICK, pos=v.pos(0, 0, pos_z), ppatch = {  # v.pos returns Vec3
+        p.BRICK_COLOR: v.rgba_color(RGBA(0xff3f00ff)),  # Maybe? Haven't figured out details for colors
+        p.BRICK_SIZE: v.brick_size(width, width, STEP_SIZE)  # v.brick_size returns Vec3
+  }))
 
-# Internal name variable
-MY_PROPERTY: Final[str] = 'MyProperty'
-
-# Registration decorator required for be to detect and use this data type
-@p.register(MY_PROPERTY)
-class MyPropertyMeta(p.PropertyMeta[str]):
-
-    # Our made up property type is an enum with 3 possible states
-    FIRST_OPTION: Final[str] = 'FirstOption'
-    SECOND_OPTION: Final[str] = 'SecondOption'
-    THIRD_OPTION: Final[str] = 'ThirdOption'
-
-    @staticmethod
-    def serialize(v: str, version: int) -> bytearray:
-        # Enums are often stored as a utf-8 string prefixed by its length as a UInteger8
-        return serialization.UInteger8.serialize(len(v)) + serialization.EnumValue.serialize(v)
-
-    @staticmethod
-    def deserialize(v: bytearray, version: int) -> str:
-        # Enums are often stored as a utf-8 string prefixed by its length as a UInteger8
-        # Given be already slices the bytearray to only contain the property value, we can skip the first byte
-        return serialization.EnumValue.deserialize(v[1: ])
+brv.write(WRITE_PATH)
