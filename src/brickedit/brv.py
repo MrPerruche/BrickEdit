@@ -179,7 +179,7 @@ class BRVFile:
         # --------2. BRICK TYPES
         for t in types:
             # Len of t then t
-            buffer.extend(struct.pack('B', len(t.name)))  # B → uint8
+            buffer.extend(struct.pack('B', len(t.name())))  # B → uint8
             buffer.extend(t.name().encode('ascii'))
 
 
@@ -223,17 +223,18 @@ class BRVFile:
         # Remember. Index starts at 1 here because fluppi
         for brick in self.bricks:
 
-            subbuffer = bytearray()
             # 1. Brick Type
-            brick_type_index = types_to_index[brick.meta()]+1
-            subbuffer.extend(struct.pack('<H', brick_type_index))  # <H → LE uint16
+            brick_type_index = types_to_index[brick.meta()]
+            buffer.extend(struct.pack('<H', brick_type_index))  # <H → LE uint16
+
+            subbuffer = bytearray()
 
             # 2. Properties
             # Num of properties
             num_properties = len(brick.ppatch)
             subbuffer.extend(struct.pack('B', num_properties))  # B → uint8
             # Each property
-            for prop, value in brick.ppatch:
+            for prop, value in brick.ppatch.items():
                 prop_index = prop_to_index[prop]  # Key index
                 sub_list = value_to_index[prop_index]  # Where to get vals → index of this property
                 value_index = sub_list[value]  # Value index

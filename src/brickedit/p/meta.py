@@ -2,7 +2,7 @@ import struct
 from typing import Final
 
 from . import base as _b
-from ..brick import Brick as _Brick
+# from ..brick import Brick as _Brick
 
 
 
@@ -37,7 +37,7 @@ class EnumMeta(_b.PropertyMeta[str]):
     ) -> bytearray:
         # return bytearray(struct.pack('B', len(v)) + v.encode('ascii'))
         v_bytes = v.encode('ascii')
-        return bytearray(struct.pack('B', len(v_bytes)), v_bytes)
+        return bytearray(struct.pack('B', len(v_bytes)) + v_bytes)
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> str:
@@ -134,24 +134,24 @@ class InputAxis(EnumMeta):
     FIRE_ACTION_8: Final[str] = 'Action8'
 
 
-class SourceBricks(_b.PropertyMeta[tuple[str | _Brick, ...]]):
+
+class SourceBricks(_b.PropertyMeta[tuple[str, ...]]):
     """Class for custom input channel argument"""
 
     EMPTY: Final[tuple] = ()
 
     @staticmethod
     def serialize(
-        v: tuple[str | _Brick, ...],
+        v: tuple[str, ...],
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray | _b.InvalidVersionType:
 
         idx = []
-        for value in v:
-            ref = value if isinstance(value, str) else value.ref
+        for ref in v:
             i = ref_to_idx.get(ref)
             if i is None:
-                raise ValueError(f"Unknown brick reference {ref!r} from value {value!r}.")
+                raise ValueError(f"Unknown brick reference {ref!r}.")
             idx.append(i)
         return bytearray(struct.pack(f'<H{len(idx)}H', len(idx), *idx))
 
