@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Optional, Self, Callable
+from typing import Optional, Self, Callable, Hashable
 
 from . import bt
 from .exceptions import BrickError
@@ -8,24 +8,26 @@ from .vec import Vec3, Vec4
 
 class Brick:
 
-    __slots__ = ('_meta', 'pos', 'rot', 'ppatch')
+    __slots__ = ('_meta', 'ref', 'pos', 'rot', 'ppatch')
 
     def __init__(self,
+                 ref: str,
                  meta: bt.BrickMeta,
                  pos: Optional[Vec3] = None,
                  rot: Optional[Vec3] = None,
-                 ppatch: Optional[dict[str, object]] = None
+                 ppatch: Optional[dict[str, Hashable]] = None
                  ):
+        self.ref = ref
         self._meta = meta
         self.pos = pos if pos is not None else Vec3(0, 0, 0)
         self.rot = rot if rot is not None else Vec3(0, 0, 0)
-        self.ppatch: dict[str, object] = {} if ppatch is None else ppatch
+        self.ppatch: dict[str, Hashable] = {} if ppatch is None else ppatch
 
     def meta(self) -> bt.BrickMeta:
         """Returns the BrickMeta of this brick."""
         return self._meta
 
-    def get_property(self, p: str) -> object:
+    def get_property(self, p: str) -> Hashable:
         """Gets a property of the brick. If it has been modified, returns the modified value.
         Otherwise, returns a deepcopy of the default value from the BrickMeta.
 
@@ -42,7 +44,7 @@ class Brick:
                 raise BrickError(f"Property '{p}' does not exist on brick type '{self._meta.name}'")
             return deepcopy(pobj)
 
-    def set_property(self, p: str, v: object) -> Self:
+    def set_property(self, p: str, v: Hashable) -> Self:
         """Sets a property of the brick.
 
         Args:
@@ -55,7 +57,7 @@ class Brick:
         self.ppatch[p] = v
         return self
 
-    def edit_property(self, p: str, lf: Callable[[object], object]) -> Self:
+    def edit_property(self, p: str, lf: Callable[[Hashable], Hashable]) -> Self:
         """
         Edits a property of a brick using a lambda function.
         BrickEdit counts None properties as not set -> ignored, goes to default.
