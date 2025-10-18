@@ -33,8 +33,10 @@ flowchart LR
         C_CLS["Classes inheriting PropertyMeta"]
         C_F["Constant strings storing properties' internal names"]
         subgraph C_CLSE["Examples:"]
-            C_CLSE1["class BrickMaterial(PropertyMeta)"]
-            C_CLSE2["class BrickPattern(PropertyMeta)"]
+            C_CLSE1["class InputChannel_SourceBricksMeta(PropertyMeta)"]
+            C_CLSE1_1["class InputChannel_SourceBricks(InputChannel_SourceBricksMeta)"]
+            C_CLSE1_2["class ThrottleInputChannel_SourceBricks(InputChannel_SourceBricksMeta)"]
+            C_CLSE2["class BrickMaterial(PropertyMeta)"]
         end
         subgraph C_FE["Examples:"]
             C_FE1["BRICK_MATERIAL: Final[str] = 'BrickMaterial'"]
@@ -46,6 +48,7 @@ flowchart LR
     REG <-.-> REG_VAR
 
     C_CLS -.-> C_CLSE1 & C_CLSE2
+    C_CLSE1 --> C_CLSE1_1 & C_CLSE1_2
     C_F -.-> C_FE1 & C_FE2
 
     INV <-.-> INV_I

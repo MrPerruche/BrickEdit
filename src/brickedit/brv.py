@@ -89,6 +89,8 @@ class BRVFile:
         Returns:
             bytearray: The serialized vehicle file."""
 
+        assert len(self.bricks) <= 65_534, "Too many bricks! Max: 65,534"
+
         # --------1. HEADER
 
         # Version Byte
@@ -113,12 +115,17 @@ class BRVFile:
         value_to_index: list[dict[Any, int]] = [{}]
         # A list that for each prop gives {for each value index gives us its serialized version}
         indexes_to_serialized: list[list[bytearray]] = []
+        # A list of reference to brick index for source brick properties
+        reference_to_brick_index: dict[str, int] = {b.ref: i+1 for i, b in enumerate(self.bricks)}
 
         # Exploring all bricks
         for brick in self.bricks:
 
             # Exploring all properties
             for prop, value in brick.ppatch.items():
+
+                if value is None:
+                    continue
 
                 # Get the serialization class and make sure it's valid
                 prop_serialization_class = _p.pmeta_registry.get(prop)
@@ -130,7 +137,7 @@ class BRVFile:
                 if prop not in prop_to_index:
                     prop_to_index[prop] = len(prop_to_index)
                     value_to_index.append({})
-                    indexes_to_serialized.append({})
+                    indexes_to_serialized.append([])
 
                 # Keep what property index we're at
                 prop_index = prop_to_index[prop]
@@ -138,7 +145,7 @@ class BRVFile:
                 # Handing the value:
                 try:
                     # Serialize
-                    binary = prop_serialization_class.serialize(value, self.version)
+                    binary = prop_serialization_class.serialize(value, self.version, reference_to_brick_index)
                     # If version is invalid, skip
                     if binary is _p.InvalidVersion:
                         # If this invalid is alone in the list of properties, kill it!

@@ -1,7 +1,7 @@
-from typing import Any, Callable, Generic, Type, TypeVar
+from typing import Callable, Generic, Type, TypeVar
 from abc import ABC, abstractmethod
 
-T = TypeVar("T")
+_T = TypeVar("T")
 
 class InvalidVersionType:
     """Class of InvalidVersion singleton (sentinel)."""
@@ -20,25 +20,31 @@ class InvalidVersionType:
 InvalidVersion: InvalidVersionType = InvalidVersionType()
 
 
-class PropertyMeta(Generic[T], ABC):
+class PropertyMeta(Generic[_T], ABC):
     """Base class for property metadata."""
 
     @staticmethod
     @abstractmethod
-    def serialize(v: T, version: int) -> bytearray | InvalidVersionType:
+    def serialize(
+        v: _T,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray | InvalidVersionType:
         """Serializes the value `v`.
 
         Args:
             v (T): Value to serialize
             version (int): Version of the property
+            ref_to_idx (dict[str, int]): Index of a brick from its index
 
         Returns:
             bytearray | InvalidVersionType: Result as bytearray or InvalidVersion sentinel
             if the property does not support this version.
         """
+        
     @staticmethod
     @abstractmethod
-    def deserialize(v: bytearray, version: int) -> T | InvalidVersionType:
+    def deserialize(v: bytearray, version: int) -> _T | InvalidVersionType:
         """Deserializes the value `v` for the given `version`.
 
         Args:
@@ -51,14 +57,14 @@ class PropertyMeta(Generic[T], ABC):
         """
 
 
-pmeta_registry: dict[str, Type[PropertyMeta[Any]]] = {}
+pmeta_registry: dict[str, Type[PropertyMeta]] = {}
 
-_T = TypeVar('_T', bound=Type[PropertyMeta[Any]])
+_Tpm = TypeVar('_Tpm', bound=Type[PropertyMeta])
 
 def register(
     name: str,
     registry: dict[str, Type[PropertyMeta]] | None = None
-) -> Callable[[_T], _T]:
+) -> Callable[[_Tpm], _Tpm]:
     """
     Decorator to register a PropertyMeta subclasses.
     If registry is none, will use BrickEdit's default registry pmeta_registry.
@@ -71,7 +77,7 @@ def register(
     if registry is None:
         registry = pmeta_registry
 
-    def _decorator(class_: _T) -> _T:
+    def _decorator(class_: _Tpm) -> _Tpm:
         registry[name] = class_
         return class_
     return _decorator
