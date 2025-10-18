@@ -28,6 +28,9 @@ class ValueHelper:
             Vec3: A 3D vector representing the physical position, taking into account the desired physical unit.
         """
 
+        if unit is None:
+            unit = self.default_physical_unit
+
         return Vec3(x * unit, y * unit, z * unit)
 
 
@@ -51,6 +54,9 @@ class ValueHelper:
         Returns:
             Vec3: A 3D vector representing the rotational position, taking into account the desired rotational unit.
         """
+
+        if unit is None:
+            unit = self.default_rotational_unit
 
         return Vec3(x * unit, y * unit, z * unit)
 
