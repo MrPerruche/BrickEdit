@@ -209,3 +209,8 @@ __marimo__/
 
 # BRCI
 main.py
+
+IGNORE_*
+IGNORE_*/*
+*.brv
+*.brm
