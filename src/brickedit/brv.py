@@ -241,3 +241,5 @@ class BRVFile:
             # 4. Write len and write to buffer
             buffer.extend(struct.pack('<I', len(subbuffer)))  # <I → LE uint32
             buffer.extend(subbuffer)
+
+        return buffer
