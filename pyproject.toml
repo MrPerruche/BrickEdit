@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools >= 80", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brickedit"
+version = "5.0.0a1"
+# dynamic = ["version"]
+authors = [{ name="MrPerruche" }, { name="FateUnix29" }]
+description = "BrickEdit is a tool for creating and editing Brick Rigs vehicle files (.brv & .brm)."
+readme = "README.md"
+requires-python = ">=3.12.0"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+#    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/MrPerruche/BrickEdit"
+Repository = "https://github.com/MrPerruche/BrickEdit"
+Issues = "https://github.com/MrPerruche/BrickEdit/issues"
