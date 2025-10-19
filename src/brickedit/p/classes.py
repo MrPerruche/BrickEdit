@@ -1,10 +1,11 @@
 # pylint: disable=invalid-name
 from typing import Final
-import struct as _s
+import struct
 
 from . import base as _b
 from . import meta as _m
 from .. import var as _v
+from .. import vec as _vec
 
 
 BRICK_COLOR: Final[str] = 'BrickColor'
@@ -24,13 +25,13 @@ class BrickColor(_b.PropertyMeta[int]):
 
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return _s.pack('<I', v)
+        return struct.pack('<I', v)
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return _s.unpack('<I', v)[0]
+        return struct.unpack('<I', v)[0]
 
 
 BRICK_MATERIAL = 'BrickMaterial'
@@ -114,6 +115,25 @@ class BrickPattern(_m.EnumMeta):
     P_YELLOW_CIRCLES: Final[str] = 'P_YellowCircles'
 
 
+BRICK_SIZE: Final[str] = 'BrickSize'
+@_b.register(BRICK_SIZE)
+class BrickSize(_b.PropertyMeta[_vec.Vec3]):
+    """Size of bricks"""
+
+    @staticmethod
+    def serialize(
+        v: _vec.Vec3,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray:
+        return struct.pack('<3f', *v.as_tuple())
+
+    @staticmethod
+    def deserialize(v: bytearray, version: int) -> _vec.Vec3:
+        return _vec.Vec3(*struct.unpack_from('<3f', v))
+
+
+
 ACTUATOR_MODE: Final[str] = 'ActuatorMode'
 
 @_b.register(ACTUATOR_MODE)
@@ -135,7 +155,6 @@ class BCanDisableSteering(_m.Boolean):
     """Axle can disable steering property"""
 
 
-
 B_CAN_INVERT_STEERING: Final[str] = 'bCanInvertSteering'
 
 @_b.register(B_CAN_INVERT_STEERING)
@@ -143,12 +162,18 @@ class BCanInvertSteering(_m.Boolean):
     """Axle can invert steering property"""
 
 
-
 B_DRIVEN: Final[str] = 'bDriven'
 
 @_b.register(B_DRIVEN)
 class BDriven(_m.Boolean):
     """Axle is driven property"""
+
+
+B_FLUID_DYNAMIC: Final[str] = 'bGenerateLift'
+
+@_b.register(B_DRIVEN)
+class BFluidDynamic(_m.Boolean):
+    """Brick fluid dynamics (generate lift / aero) property"""
 
 
 B_HAS_BRAKE: Final[str] = 'bHasBrake'
@@ -177,24 +202,31 @@ BRAKE_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'BrakeInputChannel.SourceBricks'
 BRAKE_INPUT_CNL_VALUE: Final[str] = 'BrakeInputChannel.Value'
 
 @_b.register(BRAKE_INPUT_CNL_INPUT_AXIS)
-class BrakeInputCnl_InputAxis(_m.InputAxis):
+class BrakeInputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for BrakeInputChannel"""
 
 @_b.register(BRAKE_INPUT_CNL_SOURCE_BRICKS)
-class BrakeInputCnl_SourceBricks(_m.SourceBricks):
+class BrakeInputCnl_SourceBricks(_m.SourceBricksMeta):
     """Source bricks for BrakeInputChannel"""
 
 @_b.register(BRAKE_INPUT_CNL_VALUE)
-class BrakeInputCnl_Value(_m.Value):
+class BrakeInputCnl_Value(_m.ValueMeta):
     """Constant value for BrakeInputChannel"""
 
 
 BRAKE_STRENGTH: Final[str] = 'BrakeStrength'
 
 @_b.register(BRAKE_STRENGTH)
-class BrakeStrength(_m.Value):
+class BrakeStrength(_m.ValueMeta):
     """Brake strength scale property."""
     BASE: Final[float] = 1.0
+
+
+B_INVERT_TANK_STEERING: Final[str] = 'bInvertTankSteering'
+
+@_b.register(B_INVERT_TANK_STEERING)
+class BInvertTankSteering(_m.Boolean):
+    """Invert tank steering on wheels property"""
 
 
 B_TANK_DRIVE: Final[str] = 'bTankDrive'
@@ -204,12 +236,82 @@ class BTankDrive(_m.Boolean):
     """Tank drive style property"""
 
 
+CAMERA_NAME: Final[str] = 'CameraName'
+
+@_b.register(CAMERA_NAME)
+class CameraName(_m.TextMeta):
+    """Name attributed to the camera"""
+    EMPTY: Final[str] = ''
+
+
+CONNECTOR_SPACING: Final[str] = 'ConnectorSpacing'
+
+@_b.register(CONNECTOR_SPACING)
+class ConnectorSpacing(_b.PropertyMeta[int]):
+
+    # Format: zp_zn_yp_yn_xp_xn big endian / yp_yn_xp_xn_00_00_zp_zn little endian
+    NO_CONNECTIONS: Final[int] = 0b00_00_00_00_00_00
+    ALL_CONNECTIONS: Final[int] = 0b11_11_11_11_11_11
+    NO_TOP: Final[int] = 0b00_11_11_11_11_11
+
+    @staticmethod
+    def serialize(
+        v: int,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray:
+        return struct.pack('<H', v)
+
+    @staticmethod
+    def deserialize(v: bytearray, version: int) -> int:
+        return struct.unpack('<H', v)[0]
+
+    @staticmethod
+    def create(xp: int, yp: int, zp: int, xn: int, yn: int, zn: int) -> int:
+        """Builds the integer corresponding to this connector spacing.
+        p → postive, n → negative. Requirement: 0 <= arg <= 3"""
+        return xn + xp << 2 + yn << 4 + yp << 6 + zn << 8 + zp << 10
+
+
+COUPLING_MODE: Final[str] = 'CouplingMode'
+
+@_b.register(COUPLING_MODE)
+class CouplingMode(_m.EnumMeta):
+    """Coupling mode of a male coupler brick"""
+    DEFAULT: Final[str] = 'Default'
+    STATIC: Final[str] = 'Static'
+
+
+DISPLAY_COLOR: Final[str] = 'DisplayColor'
+
+@_b.register(DISPLAY_COLOR)
+class DisplayColor(_m.UInteger24):
+    """Digit display color for display bricks"""
+
+
+EXHAUST_EFFECT: Final[str] = 'ExhaustEffect'
+
+@_b.register(EXHAUST_EFFECT)
+class ExhaustEffect(_m.EnumMeta):
+    """Exhaust brick effect type"""
+    SMOKE: Final[str] = 'Smoke'
+    TRAIL: Final[str] = 'Trail'
+
+
 GEAR_RATIO: Final[str] = 'GearRatioScale'
 
 @_b.register(B_TANK_DRIVE)
-class GearRatio(_m.Value):
+class GearRatio(_m.Float32Meta):
     """Gear Ratio Scale property"""
     BASE: Final[float] = 1.0
+
+
+HORN_PITCH: Final[str] = 'HornPitch'
+
+@_b.register(HORN_PITCH)
+class HornPitch(_m.Float32Meta):
+    """Horn pitch"""
+    DEFAULT_VALUE: Final[float] = 1.0
 
 
 INPUT_CNL_INPUT_AXIS: Final[str] = 'InputChannel.InputAxis'
@@ -217,30 +319,87 @@ INPUT_CNL_SOURCE_BRICKS: Final[str] = 'InputChannel.SourceBricks'
 INPUT_CNL_VALUE: Final[str] = 'InputChannel.Value'
 
 @_b.register(INPUT_CNL_INPUT_AXIS)
-class InputCnl_InputAxis(_m.InputAxis):
+class InputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannel"""
 
 @_b.register(INPUT_CNL_SOURCE_BRICKS)
-class InputCnl_SourceBricks(_m.SourceBricks):
+class InputCnl_SourceBricks(_m.SourceBricksMeta):
     """Source bricks for InputChannel"""
 
 @_b.register(INPUT_CNL_VALUE)
-class InputCnl_Value(_m.Value):
+class InputCnl_Value(_m.ValueMeta):
     """Constant value for InputChannel"""
 
 
 MIN_LIMIT: Final[str] = 'MinLimit'
 
 @_b.register(MIN_LIMIT)
-class MinLimit(_m.Float32):
+class MinLimit(_m.Float32Meta):
     """Minimum limit of an actuator's angle or distance in degrees or centimeters"""
 
 
 MAX_LIMIT: Final[str] = 'MaxLimit'
 
 @_b.register(MAX_LIMIT)
-class MaxLimit(_m.Float32):
+class MaxLimit(_m.Float32Meta):
     """Maximum limit of an actuator's angle or distance in degrees or centimeters"""
+
+
+NUM_FRACTIONAL_DIGITS: Final[str] = 'NumFractionalDigits'
+class NumFractionalDigits(_b.PropertyMeta[int]):
+    """Number of fractional digits displayed on the display"""
+
+    @staticmethod
+    def serialize(
+        v: int,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray:
+        return struct.pack('b', v)
+
+    @staticmethod
+    def deserialize(v: bytearray, version: int) -> int:
+        return struct.unpack('b', v)[0]
+
+
+OWNING_SEAT: Final[str] = 'OwningSeat'
+
+@_b.register(OWNING_SEAT)
+class OwningSeat(_m.SingleSourceBrickMeta):
+    """Seat owning the brick (camera, ...)"""
+
+
+SIREN_TYPE: Final[str] = 'SirenType'
+
+@_b.register(SIREN_TYPE)
+class SirenType(_m.EnumMeta):
+    """Siren sound property"""
+    CAR_HORN: Final[str] = 'CarHorn'
+    EMS_US: Final[str] = 'EmsUS'
+    FIRE_DEPT_GERMAN: Final[str] = 'FireDeptGerman'
+    POLICE_GERMAN: Final[str] = 'PoliceGerman'
+    TRUCK_HORN: Final[str] = 'TruckHorn'
+
+
+SIZE_SCALE: Final[str] = 'SizeScale'
+
+@_b.register(SIZE_SCALE)
+class SizeScale(_m.Float32Meta):
+    """Exhaust brick particle size scale"""
+
+
+SPAWN_SCALE: Final[str] = 'SpawnScale'
+
+@_b.register(SPAWN_SCALE)
+class SpawnScale(_m.Float32Meta):
+    """Exhaust brick particle spawn scale"""
+
+
+SMOKE_COLOR: Final[str] = 'SmokeColor'
+
+@_b.register(SMOKE_COLOR)
+class SmokeColor(_m.UInteger24):
+    """Exhaust effect color"""
 
 
 STEERING_INPUT_CNL_INPUT_AXIS: Final[str] = 'SteeringInputChannel.InputAxis'
@@ -248,38 +407,52 @@ STEERING_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'SteeringInputChannel.SourceBrick
 STEERING_INPUT_CNL_VALUE: Final[str] = 'SteeringInputChannel.Value'
 
 @_b.register(STEERING_INPUT_CNL_INPUT_AXIS)
-class SteeringInputCnl_InputAxis(_m.InputAxis):
+class SteeringInputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for SteeringInputChannel"""
 
 @_b.register(STEERING_INPUT_CNL_SOURCE_BRICKS)
-class SteeringInputCnl_SourceBricks(_m.SourceBricks):
+class SteeringInputCnl_SourceBricks(_m.SourceBricksMeta):
     """Source bricks for SteeringInputChannel"""
 
 @_b.register(STEERING_INPUT_CNL_VALUE)
-class SteeringInputCnl_Value(_m.Value):
+class SteeringInputCnl_Value(_m.ValueMeta):
     """Constant value for SteeringInputChannel"""
-
 
 
 SUSPENSION_LENGTH: Final[str] = 'SuspensionLength'
 
 @_b.register(SUSPENSION_LENGTH)
-class SuspensionLength(_m.Float32):
+class SuspensionLength(_m.Float32Meta):
     """Suspension length property"""
 
 
 SUSPENSION_STIFFNESS: Final[str] = 'SuspensionStiffness'
 
 @_b.register(SUSPENSION_STIFFNESS)
-class SuspensionStiffness(_m.Float32):
+class SuspensionStiffness(_m.Float32Meta):
     """Suspension stiffness property"""
 
 
 SUSPENSION_DAMPING: Final[str] = 'SuspensionDamping'
 
 @_b.register(SUSPENSION_DAMPING)
-class SuspensionDamping(_m.Float32):
+class SuspensionDamping(_m.Float32Meta):
     """Suspension daming property"""
+
+
+TIRE_PRESSURE: Final[str] = 'TirePressureRatio'
+
+@_b.register(TIRE_PRESSURE)
+class TirePressure(_m.Float32Meta):
+    """Tire pressure ratio"""
+    DEFAULT_VALUE: Final[float] = 0.8
+
+
+TIRE_WIDTH: Final[str] = 'TireThickness'
+
+@_b.register(TIRE_WIDTH)
+class TireWidth(_m.Float32Meta):
+    """Width (thickness) of the tire for wheels"""
 
 
 THROTTLE_INPUT_CNL_INPUT_AXIS: Final[str] = 'ThrottleInputChannel.InputAxis'
@@ -287,13 +460,27 @@ THROTTLE_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'ThrottleInputChannel.SourceBrick
 THROTTLE_INPUT_CNL_VALUE: Final[str] = 'ThrottleInputChannel.Value'
 
 @_b.register(THROTTLE_INPUT_CNL_INPUT_AXIS)
-class ThrottleInputCnl_InputAxis(_m.InputAxis):
+class ThrottleInputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for ThrottleInputChannel"""
 
 @_b.register(THROTTLE_INPUT_CNL_SOURCE_BRICKS)
-class ThrottleInputCnl_SourceBricks(_m.SourceBricks):
+class ThrottleInputCnl_SourceBricks(_m.SourceBricksMeta):
     """Source bricks for ThrottleInputChannel"""
 
 @_b.register(THROTTLE_INPUT_CNL_VALUE)
-class ThrottleInputCnl_Value(_m.Value):
+class ThrottleInputCnl_Value(_m.ValueMeta):
     """Constant value for ThrottleInputChannel"""
+
+
+WHEEL_DIAMETER: Final[str] = 'WheelDiameter'
+
+@_b.register(WHEEL_DIAMETER)
+class WheelDiameter(_m.Float32Meta):
+    """Diameter of the wheel in centimeters"""
+
+
+WHEEL_WIDTH: Final[str] = 'WheelWidth'
+
+@_b.register(WHEEL_WIDTH)
+class WheelWidth(_m.Float32Meta):
+    """Width of the wheel in centimeters"""

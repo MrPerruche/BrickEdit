@@ -67,7 +67,7 @@ class TextMeta(_b.PropertyMeta[str]):
         return v[2: ].decode('ascii') if text_len >= 0 else v[2: ].decode('utf-16-le')
 
 
-class Float32(_b.PropertyMeta[float]):
+class Float32Meta(_b.PropertyMeta[float]):
     """Class for 32-bit floats"""
 
     @staticmethod
@@ -84,7 +84,23 @@ class Float32(_b.PropertyMeta[float]):
         return struct.unpack('<f', v)[0]
 
 
-class InputAxis(EnumMeta):
+class UInteger24(_b.PropertyMeta[int]):
+    """Class for 24-bit unsigned integers"""
+
+    @staticmethod
+    def serialize(
+        v: int,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray:
+        return struct.pack('<I', v)[ :3]
+
+    @staticmethod
+    def deserialize(v: bytearray, version: int) -> float:
+        return struct.unpack('<I', v + b'\x00')[0]
+
+
+class InputAxisMeta(EnumMeta):
     """Class for input channel input axis"""
 
     NONE: Final[str] = 'None'
@@ -135,7 +151,30 @@ class InputAxis(EnumMeta):
 
 
 
-class SourceBricks(_b.PropertyMeta[tuple[str, ...]]):
+class SingleSourceBrickMeta(_b.PropertyMeta[str]):
+    """Class for single input channel argument (seats, ...)"""
+
+    EMPTY: Final[str] = None
+
+    @staticmethod
+    def serialize(
+        v: str,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytearray | _b.InvalidVersionType:
+
+        idx = ref_to_idx.get(v)
+        if idx is None:
+            raise ValueError(f"Unknown brick reference {v!r}.")
+        return bytearray(struct.pack('<H', idx))
+
+    @staticmethod
+    def deserialize(v: str, version: int):
+        return f'brick_{struct.unpack('<H', v)[0]}'
+
+
+
+class SourceBricksMeta(_b.PropertyMeta[tuple[str, ...]]):
     """Class for custom input channel argument"""
 
     EMPTY: Final[tuple] = ()
@@ -162,7 +201,7 @@ class SourceBricks(_b.PropertyMeta[tuple[str, ...]]):
         return tuple(f'brick_{i}' for i in idx)
 
 
-class Value(Float32):
+class ValueMeta(Float32Meta):
     """Class for constant value channel argument"""
 
     DEFAULT_VALUE: Final[float] = 1.0
