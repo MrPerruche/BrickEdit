@@ -14,3 +14,5 @@ BRICKEDIT_VERSION_FULL: Final[str] = (
 FILE_EXP_VERSION: Final[int] = 16
 FILE_MAIN_VERSION: Final[int] = 16
 FILE_LEGACY_VERSION: Final[int] = 6
+
+FILE_UNIT_UPDATE: Final[int] = 15

@@ -1,8 +1,37 @@
 """Value helper."""
 
 import math
-from .units import * # pylint: disable=wildcard-import, unused-wildcard-import
-from ..vec import Vec2, Vec3, Vec4
+from .units import *
+from . import color as _col
+from .. import vec as _vec
+from .. import var as _var
+
+
+_INV_255: Final[float] = 1.0/255.0
+
+def float_to_int(v: float):
+    """Converts a float [0, 1] to an int [0, 255] with epsilon for FPA accuracy issues.
+    Example: 1 → 255"""
+    return int(v * 255 + 1e-10)  # 1e-10 for FPA issu
+
+def pack(*args):
+    """Pack 8-bit integers into a single integer.
+    Example: pack(1, 2, 3) -> 0x010203"""
+    shift_offset = len(args) - 1
+    packed = 0
+    for i, v in enumerate(args):
+        packed |= v << ((shift_offset - i) * 8)
+    return packed
+
+def pack_float_to_int(*args):
+    """Pack floats converted to 8-bit integers with float_to_int into a single integer
+    Example; pack_float_to_int(0, 0.5, 1) -> 0x007fff"""
+    shift_offset = len(args) - 1
+    packed = 0
+    for i, v in enumerate(args):
+        packed |= int(v * 255 + 1e-10) << ((shift_offset - i) * 8)
+    return packed
+
 
 class ValueHelper:
     """A helper for converting values between different units."""
@@ -15,253 +44,139 @@ class ValueHelper:
         self.default_rotational_unit = default_rotational_unit
         self.default_force_unit = default_force_unit
 
-    def pos(self, x: float, y: float, z: float, unit=None) -> Vec3:
+
+    def pos(self, x: float, y: float, z: float, unit=None) -> _vec.Vec3:
         """A helper method for physical positioning.
 
         Args:
             x (float): The x component of the vector.
             y (float): The y component of the vector.
             z (float): The z component of the vector.
-            unit (int, optional): The unit of the vector. Defaults to None, for the default physical unit of this instance.
+            unit (int, optional): The unit of the vector.
 
         Returns:
-            Vec3: A 3D vector representing the physical position, taking into account the desired physical unit.
+            Vec3: 3D vector of the physical position, in the desired unit
         """
 
         if unit is None:
             unit = self.default_physical_unit
 
-        return Vec3(x * unit, y * unit, z * unit)
+        # Pos was expressed in centimeters before update; no change
 
+        return _vec.Vec3(x * unit, y * unit, z * unit)
 
-
-    def pos_vec(self, vec: Vec3, unit=None) -> Vec3:
+    def pos_vec(self, v: _vec.Vec3, unit=None) -> _vec.Vec3:
         """Alias for ValueHelper.pos() for Vec3 objects."""
-
-        return self.pos(vec.x, vec.y, vec.z, unit)
-
+        return self.pos(v.x, v.y, v.z, unit)
 
 
-    def rot(self, x: float, y: float, z: float, unit=None) -> Vec3:
+
+    def rot(self, x: float, y: float, z: float, unit=None) -> _vec.Vec3:
         """A helper method for rotational positioning.
 
         Args:
             x (float): The x component of the vector.
             y (float): The y component of the vector.
             z (float): The z component of the vector.
-            unit (int, optional): The unit of the vector. Defaults to None, for the default rotational unit of this instance.
+            unit (int, optional): The unit of the vector if different from the instance.
 
         Returns:
-            Vec3: A 3D vector representing the rotational position, taking into account the desired rotational unit.
+            Vec3: A 3D vector representing the rotational position.
         """
 
         if unit is None:
             unit = self.default_rotational_unit
 
-        return Vec3(x * unit, y * unit, z * unit)
+        return _vec.Vec3(x * unit, y * unit, z * unit)
+
+    def rot_vec(self, v: _vec.Vec3, unit=None) -> _vec.Vec3:
+        """Alias for ValueHelper.pos() for Vec3 objects."""
+        return self.rot(v.x, v.y, v.z)
 
 
 
-    def brick_size(self, x: float, y: float, z: float | None = None, unit=None) -> Vec2 | Vec3:
+    def brick_size(self, x: float, y: float, z: float, unit=None) -> _vec.Vec3:
         """A helper method for physical scale.
 
         Args:
             x (float): The x component of the vector.
             y (float): The y component of the vector.
-            z (float, optional): The z component of the vector. Defaults to None, as some size vectors are 2D.
-            unit (int, optional): The unit of the vector. Defaults to None, for the default physical unit of this instance.
+            z (float): The z component of the vector.
+            unit (int, optional): The unit of the vector if different from the instance.
 
         Returns:
-            Vec2/Vec3: A 2D or 3D vector representing the physical scale, taking into account the desired physical unit.
+            Vec3: A 3D vector representing the physical scale.
         """
 
         if unit is None:
             unit = self.default_physical_unit
 
-        if z is None:
-            return Vec2(x * unit, y * unit)
-        else:
-            return Vec3(x * unit, y * unit, z * unit)
+        if self.version < _var.FILE_UNIT_UPDATE:
+            unit *= DECI  # CENTI = 1, division is useless
+
+        return _vec.Vec3(x * unit, y * unit, z * unit)
+
+    def brick_size_vec(self, vec: _vec.Vec3, unit=None) -> _vec.Vec3:
+        """Alias for ValueHelper.brick_size() for Vec3 objects."""
+        return self.brick_size(vec.x, vec.y, vec.z, unit)
 
 
 
-    def brick_size_vec(self, vec: Vec2 | Vec3, unit=None) -> Vec2 | Vec3:
-        """Alias for ValueHelper.brick_size() for Vec2/Vec3 objects."""
-
-        if isinstance(vec, Vec2):
-            return self.brick_size(vec.x, vec.y, None, unit)
-        else:
-            return self.brick_size(vec.x, vec.y, vec.z, unit)
-
+    def p_rgba(self, rgba: int) -> int:
+        """Converts a packed RGBA value into Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return rgba
+        r = (rgba >> 24) & 0xff
+        g = (rgba >> 16) & 0xff
+        b = (rgba >> 8)  & 0xff
+        a = rgba         & 0xff
+        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
+        return pack_float_to_int(h, s, v, a)
 
 
     def rgba(self, r: int, g: int, b: int, a: int = 0xFF) -> int:
-        """Convert a color value to an RGBA value.
-
-        Args:
-            r (int): The red component of the color
-            g (int): The green component of the color
-            b (int): The blue component of the color.
-
-        Returns:
-            int: The RGBA value, as a hexadecimal integer.
-        """
-
-        return r << 24 | g << 16 | b << 8 | a
+        """Convert an RGBA value to Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return pack(r, g, b, a)
+        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
+        return pack_float_to_int(h, s, v, a)
 
 
+
+    def p_rgb(self, rgb: int) -> int:
+        """Converts a packed RGB value into Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return rgb
+        r = (rgb >> 16) & 0xff
+        g = (rgb >> 8)  & 0xff
+        b = rgb         & 0xff
+        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
+        return pack_float_to_int(h, s, v)
 
     def rgb(self, r: int, g: int, b: int) -> int:
-        """Convert a color value to an RGB value with a maximum alpha.
-
-        Args:
-            r (int): The red component of the color
-            g (int): The green component of the color
-            b (int): The blue component of the color.
-
-        Returns:
-            int: The RGB value, as a hexadecimal integer.
-        """
-
-        return r << 24 | g << 16 | b << 8 | 0xFF
+        """Convert an RGB value to Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return pack(r, g, b)
+        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
+        return pack_float_to_int(h, s, v)
 
 
 
     def hsva(self, h: float, s: float, v: float, a: float = 1.0) -> int:
-        """Convert an HSV color to an RGBA value.
-
-        Args:
-            h (float): The hue component of the color.
-            s (float): The saturation component of the color.
-            v (float): The value component of the color.
-            a (float, optional): The alpha component of the color. Defaults to 1.0.
-
-        Returns:
-            int: The RGBA value, as a hexadecimal integer.
-        """
-
-        # We have to convert to RGBA.
-        r, g, b = self.hsv_to_rgb(h, s, v)
-
-        return self.rgba(r, g, b, int(a * 255))
+        """Convert an HSVA value to Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            r, g, b = _col.hsv_to_rgb(h, s, v)
+            return pack_float_to_int(r, g, b, a)
+        return pack_float_to_int(h, s, v, a)
 
 
 
     def hsv(self, h: float, s: float, v: float) -> int:
-        """Convert an HSV color to an RGB value with a maximum alpha.
-
-        Args:
-            h (float): The hue component of the color.
-            s (float): The saturation component of the color.
-            v (float): The value component of the color.
-
-        Returns:
-            int: The RGB value, as a hexadecimal integer.
-        """
-
-        # We have to convert to RGB.
-        r, g, b = self.hsv_to_rgb(h, s, v)
-
-        return self.rgb(r, g, b)
-
-
-
-    def hsv_to_rgb(self, h: float, s: float, v: float) -> tuple[float, float, float]:
-        """Convert HSV colors into RGB.
-
-        Args:
-            h (float): The hue component of the color.
-            s (float): The saturation component of the color.
-            v (float): The value component of the color.
-
-        Returns:
-            tuple[float, float, float]: The RGB components of the color.
-        """
-
-        # good luck because i dont think i can explain this either
-
-        c = v * s
-        h_prime = h / 60
-        x = c * (1 - abs((h_prime % 2) - 1))
-        m = v - c
-
-        r, g, b = 0, 0, 0
-
-        if 0 <= h_prime < 1:
-            r, g, b = c, x, 0
-
-        elif 1 <= h_prime < 2:
-            r, g, b = x, c, 0
-
-        elif 2 <= h_prime < 3:
-            r, g, b = 0, c, x
-
-        elif 3 <= h_prime < 4:
-            r, g, b = 0, x, c
-
-        elif 4 <= h_prime < 5:
-            r, g, b = x, 0, c
-
-        elif 5 <= h_prime < 6:
-            r, g, b = c, 0, x
-
-        return int((r + m) * 255), int((g + m) * 255), int((b + m) * 255)
-
-
-
-    def rgb_to_hsv(self, r: int, g: int, b: int) -> tuple[float, float, float]:
-        """Convert RGB colors into HSV.
-
-        Args:
-            r (int): The red component of the color.
-            g (int): The green component of the color.
-            b (int): The blue component of the color.
-
-        Returns:
-            tuple[float, float, float]: The HSV components of the color.
-        """
-
-        r, g, b = r / 255, g / 255, b / 255
-        cmax = max(r, g, b)
-        cmin = min(r, g, b)
-        diff = cmax - cmin
-
-        h = 0
-        if diff == 0:
-            h = 0
-        elif cmax == r:
-            h = 60 * (((g - b) / diff) % 6)
-        elif cmax == g:
-            h = 60 * (((b - r) / diff) + 2)
-        elif cmax == b:
-            h = 60 * (((r - g) / diff) + 4)
-
-        if cmax == 0:
-            s = 0
-        else:
-            s = diff / cmax
-
-        v = cmax
-
-        return h, s, v
-
-
-
-    def rgba_vec(self, value: Vec4) -> int:
-        """Alias for ValueHelper.rgba() for Vec4 objects."""
-        return self.rgba(value.x, value.y, value.z, value.w)
-
-    def rgb_vec(self, value: Vec3) -> int:
-        """Alias for ValueHelper.rgb() for Vec3 objects."""
-        return self.rgb(value.x, value.y, value.z)
-
-    def hsva_vec(self, value: Vec4) -> int:
-        """Alias for ValueHelper.hsva() for Vec4 objects."""
-        return self.hsva(value.x, value.y, value.z, value.w)
-
-    def hsv_vec(self, value: Vec3) -> int:
-        """Alias for ValueHelper.hsv() for Vec3 objects."""
-        return self.hsv(value.x, value.y, value.z)
+        """Convert an HSV value to Brick Rigs' format"""
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            r, g, b = _col.hsv_to_rgb(h, s, v)
+            return pack_float_to_int(r, g, b)
+        return pack_float_to_int(h, s, v)
 
 
 
