@@ -77,7 +77,7 @@ class Float32Meta(_b.PropertyMeta[float]):
         ref_to_idx: dict[str, int]
     ) -> bytearray:
 
-        return struct.pack('<f', v)[0]
+        return bytearray(struct.pack('<f', v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> float:
@@ -93,7 +93,7 @@ class UInteger24(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return struct.pack('<I', v)[ :3]
+        return bytearray(struct.pack('<I', v)[ :3])
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> float:

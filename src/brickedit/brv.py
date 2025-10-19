@@ -146,6 +146,7 @@ class BRVFile:
                 try:
                     # Serialize
                     binary = prop_serialization_class.serialize(value, self.version, reference_to_brick_index)
+                    # print(f'{prop} > {value} : {binary=}')
                     # If version is invalid, skip
                     if binary is _p.InvalidVersion:
                         # If this invalid is alone in the list of properties, kill it!

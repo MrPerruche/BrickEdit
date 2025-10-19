@@ -25,7 +25,7 @@ class BrickColor(_b.PropertyMeta[int]):
 
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return struct.pack('<I', v)
+        return bytearray(struct.pack('<I', v))[::-1]
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
@@ -126,7 +126,7 @@ class BrickSize(_b.PropertyMeta[_vec.Vec3]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return struct.pack('<3f', *v.as_tuple())
+        return bytearray(struct.pack('<3f', *v.as_tuple()))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> _vec.Vec3:
@@ -260,7 +260,7 @@ class ConnectorSpacing(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return struct.pack('<H', v)
+        return bytearray(struct.pack('<H', v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
@@ -355,7 +355,7 @@ class NumFractionalDigits(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return struct.pack('b', v)
+        return bytearray(struct.pack('b', v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
