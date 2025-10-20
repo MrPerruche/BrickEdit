@@ -148,6 +148,27 @@ class ActuatorMode(_m.EnumMeta):
     SPRING: Final[str] = 'Spring'
 
 
+AMMO_TYPE: Final[str] = 'AmmoType'
+
+@_b.register(AMMO_TYPE)
+class AmmoType(_m.EnumMeta):
+    """Ammo type of a gun brick"""
+    DEFAULT: Final[str] = 'Default'
+    INCENDIARY: Final[str] = 'Incendiary'
+    HIGH_EXPLOSIVE: Final[str] = 'HighExplosive'
+    TARGET_SEEKING: Final[str] = 'TargetSeeking'
+    GUIDED: Final[str] = 'Guided'
+    FLARE: Final[str] = 'Flare'
+    MAX: Final[str] = 'Max'
+
+
+B_ACCUMULATE_INPUT: Final[str] = 'bAccumulateInput'
+
+@_b.register(B_ACCUMULATE_INPUT)
+class BAccumulateInput(_m.Boolean):
+    """Flap input is accumulated property"""
+
+
 B_CAN_DISABLE_STEERING: Final[str] = 'bCanDisableSteering'
 
 @_b.register(B_CAN_DISABLE_STEERING)
@@ -314,6 +335,54 @@ class HornPitch(_m.Float32Meta):
     DEFAULT_VALUE: Final[float] = 1.0
 
 
+IMAGE: Final[str] = 'Image'
+
+@_b.register(IMAGE)
+class Image(_m.EnumMeta):
+    """Image displayed on image bricks"""
+    ARROW: Final[str] = 'Arrow'
+    BIOHAZARD: Final[str] = 'Biohazard'
+    BRAF: Final[str] = 'BRAF'
+
+    BRICK_RIGS: Final[str] = 'BrickRigs'
+    BRICK_RIGS_ARMS: Final[str] = 'BrickRigsArms'
+    CAUTION: Final[str] = 'Caution'
+
+    CRIMINALS: Final[str] = 'Criminals'
+    CROSSHAIR: Final[str] = 'Crosshair'
+    DESERT_WORMS: Final[str] = 'DesertWorms'
+
+    DUMMY: Final[str] = 'Dummy'
+    ELECTRICAL_HAZARD: Final[str] = 'ElectricalHazard'
+    EXPLOSIVE: Final[str] = 'Explosive'
+
+    FIRE_DEPT: Final[str] = 'FireDept'
+    FIRE_HAZARD: Final[str] = 'FireHazard'
+    GAUGE: Final[str] = 'Gauge'
+
+    LIMIT_80: Final[str] = 'Limit80'
+    NO_ENTRANCE: Final[str] = 'NoEntrance'
+    ONE_WAY: Final[str] = 'OneWay'
+
+    PHONE: Final[str] = 'Phone'
+    POLICE: Final[str] = 'Police'
+    RADIOACTIVE: Final[str] = 'Radioactive'
+
+    STAR: Final[str] = 'Star'
+    STOP: Final[str] = 'Stop'
+    TANK: Final[str] = 'Tank'
+
+    VIRUS: Final[str] = 'Virus'
+
+
+IMAGE_COLOR: Final[str] = 'ImageColor'
+
+@_b.register(IMAGE_COLOR)
+class ImageColor(_m.UInteger24):
+    """Color of the image of an image brick"""
+    DEFAULT_COLOR: Final[str] = 0xffffff
+
+
 INPUT_CNL_INPUT_AXIS: Final[str] = 'InputChannel.InputAxis'
 INPUT_CNL_SOURCE_BRICKS: Final[str] = 'InputChannel.SourceBricks'
 INPUT_CNL_VALUE: Final[str] = 'InputChannel.Value'
@@ -331,6 +400,14 @@ class InputCnl_Value(_m.ValueMeta):
     """Constant value for InputChannel"""
 
 
+INPUT_SCALE: Final[str] = 'InputScale'
+
+@_b.register(INPUT_SCALE)
+class InputScale(_m.Float32Meta):
+    """Input scale property"""
+    BASE: Final[float] = 1
+
+
 MIN_LIMIT: Final[str] = 'MinLimit'
 
 @_b.register(MIN_LIMIT)
@@ -338,11 +415,25 @@ class MinLimit(_m.Float32Meta):
     """Minimum limit of an actuator's angle or distance in degrees or centimeters"""
 
 
+MIN_ANGLE: Final[str] = 'MinAngle'
+
+@_b.register(MIN_ANGLE)
+class MinAngle(_m.Float32Meta):
+    """Minimum angle of a flap"""
+
+
 MAX_LIMIT: Final[str] = 'MaxLimit'
 
 @_b.register(MAX_LIMIT)
 class MaxLimit(_m.Float32Meta):
     """Maximum limit of an actuator's angle or distance in degrees or centimeters"""
+
+
+MAX_ANGLE: Final[str] = 'MaxAngle'
+
+@_b.register(MAX_ANGLE)
+class MaxAngle(_m.Float32Meta):
+    """Maximum angle of a flap"""
 
 
 NUM_FRACTIONAL_DIGITS: Final[str] = 'NumFractionalDigits'

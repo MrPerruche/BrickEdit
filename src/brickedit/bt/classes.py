@@ -4,6 +4,8 @@ from collections.abc import Hashable
 from .. import p as _p
 from .. import vec as _v
 from . import base as _b
+from . import meta as _m
+from . import inner_properties as _ip
 
 
 _base_properties: dict[str, Hashable] = {
@@ -528,6 +530,17 @@ COUPLING_4X1X2S_TOP: Final = CouplingBrickBaseMeta('Coupling_4x1x2s_Top')
 
 
 
+class CylinderBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+HALF_CYLINDER_4X2X4: Final = CylinderBrickMeta('HalfZylinder_4x2x4')
+
+
+
 class DetonatorBrickMeta(_b.BrickMeta):
 
     def __init__(self, name: str, damage: float, *args, **kwargs):
@@ -580,18 +593,222 @@ DOOR_R_3X1X2: Final = DoorBrickMeta('Door_R_3x1x2')
 
 
 
-class SirenBrickMeta(_b.BrickMeta):
+class FlamethrowerBrickMeta(_b.BrickMeta):
+
+    def __init__(
+        self,
+        name: str,
+        flame_length: float,
+        flame_radius: float,
+        flame_damage: float,
+        damage_interval: float,
+        fuel_capacity: float,
+        fuel_consumption: float,
+        *args, **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._flame_length = flame_length
+        self._flame_radius = flame_radius
+        self._flame_damage = flame_damage
+        self._damage_interval = damage_interval
+        self._fuel_capacity = fuel_capacity
+        self._fuel_consumption = fuel_consumption
+
+    def flame_length(self):
+        """How far the flame reaches"""
+        return self._flame_length
+
+    def flame_radius(self):
+        """The maximum radius of the flame"""
+        return self._flame_radius
+
+    def flame_damage(self):
+        """The damage to apply to objects being hit by the flame"""
+        return self._flame_damage
+
+    def damage_interval(self):
+        """How often damage is applied and stuff is ignited"""
+        return self._damage_interval
+
+    def fuel_capacity(self):
+        """Fuel capacity"""
+        return self._fuel_capacity
+
+    def fuel_consumption(self):
+        """Amount of fuel in liters to consume per second"""
+        return self._fuel_consumption
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.SIREN_TYPE: _p.SirenType.CAR_HORN,
-            _p.HORN_PITCH: _p.HornPitch.DEFAULT_VALUE,
-            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.HORN,
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.FIRE_ACTION_1,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE
         }
 
-DOUBLE_SIREN_1X2X1S: Final = SirenBrickMeta('DoubleSiren_1x2x1s')
+FLAMETHROWER_2X2X2: Final = FlamethrowerBrickMeta('Flamethrower_2x2x2', 1000, 100, .25, .25, 10, 1)
+
+
+
+class FlapBrickMeta(_b.BrickMeta):
+
+    def __init__(self, name: str, flap_interp_speed: float, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
+        self._flap_interp_speed = flap_interp_speed
+
+    def flap_interp_speed(self):
+        """Rate at which the flap is moved"""
+        return self._flap_interp_speed
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: True,
+            _p.BRICK_SIZE: _v.Vec3(60, 120, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.INPUT_SCALE: _p.InputScale.BASE,
+            _p.MIN_ANGLE: -22.5,
+            _p.MAX_ANGLE: 22.5,
+            _p.B_ACCUMULATE_INPUT: False
+        }
+
+FLAP_BRICK: Final = FlapBrickMeta('FlapBrick', 256)
+FLAP_WEDGE: Final = FlapBrickMeta('FlapWedge', 256)
+
+
+
+class FlareBrickMeta(_m.BaseGunBrickMeta):
+    pass
+
+FLARE_GUN_1X1X1: Final = FlareBrickMeta('FlareGun_1x1x1', _ip.FirearmProperties(
+    9, _p.AmmoType.FLARE, _ip.ProjectileParams(5e3, .1, .05, 1e3, 1e4, 1e4), 1, 500, .25, True,
+    False, 0), 15, 1e3, 240, .1, .35, .5, at=_p.AmmoType.FLARE)
+
+
+
+class FloatBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS
+        }
+
+FLOAT: Final = FloatBrickMeta('Float')
+
+
+
+class GrilleBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+GRID_2X1X1S: Final = GrilleBrickMeta('Grid_2x1x1s')
+GRID_2X1X1S_02: Final = GrilleBrickMeta('Grid_2x1x1s_02')
+GRID_CYLINDER_2X1X1S: Final = GrilleBrickMeta('GridZylinder_2x1x1s')
+
+
+
+class GunBrickMeta(_m.BaseGunBrickMeta):
+    pass
+
+GUN_2X1X1: Final = GunBrickMeta('Gun_2x1x1', _ip.FirearmProperties(100, _p.AmmoType.DEFAULT,
+    _ip.ProjectileParams(74000, 0.3, 0.15, 2e3, 5e4, 5e5), 1, 40, 0.1, False, True, 0), 2, 2500, 90,
+    0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
+GUN_2X2X2: Final = GunBrickMeta('Gun_2x2x2', _ip.FirearmProperties(1, _p.AmmoType.HIGH_EXPLOSIVE,
+    _ip.ProjectileParams(5e5, 10, 1, 5e4, 1e6, 1e6), 1, 10, 0.5, True, False, 0), 1.5, 1e5, 240,
+    0.1, 0.35, 0.5, at=_p.AmmoType.HIGH_EXPLOSIVE)
+# Parent class of GUN_2X2X2_BALLISTIC is actually GUN_2X2X2... But you didn't see anything. Did you?
+GUN_2X2X2_BALLISTIC: Final = GunBrickMeta('Gun_2x2x2_Ballistic', _ip.FirearmProperties(1,
+    _p.AmmoType.DEFAULT, _ip.ProjectileParams(65000, 15, 15, 2e4, 8e5, 1e6), 1, 10, 0.5, True,
+    False, 0), 1.5, 1e5, 240, 0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
+GUN_4X2X2: Final = GunBrickMeta('Gun_4x2x2', _ip.FirearmProperties(100, _p.AmmoType.DEFAULT,
+    _ip.ProjectileParams(88000, 2, 1, 2500, 5e4, 5e5), 1, 20, 0.15, False, True, 0), 2, 5e3, 180,
+    0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
+
+
+
+class HandleBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties.copy()
+
+HANDLE_1X2X4S: Final = HandleBrickMeta('Handle_1x2x4s')
+HANDLE_4X1X1: Final = HandleBrickMeta('Handle_4x1x1')
+
+
+
+class IdlerWheelMeta(_b.BrickMeta):
+
+    def __init__(
+        self,
+        name: str,
+        wheel_radius: float,
+        min_wheel_radius: float,
+        max_wheel_radius_scale: float,
+        min_wheel_width: float,
+        max_wheel_width_scale: float,
+        *args, **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._wheel_radius = wheel_radius
+        self._min_wheel_radius = min_wheel_radius
+        self._max_wheel_radius_scale = max_wheel_radius_scale
+        self._min_wheel_width = min_wheel_width
+        self._max_wheel_width_scale = max_wheel_width_scale
+
+    def wheel_radius(self):
+        """Radius of the idler wheel"""
+        return self._wheel_radius
+
+    def min_wheel_radius(self):
+        """Min Wheel Radius"""
+        return self._min_wheel_radius
+
+    def max_wheel_radius_scale(self):
+        """Max Wheel Radius"""
+        return self._max_wheel_radius_scale
+
+    def min_wheel_width(self):
+        """Min Wheel Width"""
+        return self._min_wheel_width
+
+    def max_wheel_width_scale(self):
+        """Max Wheel Width Scale"""
+        return self._max_wheel_width_scale
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_INVERT_TANK_STEERING: False,
+            _p.WHEEL_DIAMETER: 90,
+            _p.WHEEL_WIDTH: 30
+        }
+
+IDLER_WHEEL: Final = IdlerWheelMeta('IdlerWheel', 45, 20, 2, 25, 4)
+
+
+
+class ImageBrickMeta(_b.BrickMeta):
+
+    def __init__(self, name: str, image_margin: float, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
+        self._image_margin = image_margin
+
+    def image_margin(self):
+        """Size of the margin to keep around the image"""
+        return self._image_margin
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.IMAGE: _p.Image.CAUTION,
+            _p.IMAGE_COLOR: _p.ImageColor.DEFAULT_COLOR
+        }
+
+FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5)
+
 
 
 class LedgeBrickMeta(_b.BrickMeta):
@@ -781,11 +998,29 @@ class TrussBrickMeta(_b.BrickMeta):
 CRANE_SUPPORT_6X6X20: Final = TrussBrickMeta('CraneSupport_6x6x20')
 
 
+
 class ScalableBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.B_FLUID_DYNAMIC: False
         }
 
 SCALABLE_BRICK: Final = ScalableBrickMeta('ScalableBrick')
+
+
+
+class SirenBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.SIREN_TYPE: _p.SirenType.CAR_HORN,
+            _p.HORN_PITCH: _p.HornPitch.DEFAULT_VALUE,
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.HORN,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE
+        }
+
+DOUBLE_SIREN_1X2X1S: Final = SirenBrickMeta('DoubleSiren_1x2x1s')

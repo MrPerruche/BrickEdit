@@ -17,10 +17,12 @@ flowchart LR
     subgraph BT[bt: Brick Types]
         BT_B[base: Base]
         BT_C["classes: All brick classes initialized and instanced"]
+        BT_I["inner_properties: All dataclasses related to BRMK properties"]
     end
     subgraph P[p: Properties]
         P_B[base: Base]
         P_C["classes: All property classes are initialized and finals declared"]
+        P_M["meta: All kinds of common property classes to be initialized and inherited from"]
     end
     BRICK["brick: Holds the Brick class, a container for each brick's type, id,... with related methods"]
     EXC["exceptions: Custom Exceptions from brickedit"]
