@@ -779,3 +779,13 @@ class TrussBrickMeta(_b.BrickMeta):
         }
 
 CRANE_SUPPORT_6X6X20: Final = TrussBrickMeta('CraneSupport_6x6x20')
+
+
+class ScalableBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+        }
+
+SCALABLE_BRICK: Final = ScalableBrickMeta('ScalableBrick')

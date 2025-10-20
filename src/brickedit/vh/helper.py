@@ -91,7 +91,7 @@ class ValueHelper:
 
     def rot_vec(self, v: _vec.Vec3, unit=None) -> _vec.Vec3:
         """Alias for ValueHelper.pos() for Vec3 objects."""
-        return self.rot(v.x, v.y, v.z)
+        return self.rot(v.x, v.y, v.z, unit)
 
 
 
