@@ -198,7 +198,7 @@ class SourceBricksMeta(_b.PropertyMeta[tuple[str, ...]]):
     def deserialize(v: bytearray, version: int) -> tuple[str, ...] | _b.InvalidVersionType:
         count = struct.unpack_from('<H', v)[0]
         idx = struct.unpack_from(f'<{count}H', v, offset=2)
-        return tuple(f'brick_{i}' for i in idx)
+        return tuple(f'brick_{i-1}' for i in idx)
 
 
 class ValueMeta(Float32Meta):
