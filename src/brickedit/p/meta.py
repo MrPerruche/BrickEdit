@@ -93,11 +93,11 @@ class UInteger24(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(struct.pack('<I', v)[ :3])
+        return bytearray(struct.pack('<I', v)[ :3])[::-1]
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> float:
-        return struct.unpack('<I', v + b'\x00')[0]
+        return struct.unpack('<I', b'\x00' + v[::-1])[0]
 
 
 class InputAxisMeta(EnumMeta):

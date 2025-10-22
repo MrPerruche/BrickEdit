@@ -1024,3 +1024,39 @@ class SirenBrickMeta(_b.BrickMeta):
         }
 
 DOUBLE_SIREN_1X2X1S: Final = SirenBrickMeta('DoubleSiren_1x2x1s')
+
+class SwitchBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.SWITCH_NAME: _p.SwitchName.EMPTY,
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
+            _p.B_RETURN_TO_ZERO: True,
+            _p.OUTPUT_CNL_MIN_IN: -1.0,
+            _p.OUTPUT_CNL_MAX_IN: 1.0,
+            _p.OUTPUT_CNL_MIN_OUT: -1.0,
+            _p.OUTPUT_CNL_MAX_OUT: 1.0
+        }
+
+SWITCH_BRICK: Final = SwitchBrickMeta('SwitchBrick')
+
+class MathBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.OPERATION: _p.Operation.ADD,
+            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.NONE,
+            _p.INPUT_CNL_A_SOURCE_BRICKS: _p.InputCnl_A_SourceBricks.EMPTY,
+            _p.INPUT_CNL_A_VALUE: _p.InputCnl_A_Value.DEFAULT_VALUE,
+            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.NONE,
+            _p.INPUT_CNL_B_SOURCE_BRICKS: _p.InputCnl_B_SourceBricks.EMPTY,
+            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE
+        }
+
+MATH_BRICK: Final = MathBrickMeta('MathBrick')

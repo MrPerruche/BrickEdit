@@ -387,6 +387,15 @@ INPUT_CNL_INPUT_AXIS: Final[str] = 'InputChannel.InputAxis'
 INPUT_CNL_SOURCE_BRICKS: Final[str] = 'InputChannel.SourceBricks'
 INPUT_CNL_VALUE: Final[str] = 'InputChannel.Value'
 
+# Math bricks...
+INPUT_CNL_A_INPUT_AXIS: Final[str] = 'InputChannelA.InputAxis'
+INPUT_CNL_A_SOURCE_BRICKS: Final[str] = 'InputChannelA.SourceBricks'
+INPUT_CNL_A_VALUE: Final[str] = 'InputChannelA.Value'
+
+INPUT_CNL_B_INPUT_AXIS: Final[str] = 'InputChannelB.InputAxis'
+INPUT_CNL_B_SOURCE_BRICKS: Final[str] = 'InputChannelB.SourceBricks'
+INPUT_CNL_B_VALUE: Final[str] = 'InputChannelB.Value'
+
 @_b.register(INPUT_CNL_INPUT_AXIS)
 class InputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannel"""
@@ -398,6 +407,37 @@ class InputCnl_SourceBricks(_m.SourceBricksMeta):
 @_b.register(INPUT_CNL_VALUE)
 class InputCnl_Value(_m.ValueMeta):
     """Constant value for InputChannel"""
+
+
+
+
+# why
+@_b.register(INPUT_CNL_A_INPUT_AXIS)
+class InputCnl_A_InputAxis(_m.InputAxisMeta):
+    """Input type for InputChannelA"""
+
+@_b.register(INPUT_CNL_A_SOURCE_BRICKS)
+class InputCnl_A_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for InputChannelA"""
+
+@_b.register(INPUT_CNL_A_VALUE)
+class InputCnl_A_Value(_m.ValueMeta):
+    """Constant value for InputChannelA"""
+
+
+@_b.register(INPUT_CNL_B_INPUT_AXIS)
+class InputCnl_B_InputAxis(_m.InputAxisMeta):
+    """Input type for InputChannelB"""
+
+@_b.register(INPUT_CNL_B_SOURCE_BRICKS)
+class InputCnl_B_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for InputChannelB"""
+
+@_b.register(INPUT_CNL_B_VALUE)
+class InputCnl_B_Value(_m.ValueMeta):
+    """Constant value for InputChannelB"""
+
+
 
 
 INPUT_SCALE: Final[str] = 'InputScale'
@@ -437,6 +477,8 @@ class MaxAngle(_m.Float32Meta):
 
 
 NUM_FRACTIONAL_DIGITS: Final[str] = 'NumFractionalDigits'
+
+@_b.register(NUM_FRACTIONAL_DIGITS)
 class NumFractionalDigits(_b.PropertyMeta[int]):
     """Number of fractional digits displayed on the display"""
 
@@ -575,3 +617,85 @@ WHEEL_WIDTH: Final[str] = 'WheelWidth'
 @_b.register(WHEEL_WIDTH)
 class WheelWidth(_m.Float32Meta):
     """Width of the wheel in centimeters"""
+
+SWITCH_NAME: Final[str] = 'SwitchName'
+@_b.register(SWITCH_NAME)
+class SwitchName(_m.TextMeta):
+    """Name attributed to the switch"""
+    EMPTY: Final[str] = ''
+
+B_RETURN_TO_ZERO = 'bReturnToZero'
+@_b.register(B_RETURN_TO_ZERO)
+class BReturnToZero(_m.Boolean):
+    """Return to zero property"""
+
+OUTPUT_CNL_MIN_IN = 'OutputChannel.MinIn'
+OUTPUT_CNL_MAX_IN = 'OutputChannel.MaxIn'
+OUTPUT_CNL_MIN_OUT = 'OutputChannel.MinOut'
+OUTPUT_CNL_MAX_OUT = 'OutputChannel.MaxOut'
+
+@_b.register(OUTPUT_CNL_MIN_IN)
+class OutputCnl_MinIn(_m.Float32Meta):
+    """Minimum input value for OutputChannel"""
+
+@_b.register(OUTPUT_CNL_MAX_IN)
+class OutputCnl_MaxIn(_m.Float32Meta):
+    """Maximum input value for OutputChannel"""
+
+@_b.register(OUTPUT_CNL_MIN_OUT)
+class OutputCnl_MinOut(_m.Float32Meta):
+    """Minimum output value for OutputChannel"""
+
+@_b.register(OUTPUT_CNL_MAX_OUT)
+class OutputCnl_MaxOut(_m.Float32Meta):
+    """Maximum output value for OutputChannel"""
+
+OPERATION = "Operation"
+
+@_b.register(OPERATION)
+class Operation(_m.EnumMeta):
+    """Math brick operation property"""
+    ADD = 'Add'
+    SUBTRACT = 'Subtract'
+    MULTIPLY = 'Multiply'
+    DIVIDE = 'Divide'
+    MODULO = 'Fmod'
+    POWER = 'Power'
+    GREATER = 'Greater'
+    LESS = 'Less'
+    MIN = 'Min'
+    MAX = 'Max'
+    ABS = 'Abs'
+    SIGN = 'Sign'
+    ROUND = 'Round'
+    CEIL = 'Ceil'
+    FLOOR = 'Floor'
+    SQUARE_ROOT = 'Sqrt'
+
+    SIN_DEG = 'SinDeg'
+    SIN_RAD = 'Sin'
+    ASIN_DEG = 'AsinDeg'
+    ASIN_RAD = 'Asin'
+    COS_DEG = 'CosDeg'
+    COS_RAD = 'Cos'
+    ACOS_DEG = 'AcosDeg'
+    ACOS_RAD = 'Acos'
+    TAN_DEG = 'TanDeg'
+    TAN_RAD = 'Tan'
+    ATAN_DEG = 'AtanDeg'
+    ATAN_RAD = 'Atan'
+
+
+    SUB = SUBTRACT
+    MUL = MULTIPLY
+    DIV = DIVIDE
+    MOD = MODULO
+    POW = POWER
+    EXPONENT = POWER
+    GT = GREATER
+    LT = LESS
+    MINIMUM = MIN
+    MAXIMUM = MAX
+    ABSOLUTE = ABS
+    CEILING = CEIL
+    SQRT = SQUARE_ROOT

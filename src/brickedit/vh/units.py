@@ -31,6 +31,7 @@ QUECTO: Final[float] = 1e-30
 # Default positional unit is in CENTIMETERS
 KILOMETER: Final[float] = 100_000.0
 METER: Final[float] = 100.0
+DECIMETER: Final[float] = 10.0
 CENTIMETER: Final[float] = 1.0
 MILLIMETER: Final[float] = 0.1
 KM, M, CM, MM = KILOMETER, METER, CENTIMETER, MILLIMETER
