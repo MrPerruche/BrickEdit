@@ -8,6 +8,12 @@ from .. import var as _v
 from .. import vec as _vec
 
 
+_STRUCT_INT8 = struct.Struct('b')
+_STRUCT_UINT16 = struct.Struct('<H')
+_STRUCT_UINT32 = struct.Struct('<I')
+_STRUCT_3SPFLOAT = struct.Struct('<3f')
+
+
 BRICK_COLOR: Final[str] = 'BrickColor'
 
 @_b.register(BRICK_COLOR)
@@ -25,13 +31,13 @@ class BrickColor(_b.PropertyMeta[int]):
 
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return bytearray(struct.pack('<I', v))[::-1]
+        return bytearray(_STRUCT_UINT32.pack(v))[::-1]
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return struct.unpack('<I', v)[0]
+        return _STRUCT_UINT32.unpack(v)[0]
 
 
 BRICK_MATERIAL = 'BrickMaterial'
@@ -126,11 +132,11 @@ class BrickSize(_b.PropertyMeta[_vec.Vec3]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(struct.pack('<3f', *v.as_tuple()))
+        return bytearray(_STRUCT_3SPFLOAT.pack(*v.as_tuple()))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> _vec.Vec3:
-        return _vec.Vec3(*struct.unpack_from('<3f', v))
+        return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
 
 
 
@@ -281,11 +287,11 @@ class ConnectorSpacing(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(struct.pack('<H', v))
+        return bytearray(_STRUCT_UINT16.pack(v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
-        return struct.unpack('<H', v)[0]
+        return _STRUCT_UINT16.unpack(v)[0]
 
     @staticmethod
     def create(xp: int, yp: int, zp: int, xn: int, yn: int, zn: int) -> int:
@@ -488,11 +494,11 @@ class NumFractionalDigits(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(struct.pack('b', v))
+        return bytearray(_STRUCT_INT8.pack(v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> int:
-        return struct.unpack('b', v)[0]
+        return _STRUCT_INT8.unpack(v)[0]
 
 
 OWNING_SEAT: Final[str] = 'OwningSeat'

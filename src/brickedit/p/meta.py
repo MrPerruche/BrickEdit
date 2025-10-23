@@ -11,6 +11,14 @@ from . import base as _b
 # - isascii() or try: ... except UnicodeEncodeError,
 # and a few other things. These implementations seem optimal
 
+_STRUCT_UINT8 = struct.Struct('B')
+_STRUCT_UINT16 = struct.Struct('<H')
+_STRUCT_INT16 = struct.Struct('<h')
+_STRUCT_UINT32 = struct.Struct('<I')
+_STRUCT_SPFLOAT = struct.Struct('<f')
+
+
+
 class Boolean(_b.PropertyMeta[bool]):
     """Base class for booleans"""
 
@@ -37,7 +45,7 @@ class EnumMeta(_b.PropertyMeta[str]):
     ) -> bytearray:
         # return bytearray(struct.pack('B', len(v)) + v.encode('ascii'))
         v_bytes = v.encode('ascii')
-        return bytearray(struct.pack('B', len(v_bytes)) + v_bytes)
+        return bytearray(_STRUCT_UINT8.pack(len(v_bytes)) + v_bytes)
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> str:
@@ -58,12 +66,12 @@ class TextMeta(_b.PropertyMeta[str]):
         v_bytes = v.encode('ascii') if is_ascii else v.encode('utf-16-le')
 
         len_v = len(v) if is_ascii else -len(v)
-        return bytearray(struct.pack('<h', len_v) + v_bytes)
+        return bytearray(_STRUCT_INT16.pack(len_v) + v_bytes)
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> str:
 
-        text_len = struct.unpack('<h', v[ :2])[0]
+        text_len = _STRUCT_INT16.unpack(v[ :2])[0]
         return v[2: ].decode('ascii') if text_len >= 0 else v[2: ].decode('utf-16-le')
 
 
@@ -77,11 +85,11 @@ class Float32Meta(_b.PropertyMeta[float]):
         ref_to_idx: dict[str, int]
     ) -> bytearray:
 
-        return bytearray(struct.pack('<f', v))
+        return bytearray(_STRUCT_SPFLOAT.pack(v))
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> float:
-        return struct.unpack('<f', v)[0]
+        return _STRUCT_SPFLOAT.unpack(v)[0]
 
 
 class UInteger24(_b.PropertyMeta[int]):
@@ -93,11 +101,11 @@ class UInteger24(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(struct.pack('<I', v)[ :3])[::-1]
+        return bytearray(_STRUCT_UINT32.pack(v)[ :3])[::-1]
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> float:
-        return struct.unpack('<I', b'\x00' + v[::-1])[0]
+        return _STRUCT_UINT32.unpack(b'\x00' + v[::-1])[0]
 
 
 class InputAxisMeta(EnumMeta):
@@ -117,7 +125,7 @@ class InputAxisMeta(EnumMeta):
 
     PITCH: Final[str] = 'Pitch'
     PITCH_ALT: Final[str] = 'PitchAlt'
-    VIEW_PITCH : Final[str]= 'ViewPitch'
+    VIEW_PITCH: Final[str]= 'ViewPitch'
 
     VIEW_PITCH_ALT: Final[str] = 'ViewPitchAlt'
     VIEW_YAW: Final[str] = 'ViewYaw'
@@ -166,11 +174,11 @@ class SingleSourceBrickMeta(_b.PropertyMeta[str]):
         idx = ref_to_idx.get(v)
         if idx is None:
             raise ValueError(f"Unknown brick reference {v!r}.")
-        return bytearray(struct.pack('<H', idx))
+        return bytearray(_STRUCT_UINT16.pack(idx))
 
     @staticmethod
     def deserialize(v: str, version: int):
-        return f'brick_{struct.unpack('<H', v)[0]}'
+        return f'brick_{_STRUCT_UINT16.unpack(v)[0]}'
 
 
 
@@ -196,7 +204,7 @@ class SourceBricksMeta(_b.PropertyMeta[tuple[str, ...]]):
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> tuple[str, ...] | _b.InvalidVersionType:
-        count = struct.unpack_from('<H', v)[0]
+        count = _STRUCT_UINT16.unpack_from(v)[0]
         idx = struct.unpack_from(f'<{count}H', v, offset=2)
         return tuple(f'brick_{i-1}' for i in idx)
 

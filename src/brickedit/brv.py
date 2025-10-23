@@ -1,15 +1,17 @@
 """BRV file handling."""
 import struct
-from typing import Self, Optional, Iterable, Any
+from typing import Self, Optional, Iterable
 from collections import defaultdict
+from collections.abc import Hashable
 import io
-#from ..brick import Brick
+
 from . import brick as _brick
+from . import vec as _vec
 from . import var as _var
 from . import bt as _bt
 from . import p as _p
 from . import exceptions as _e
-#from ..var import FILE_EXP_VERSION
+
 
 class BRVFile:
     """A Brick Rigs vehicle file.
@@ -275,12 +277,129 @@ class BRVFile:
 
 
 
-    def deserialize(self, buffer: bytes) -> None:
+    def deserialize(self, buffer: bytes | bytearray | io.BytesIO) -> None:
         """Deserialize a bytearray into this vehicle.
 
         Args:
             buffer (bytes): Bytearray to deserialize
         """
 
+        # Change the type of the buffer to something we want
+        if not isinstance(buffer, io.BytesIO):
+            buffer = io.BytesIO(buffer)
+
+        # No repeated global lookups and stuff
+        read = buffer.read
+        pmeta_registry_get = _p.pmeta_registry.get
+        BrickError = _e.BrickError
+        unpack_B = struct.Struct('B').unpack
+        unpack_H = struct.Struct('<H').unpack
+        unpack_I = struct.Struct('<I').unpack
+        unpack_6f = struct.Struct('<6f').unpack
+
+
+        # --------1. HEADER
         self.bricks.clear()
-        self.version = self
+        self.version, = unpack_B(read(1))
+
+        num_bricks, = unpack_H(read(2))
+        num_brick_types, = unpack_H(read(2))
+        num_properties, = unpack_H(read(2))
+
+        # --------2. BRICK TYPES
+        brick_types_list = [read(unpack_B(read(1))[0]).decode('ascii') for _ in range(num_brick_types)]
+
+
+        # --------3. PROPERTIES
+        # This will bind to each property a list,
+        # where for each index
+        # we can find its corresponding value.
+        # defaultdict will make sure we can append values to keys yet to be added
+        property_names_list = []
+        prop_to_index_to_value = defaultdict(list)
+
+        for i in range(num_properties):
+
+            # Property name
+            prop_len = unpack_B(read(1))
+            prop = read(prop_len).decode('ascii')
+            # Add it to the list of index → property
+            property_names_list.append(prop)
+            # Get property's deserializer for later
+            prop_deserialization_class = pmeta_registry_get(prop)
+            if prop_deserialization_class is None:
+                raise BrickError(f"Unknown property '{prop}'")
+
+            # Number of values for this property
+            num_values, = unpack_H(read(2))
+            # Byte length of the property's values
+            len_binaries, = unpack_I(read(4))
+
+            # Get properties in a separate buffer
+            property_buffer = io.BytesIO(read(len_binaries))
+            read_property = property_buffer.read
+
+            # Figure out the length of each element
+            if num_values > 1:
+
+                # Read the length of the first probable element
+                first_element_length, = unpack_H(read_property(2))
+                # If it's zero, then it means each element has a different length
+                if first_element_length == 0:
+                    elements_length = (unpack_H(read_property(2))[0] for _ in range(num_values))
+                # Else all elements have the same length
+                else:
+                    elements_length = (first_element_length for _ in range(num_values))
+
+            # If there is only one value, brick rigs does not indicate it → no read_property here
+            else:
+                elements_length = (len_binaries,)
+
+            for elem_length in elements_length:
+                # Read the value
+                value = read_property(elem_length)
+                deserialized_value = prop_deserialization_class.deserialize(bytearray(value))
+                if deserialized_value is _p.InvalidVersion:
+                    raise BrickError(f"Invalid version for property '{prop}'")
+                prop_to_index_to_value[prop].append(deserialized_value)
+
+        # -------- 4. BRICKS
+
+        # For each brick
+        for i in range(num_bricks):
+            # Brick type
+            brick_type_index, = unpack_H(read(2))
+            brick_type_name = brick_types_list[brick_type_index]
+            brick_meta = _bt.bt_registry.get(brick_type_name)
+            if brick_meta is None:
+                raise BrickError(f"Unknown brick type '{brick_type_name}'")
+
+            # Properties
+            # Byte length of the properties part of this brick. We do not need it
+            read(2)
+            # Get the number of properties
+            num_properties, = unpack_B(read(1))
+
+            # Unpack the properties
+            properties: dict[str, Hashable] = {}
+            for _ in range(num_properties):
+                # Get the type
+                type_index, = unpack_H(read(2))
+                type_name = property_names_list[type_index]
+                # Get the value
+                value_index, = unpack_H(read(2))
+                value_deserialized = prop_to_index_to_value[type_name][value_index]
+                # Add the value to the list of found properties
+                properties[type_name] = value_deserialized
+
+            # Position and rotation
+            pos_x, pos_y, pos_z, rot_y, rot_z, rot_x = unpack_6f(read(6 * 4))
+
+            # Create the brick
+            self.add(_brick.Brick(
+                ref=f'brick_{i}',
+                meta=brick_meta,
+                pos=_vec.Vec3(pos_x, pos_y, pos_z),
+                rot=_vec.Vec3(rot_x, rot_y, rot_z),
+                ppatch=properties
+            ))
