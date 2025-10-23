@@ -37,7 +37,7 @@ class BrickColor(_b.PropertyMeta[int]):
     def deserialize(v: bytearray, version: int) -> int:
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return _STRUCT_UINT32.unpack(v)[0]
+        return _STRUCT_UINT32.unpack(v[::-1])[0]
 
 
 BRICK_MATERIAL = 'BrickMaterial'

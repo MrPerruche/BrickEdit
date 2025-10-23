@@ -125,7 +125,7 @@ class BRVFile:
             if meta not in types_to_index:
                 types_to_index[meta] = len(types)
                 types.append(meta)
-                write(pack_H(len(types)))
+        write(pack_H(len(types)))
 
         # ---- Building property dicts (hardest part, I NEED comments yet I hate commenting)
 
@@ -307,6 +307,7 @@ class BRVFile:
         num_properties, = unpack_H(read(2))
 
         # --------2. BRICK TYPES
+        # print(buffer.getvalue()[buffer.tell():])
         brick_types_list = [read(unpack_B(read(1))[0]).decode('ascii') for _ in range(num_brick_types)]
 
 
@@ -319,9 +320,9 @@ class BRVFile:
         prop_to_index_to_value = defaultdict(list)
 
         for i in range(num_properties):
-
+            # print(buffer.getvalue()[buffer.tell():])
             # Property name
-            prop_len = unpack_B(read(1))
+            prop_len, = unpack_B(read(1))
             prop = read(prop_len).decode('ascii')
             # Add it to the list of index → property
             property_names_list.append(prop)
@@ -339,17 +340,22 @@ class BRVFile:
             property_buffer = io.BytesIO(read(len_binaries))
             read_property = property_buffer.read
 
+            # print(f'{num_values=}, {len_binaries=},'
+            #       f'{property_buffer.getvalue()[property_buffer.tell():]},
+            #       f'\n{buffer.getvalue()[buffer.tell():]}')
+
             # Figure out the length of each element
             if num_values > 1:
 
                 # Read the length of the first probable element
-                first_element_length, = unpack_H(read_property(2))
+                first_element_length, = unpack_H(read(2))
+                # print(f'{first_element_length=}')
                 # If it's zero, then it means each element has a different length
                 if first_element_length == 0:
-                    elements_length = (unpack_H(read_property(2))[0] for _ in range(num_values))
+                    elements_length = tuple((unpack_H(read(2))[0] for _ in range(num_values)))
                 # Else all elements have the same length
                 else:
-                    elements_length = (first_element_length for _ in range(num_values))
+                    elements_length = tuple((first_element_length for _ in range(num_values)))
 
             # If there is only one value, brick rigs does not indicate it → no read_property here
             else:
@@ -357,8 +363,9 @@ class BRVFile:
 
             for elem_length in elements_length:
                 # Read the value
+                # print(f'{elements_length=}, {elem_length=}')
                 value = read_property(elem_length)
-                deserialized_value = prop_deserialization_class.deserialize(bytearray(value))
+                deserialized_value = prop_deserialization_class.deserialize(bytearray(value), self.version)
                 if deserialized_value is _p.InvalidVersion:
                     raise BrickError(f"Invalid version for property '{prop}'")
                 prop_to_index_to_value[prop].append(deserialized_value)
@@ -368,7 +375,10 @@ class BRVFile:
         # For each brick
         for i in range(num_bricks):
             # Brick type
-            brick_type_index, = unpack_H(read(2))
+            # print(f'{brick_types_list=}, {buffer.getvalue()[buffer.tell()-30:buffer.tell()]}'
+            #       f'|  {buffer.getvalue()[buffer.tell():]}')
+            brick_type_index = unpack_H(read(2))[0]
+            # print(f'{brick_type_index=}')
             brick_type_name = brick_types_list[brick_type_index]
             brick_meta = _bt.bt_registry.get(brick_type_name)
             if brick_meta is None:
@@ -376,7 +386,7 @@ class BRVFile:
 
             # Properties
             # Byte length of the properties part of this brick. We do not need it
-            read(2)
+            read(4)
             # Get the number of properties
             num_properties, = unpack_B(read(1))
 
