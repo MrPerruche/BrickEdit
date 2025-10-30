@@ -402,6 +402,10 @@ INPUT_CNL_B_INPUT_AXIS: Final[str] = 'InputChannelB.InputAxis'
 INPUT_CNL_B_SOURCE_BRICKS: Final[str] = 'InputChannelB.SourceBricks'
 INPUT_CNL_B_VALUE: Final[str] = 'InputChannelB.Value'
 
+ENABLED_INPUT_CNL_INPUT_AXIS: Final[str] = 'EnabledInputChannel.InputAxis'
+ENABLED_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'EnabledInputChannel.SourceBricks'
+ENABLED_INPUT_CNL_VALUE: Final[str] = 'EnabledInputChannel.Value'
+
 @_b.register(INPUT_CNL_INPUT_AXIS)
 class InputCnl_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannel"""
@@ -443,6 +447,17 @@ class InputCnl_B_SourceBricks(_m.SourceBricksMeta):
 class InputCnl_B_Value(_m.ValueMeta):
     """Constant value for InputChannelB"""
 
+@_b.register(ENABLED_INPUT_CNL_INPUT_AXIS)
+class EnabledInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for EnabledInputChannel"""
+
+@_b.register(ENABLED_INPUT_CNL_SOURCE_BRICKS)
+class EnabledInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for EnabledInputChannel"""
+
+@_b.register(ENABLED_INPUT_CNL_VALUE)
+class EnabledInputCnl_Value(_m.ValueMeta):
+    """Constant value for EnabledInputChannel"""
 
 
 
@@ -661,36 +676,38 @@ OPERATION = "Operation"
 @_b.register(OPERATION)
 class Operation(_m.EnumMeta):
     """Math brick operation property"""
-    ADD = 'Add'
-    SUBTRACT = 'Subtract'
-    MULTIPLY = 'Multiply'
-    DIVIDE = 'Divide'
-    MODULO = 'Fmod'
-    POWER = 'Power'
-    GREATER = 'Greater'
-    LESS = 'Less'
-    MIN = 'Min'
-    MAX = 'Max'
-    ABS = 'Abs'
-    SIGN = 'Sign'
-    ROUND = 'Round'
-    CEIL = 'Ceil'
-    FLOOR = 'Floor'
-    SQUARE_ROOT = 'Sqrt'
+    EMPTY: Final[str] = ''
+    DEFAULT: Final[str] = 'Add'
 
-    SIN_DEG = 'SinDeg'
-    SIN_RAD = 'Sin'
-    ASIN_DEG = 'AsinDeg'
-    ASIN_RAD = 'Asin'
-    COS_DEG = 'CosDeg'
-    COS_RAD = 'Cos'
-    ACOS_DEG = 'AcosDeg'
-    ACOS_RAD = 'Acos'
-    TAN_DEG = 'TanDeg'
-    TAN_RAD = 'Tan'
-    ATAN_DEG = 'AtanDeg'
-    ATAN_RAD = 'Atan'
+    ADD: Final[str] = 'Add'
+    SUBTRACT: Final[str] = 'Subtract'
+    MULTIPLY: Final[str] = 'Multiply'
+    DIVIDE: Final[str] = 'Divide'
+    MODULO: Final[str] = 'Fmod'
+    POWER: Final[str] = 'Power'
+    GREATER: Final[str] = 'Greater'
+    LESS: Final[str] = 'Less'
+    MIN: Final[str] = 'Min'
+    MAX: Final[str] = 'Max'
+    ABS: Final[str] = 'Abs'
+    SIGN: Final[str] = 'Sign'
+    ROUND: Final[str] = 'Round'
+    CEIL: Final[str] = 'Ceil'
+    FLOOR: Final[str] = 'Floor'
+    SQUARE_ROOT: Final[str] = 'Sqrt'
 
+    SIN_DEG: Final[str] = 'SinDeg'
+    SIN_RAD: Final[str] = 'Sin'
+    ASIN_DEG: Final[str] = 'AsinDeg'
+    ASIN_RAD: Final[str] = 'Asin'
+    COS_DEG: Final[str] = 'CosDeg'
+    COS_RAD: Final[str] = 'Cos'
+    ACOS_DEG: Final[str] = 'AcosDeg'
+    ACOS_RAD: Final[str] = 'Acos'
+    TAN_DEG: Final[str] = 'TanDeg'
+    TAN_RAD: Final[str] = 'Tan'
+    ATAN_DEG: Final[str] = 'AtanDeg'
+    ATAN_RAD: Final[str] = 'Atan'
 
     SUB = SUBTRACT
     MUL = MULTIPLY
@@ -705,3 +722,84 @@ class Operation(_m.EnumMeta):
     ABSOLUTE = ABS
     CEILING = CEIL
     SQRT = SQUARE_ROOT
+
+
+TEXT = 'Text'
+@_b.register(TEXT)
+class Text(_m.TextMeta):
+    """Text property for text bricks."""
+    EMPTY: Final[str] = ''
+    DEFAULT: Final[str] = 'Text'
+
+
+FONT = 'Font'
+@_b.register(FONT)
+class Font(_m.EnumMeta):
+    """Font property for text bricks."""
+
+    EMPTY: Final[str] = ''
+    DEFAULT: Final[str] = 'Roboto'
+
+    ROBOTO: Final[str] = 'Roboto'
+    ROBOTO_SERIF: Final[str] = 'RobotoSerif'
+    SILKSCREEN: Final[str] = 'Silkscreen'
+    PERMANENT_MARKER: Final[str] = 'PermanentMarker'
+    ORBITRON: Final[str] = 'Orbitron'
+    BIG_SHOULDERS_STENCIL: Final[str] = 'BigShouldersStencil'
+    NOTO_EMOJI: Final[str] = 'NotoEmoji'
+
+
+FONT_SIZE = 'FontSize'
+@_b.register(FONT_SIZE)
+class FontSize(_m.Float32Meta):
+    """Font size property for text bricks."""
+    DEFAULT_VALUE: Final[float] = 60.0
+
+
+TEXT_COLOR = 'TextColor'
+@_b.register(TEXT_COLOR)
+class TextColor(_m.UInteger24):
+    """Text color property for text bricks."""
+    DEFAULT_COLOR: Final[int] = 0x000000
+
+OUTLINE_THICKNESS = 'OutlineThickness'
+@_b.register(OUTLINE_THICKNESS)
+class OutlineThickness(_m.Float32Meta):
+    """Outline thickness property for text bricks."""
+    DEFAULT_VALUE: Final[float] = 0.0
+
+SENSOR_TYPE = 'SensorType'
+@_b.register(SENSOR_TYPE)
+class SensorType(_m.EnumMeta):
+    SPEED: Final[str] = 'Speed'
+    NORMAL_SPEED: Final[str] = 'NormalSpeed'
+    ACCELERATION: Final[str] = 'Acceleration'
+    NORMAL_ACCELERATION: Final[str] = 'NormalAcceleration'
+    ANGULAR_SPEED: Final[str] = 'AngularSpeed'
+    NORMAL_ANGULAR_SPEED: Final[str] = 'NormalAngularSpeed'
+    DISTANCE: Final[str] = 'Distance'
+    TIME: Final[str] = 'Time'
+    PROXIMITY: Final[str] = 'Proximity'
+    DISTANCE_TO_GROUND: Final[str] = 'DistanceToGround'
+    ALTITUDE: Final[str] = 'Altitude'
+    ABSOLUTE_ALTITUDE: Final[str] = 'AbsAltitude'
+    PITCH: Final[str] = 'Pitch'
+    YAW: Final[str] = 'Yaw'
+    ROLL: Final[str] = 'Roll'
+    NUM_SEEKING_PROJECTILES: Final[str] = 'NumSeekingProjectiles'
+    SEEKING_PROJECTILE_DISTANCE: Final[str] = 'SeekingProjectileDistance'
+    DELTA_TIME: Final[str] = 'DeltaTime'
+    FRAMERATE: Final[str] = 'Framerate'
+    TIME_OF_DAY: Final[str] = 'TimeOfDay'
+    WIND_SPEED: Final[str] = 'WindSpeed'
+    WIND_DIRECTION_DEGREES: Final[str] = 'WindDirectionDeg'
+    WIND_DIRECTION: Final[str] = 'WindDirection'
+
+    # Ingame display names, and some other aliases such as _DEG instead of _DEGREES :3
+    GROUND_DISTANCE = DISTANCE_TO_GROUND
+    RELATIVE_ALTITUDE = ALTITUDE
+    NUMBER_OF_TRACKING_MISSILES = NUM_SEEKING_PROJECTILES
+    TRACKING_MISSILE_DISTANCE = SEEKING_PROJECTILE_DISTANCE
+    WIND_DIRECTION_DEG = WIND_DIRECTION_DEGREES
+    WIND_DIRECTION_RADIANS = WIND_DIRECTION
+    WIND_DIRECTION_RAD = WIND_DIRECTION

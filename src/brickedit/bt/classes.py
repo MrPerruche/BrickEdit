@@ -793,7 +793,12 @@ IDLER_WHEEL: Final = IdlerWheelMeta('IdlerWheel', 45, 20, 2, 25, 4)
 
 class ImageBrickMeta(_b.BrickMeta):
 
-    def __init__(self, name: str, image_margin: float, *args, **kwargs):
+    def __init__(
+            self,
+            name: str,
+            image_margin: float,
+            *args, **kwargs
+        ):
         super().__init__(name, *args, **kwargs)
         self._image_margin = image_margin
 
@@ -802,12 +807,21 @@ class ImageBrickMeta(_b.BrickMeta):
         return self._image_margin
 
     def base_properties(self, *args, **kwargs):
+        size = kwargs.get("size")
+        assert size is not None, "size is not set for brick type " + self._name
+        spacing = kwargs.get("spacing")
+        assert spacing is not None, "spacing is not set for brick type " + self._name
         return _base_properties | {
+            _p.BRICK_SIZE: size,
+            _p.CONNECTOR_SPACING: spacing,
+            _p.B_FLUID_DYNAMIC: False,
             _p.IMAGE: _p.Image.CAUTION,
-            _p.IMAGE_COLOR: _p.ImageColor.DEFAULT_COLOR
+            _p.IMAGE_COLOR: _p.ImageColor.DEFAULT_COLOR,
         }
 
-FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5)
+IMAGE_BRICK: Final = ImageBrickMeta('ImageBrick', 0.5, size=_v.Vec3(60, 60, 10), spacing=_p.ConnectorSpacing.NO_TOP)
+IMAGE_CYLINDER: Final = ImageBrickMeta('ImageCylinder', 0.5, size=_v.Vec3(60, 60, 10), spacing=_p.ConnectorSpacing.NO_TOP)
+FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5, size=_v.Vec3(60, 10, 60), spacing=_p.ConnectorSpacing.ALL_CONNECTIONS)
 
 
 
@@ -1024,3 +1038,81 @@ class SirenBrickMeta(_b.BrickMeta):
         }
 
 DOUBLE_SIREN_1X2X1S: Final = SirenBrickMeta('DoubleSiren_1x2x1s')
+
+# FIXME: This has BRMK properties missing.
+class TextBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(60, 60, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.B_FLUID_DYNAMIC: False,
+            _p.TEXT: _p.Text.DEFAULT,
+            _p.FONT: _p.Font.DEFAULT,
+            _p.FONT_SIZE: _p.FontSize.DEFAULT_VALUE,
+            _p.TEXT_COLOR: _p.TextColor.DEFAULT_COLOR,
+            _p.OUTLINE_THICKNESS: _p.OutlineThickness.DEFAULT_VALUE
+        }
+
+TEXT_BRICK: Final = TextBrickMeta('TextBrick')
+TEXT_CYLINDER: Final = TextBrickMeta('TextCylinder')
+
+# FIXME: This (probably) has BRMK properties missing.
+class SwitchBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.SWITCH_NAME: _p.SwitchName.EMPTY,
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
+            _p.B_RETURN_TO_ZERO: True,
+            _p.OUTPUT_CNL_MIN_IN: -1.0,
+            _p.OUTPUT_CNL_MAX_IN: 1.0,
+            _p.OUTPUT_CNL_MIN_OUT: -1.0,
+            _p.OUTPUT_CNL_MAX_OUT: 1.0
+        }
+
+SWITCH_BRICK: Final = SwitchBrickMeta('SwitchBrick')
+# other switches need to be implemented, beware
+
+# FIXME: This (probably) has BRMK properties missing.
+class MathBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.OPERATION: _p.Operation.ADD,
+            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.NONE,
+            _p.INPUT_CNL_A_SOURCE_BRICKS: _p.InputCnl_A_SourceBricks.EMPTY,
+            _p.INPUT_CNL_A_VALUE: _p.InputCnl_A_Value.DEFAULT_VALUE,
+            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.NONE,
+            _p.INPUT_CNL_B_SOURCE_BRICKS: _p.InputCnl_B_SourceBricks.EMPTY,
+            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE
+        }
+
+MATH_BRICK: Final = MathBrickMeta('MathBrick')
+
+# FIXME: This has BRMK properties missing.
+class SensorBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.ENABLED_INPUT_CNL_INPUT_AXIS: _p.EnabledInputCnl_InputAxis.ALWAYS_ON,
+            _p.ENABLED_INPUT_CNL_SOURCE_BRICKS: _p.EnabledInputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
+            _p.B_RETURN_TO_ZERO: False,
+            _p.SENSOR_TYPE: _p.SensorType.SPEED,
+            _p.OUTPUT_CNL_MIN_IN: -1.0,
+            _p.OUTPUT_CNL_MAX_IN: 1.0,
+            _p.OUTPUT_CNL_MIN_OUT: -1.0,
+            _p.OUTPUT_CNL_MAX_OUT: 1.0
+        }
+
+SENSOR_BRICK: Final = SensorBrickMeta('SensorBrick')
+# other sensors need to be implemented too

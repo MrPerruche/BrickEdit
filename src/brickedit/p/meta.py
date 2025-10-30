@@ -28,7 +28,7 @@ class Boolean(_b.PropertyMeta[bool]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytearray:
-        return bytearray(int(v))
+        return bytearray(b'\x01' if v else b'\x00') # more efficient than [int(v)] apparently
 
     @staticmethod
     def deserialize(v: bytearray, version: int) -> bytearray:
