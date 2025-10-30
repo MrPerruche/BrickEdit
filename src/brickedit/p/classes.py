@@ -153,7 +153,6 @@ class ActuatorMode(_m.EnumMeta):
     STATIC: Final[str] = 'Static'
     SPRING: Final[str] = 'Spring'
 
-
 AMMO_TYPE: Final[str] = 'AmmoType'
 
 @_b.register(AMMO_TYPE)
@@ -548,6 +547,12 @@ SPAWN_SCALE: Final[str] = 'SpawnScale'
 class SpawnScale(_m.Float32Meta):
     """Exhaust brick particle spawn scale"""
 
+SPEED_FACTOR: Final[str] = 'SpeedFactor'
+
+@_b.register(SPEED_FACTOR)
+class SpeedFactor(_m.Float32Meta):
+    """Actuator speed factor"""
+    DEFAULT_VALUE: Final[float] = 1.0
 
 SMOKE_COLOR: Final[str] = 'SmokeColor'
 

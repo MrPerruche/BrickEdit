@@ -84,7 +84,8 @@ class ActuatorBrickMeta(_b.BrickMeta):
             _p.ACTUATOR_MODE: _p.ActuatorMode.ACCUMULATED,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.CUSTOM,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
-            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.SPEED_FACTOR: 1.0
         }
 
     def actuation_speed(self):
