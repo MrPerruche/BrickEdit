@@ -11,6 +11,7 @@ from .. import vec as _vec
 _STRUCT_INT8 = struct.Struct('b')
 _STRUCT_UINT16 = struct.Struct('<H')
 _STRUCT_UINT32 = struct.Struct('<I')
+_STRUCT_UINT32_BIGENDIAN = struct.Struct('>I')
 _STRUCT_3SPFLOAT = struct.Struct('<3f')
 
 
@@ -27,17 +28,18 @@ class BrickColor(_b.PropertyMeta[int]):
         v: int,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray | _b.InvalidVersionType:
+    ) -> bytes | _b.InvalidVersionType:
 
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return bytearray(_STRUCT_UINT32.pack(v))[::-1]
+        return _STRUCT_UINT32_BIGENDIAN.pack(v)  # Technically it's little-endian but brickedit
+                                                 # represent colors the other way around so...
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> int:
+    def deserialize(v: bytes, version: int) -> int:
         if version <= _v.FILE_LEGACY_VERSION:
             return _b.InvalidVersion
-        return _STRUCT_UINT32.unpack(v[::-1])[0]
+        return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
 
 
 BRICK_MATERIAL = 'BrickMaterial'
@@ -131,11 +133,11 @@ class BrickSize(_b.PropertyMeta[_vec.Vec3]):
         v: _vec.Vec3,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
-        return bytearray(_STRUCT_3SPFLOAT.pack(*v.as_tuple()))
+    ) -> bytes:
+        return _STRUCT_3SPFLOAT.pack(*v.as_tuple())
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> _vec.Vec3:
+    def deserialize(v: bytes, version: int) -> _vec.Vec3:
         return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
 
 
@@ -285,11 +287,11 @@ class ConnectorSpacing(_b.PropertyMeta[int]):
         v: int,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
-        return bytearray(_STRUCT_UINT16.pack(v))
+    ) -> bytes:
+        return _STRUCT_UINT16.pack(v)
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> int:
+    def deserialize(v: bytes, version: int) -> int:
         return _STRUCT_UINT16.unpack(v)[0]
 
     @staticmethod
@@ -507,11 +509,11 @@ class NumFractionalDigits(_b.PropertyMeta[int]):
         v: int,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
-        return bytearray(_STRUCT_INT8.pack(v))
+    ) -> bytes:
+        return _STRUCT_INT8.pack(v)
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> int:
+    def deserialize(v: bytes, version: int) -> int:
         return _STRUCT_INT8.unpack(v)[0]
 
 

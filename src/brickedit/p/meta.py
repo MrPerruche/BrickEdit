@@ -14,7 +14,8 @@ from . import base as _b
 _STRUCT_UINT8 = struct.Struct('B')
 _STRUCT_UINT16 = struct.Struct('<H')
 _STRUCT_INT16 = struct.Struct('<h')
-_STRUCT_UINT32 = struct.Struct('<I')
+# _STRUCT_UINT32 = struct.Struct('<I')
+_STRUCT_UINT32_BIGENDIAN = struct.Struct('>I')
 _STRUCT_SPFLOAT = struct.Struct('<f')
 
 
@@ -27,11 +28,11 @@ class Boolean(_b.PropertyMeta[bool]):
         v: bool,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
-        return bytearray(b'\x01' if v else b'\x00') # more efficient than [int(v)] apparently
+    ) -> bytes:
+        return b'\x01' if v else b'\x00' # more efficient than [int(v)] apparently
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> bytearray:
+    def deserialize(v: bytes, version: int) -> bool:
         return v == b'\x01'
 
 class EnumMeta(_b.PropertyMeta[str]):
@@ -42,13 +43,13 @@ class EnumMeta(_b.PropertyMeta[str]):
         v: str,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
+    ) -> bytes:
         # return bytearray(struct.pack('B', len(v)) + v.encode('ascii'))
         v_bytes = v.encode('ascii')
-        return bytearray(_STRUCT_UINT8.pack(len(v_bytes)) + v_bytes)
+        return _STRUCT_UINT8.pack(len(v_bytes)) + v_bytes
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> str:
+    def deserialize(v: bytes, version: int) -> str:
         return v[1: ].decode('ascii')
 
 
@@ -60,16 +61,16 @@ class TextMeta(_b.PropertyMeta[str]):
         v: str,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
+    ) -> bytes:
 
         is_ascii = v.isascii()
         v_bytes = v.encode('ascii') if is_ascii else v.encode('utf-16-le')
 
         len_v = len(v) if is_ascii else -len(v)
-        return bytearray(_STRUCT_INT16.pack(len_v) + v_bytes)
+        return _STRUCT_INT16.pack(len_v) + v_bytes
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> str:
+    def deserialize(v: bytes, version: int) -> str:
 
         text_len = _STRUCT_INT16.unpack(v[ :2])[0]
         return v[2: ].decode('ascii') if text_len >= 0 else v[2: ].decode('utf-16-le')
@@ -83,12 +84,12 @@ class Float32Meta(_b.PropertyMeta[float]):
         v: float,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
+    ) -> bytes:
 
-        return bytearray(_STRUCT_SPFLOAT.pack(v))
+        return _STRUCT_SPFLOAT.pack(v)
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> float:
+    def deserialize(v: bytes, version: int) -> float:
         return _STRUCT_SPFLOAT.unpack(v)[0]
 
 
@@ -100,12 +101,12 @@ class UInteger24(_b.PropertyMeta[int]):
         v: int,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray:
-        return bytearray(_STRUCT_UINT32.pack(v)[ :3])[::-1]
+    ) -> bytes:
+        return _STRUCT_UINT32_BIGENDIAN.pack(v)[1: ]
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> float:
-        return _STRUCT_UINT32.unpack(b'\x00' + v[::-1])[0]
+    def deserialize(v: bytes, version: int) -> float:
+        return _STRUCT_UINT32_BIGENDIAN.unpack(v + b'\x00')[0]
 
 
 class InputAxisMeta(EnumMeta):
@@ -169,12 +170,12 @@ class SingleSourceBrickMeta(_b.PropertyMeta[str]):
         v: str,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray | _b.InvalidVersionType:
+    ) -> bytes | _b.InvalidVersionType:
 
         idx = ref_to_idx.get(v)
         if idx is None:
             raise ValueError(f"Unknown brick reference {v!r}.")
-        return bytearray(_STRUCT_UINT16.pack(idx))
+        return _STRUCT_UINT16.pack(idx)
 
     @staticmethod
     def deserialize(v: str, version: int):
@@ -192,7 +193,7 @@ class SourceBricksMeta(_b.PropertyMeta[tuple[str, ...]]):
         v: tuple[str, ...],
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray | _b.InvalidVersionType:
+    ) -> bytes | _b.InvalidVersionType:
 
         idx = []
         for ref in v:
@@ -200,10 +201,10 @@ class SourceBricksMeta(_b.PropertyMeta[tuple[str, ...]]):
             if i is None:
                 raise ValueError(f"Unknown brick reference {ref!r}.")
             idx.append(i)
-        return bytearray(struct.pack(f'<H{len(idx)}H', len(idx), *idx))
+        return struct.pack(f'<H{len(idx)}H', len(idx), *idx)
 
     @staticmethod
-    def deserialize(v: bytearray, version: int) -> tuple[str, ...] | _b.InvalidVersionType:
+    def deserialize(v: bytes, version: int) -> tuple[str, ...] | _b.InvalidVersionType:
         count = _STRUCT_UINT16.unpack_from(v)[0]
         idx = struct.unpack_from(f'<{count}H', v, offset=2)
         return tuple(f'brick_{i-1}' for i in idx)

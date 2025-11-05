@@ -86,7 +86,7 @@ class BRVFile:
 
 
 
-    def serialize(self) -> bytearray:
+    def serialize(self) -> bytes:
         """
         Serialize the vehicle file into a bytearray.
 
@@ -107,7 +107,7 @@ class BRVFile:
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
         pack_H = struct.Struct('<H').pack  # '<H' → uint16 LE
         pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
-        pack_f = struct.Struct('<f').pack  # '<f' → sp float LE
+        pack_6f = struct.Struct('<6f').pack  # '<f' → sp float LE
 
         # --------1. HEADER
 
@@ -131,7 +131,7 @@ class BRVFile:
 
 
         # A dictionary that will for each property give us its index
-        prop_to_index: dict[str, int] = {}
+        prop_to_index: dict[str, int] = defaultdict(lambda: len(prop_to_index))
         # A list that for each property index will give us the dict of values : index
         value_to_index = defaultdict(dict)
         # A list that for each prop gives {for each value index gives us its serialized version}
@@ -201,9 +201,9 @@ class BRVFile:
         # --------2. BRICK TYPES
         for t in types:
             # Len of t then t
-            write(pack_B(len(t.name())))
-            write(t.name().encode('ascii'))
-
+            t_name_bytes = t.name().encode('ascii')
+            write(pack_B(len(t_name_bytes)))
+            write(t_name_bytes)
 
         # --------3. PROPERTIES
         for prop, prop_index in prop_to_index.items():
@@ -245,18 +245,22 @@ class BRVFile:
         # Remember. Index starts at 1 here because fluppi
         for brick in self.bricks:
 
+            brick_meta = brick.meta()
+            brick_ppatch = brick.ppatch
+            pos, rot = brick.pos, brick.rot
+
             # 1. Brick Type
-            brick_type_index = types_to_index[brick.meta()]
+            brick_type_index = types_to_index[brick_meta]
             write(pack_H(brick_type_index))
 
             subbuffer = bytearray()
 
             # 2. Properties
             # Num of properties
-            num_properties = len(brick.ppatch)
+            num_properties = len(brick_ppatch)
             subbuffer.extend(pack_B(num_properties))  # B → uint8
             # Each property
-            ppatch_items = brick.ppatch.items()
+            ppatch_items = brick_ppatch.items()
             for prop, value in ppatch_items:
                 prop_index = prop_to_index[prop]  # Key index
                 sub_list = value_to_index[prop_index]  # Where to get vals → index of this property
@@ -267,13 +271,12 @@ class BRVFile:
 
             # 3. Position and rotation
             # For loop to reduce code repetition
-            for v in (brick.pos.x, brick.pos.y, brick.pos.z, brick.rot.y, brick.rot.z, brick.rot.x):
-                subbuffer.extend(pack_f(v))  # <f → Single-precision LE float
+            subbuffer.extend(pack_6f(pos.x, pos.y, pos.z, rot.y, rot.z, rot.x))  # <f → Single-precision LE float
             # 4. Write len and write to buffer
             write(pack_I(len(subbuffer)))  # <I → LE uint32
             write(subbuffer)
 
-        return bytearray(buffer.getvalue())
+        return buffer.getvalue()
 
 
 

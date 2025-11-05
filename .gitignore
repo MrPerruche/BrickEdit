@@ -214,3 +214,4 @@ IGNORE_*
 IGNORE_*/*
 *.brv
 *.brm
+*.prof

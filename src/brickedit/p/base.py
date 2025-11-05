@@ -29,7 +29,7 @@ class PropertyMeta(Generic[_T], ABC):
         v: _T,
         version: int,
         ref_to_idx: dict[str, int]
-    ) -> bytearray | InvalidVersionType:
+    ) -> bytes | InvalidVersionType:
         """Serializes the value `v`.
 
         Args:
@@ -38,17 +38,17 @@ class PropertyMeta(Generic[_T], ABC):
             ref_to_idx (dict[str, int]): Index of a brick from its index
 
         Returns:
-            bytearray | InvalidVersionType: Result as bytearray or InvalidVersion sentinel
+            bytes | InvalidVersionType: Result as bytes object or InvalidVersion sentinel
             if the property does not support this version.
         """
         
     @staticmethod
     @abstractmethod
-    def deserialize(v: bytearray, version: int) -> _T | InvalidVersionType:
+    def deserialize(v: bytes, version: int) -> _T | InvalidVersionType:
         """Deserializes the value `v` for the given `version`.
 
         Args:
-            v (bytearray): Value to deserialize
+            v (bytes): Value to deserialize
             version (int): Version of the property
 
         Returns:
