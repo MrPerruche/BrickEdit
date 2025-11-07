@@ -16,3 +16,8 @@ FILE_MAIN_VERSION: Final[int] = 16
 FILE_LEGACY_VERSION: Final[int] = 6
 
 FILE_UNIT_UPDATE: Final[int] = 15
+
+VISIBILITY_PUBLIC: Final[int] = 0
+VISIBILITY_FRIENDS: Final[int] = 1
+VISIBILITY_PRIVATE: Final[int] = 2
+VISIBILITY_HIDDEN: Final[int] = 3

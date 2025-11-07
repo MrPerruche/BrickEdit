@@ -3,6 +3,7 @@
 import math
 from .units import *
 from . import color as _col
+from . import time as _time
 from .. import vec as _vec
 from .. import var as _var
 
@@ -44,6 +45,10 @@ class ValueHelper:
         self.default_rotational_unit = default_rotational_unit
         self.default_force_unit = default_force_unit
 
+
+    def current_time(self):
+        """Returns time formatted for metadata folders"""
+        return _time.get_time_100ns()
 
     def pos(self, x: float, y: float, z: float, unit=None) -> _vec.Vec3:
         """A helper method for physical positioning.
