@@ -2,6 +2,7 @@ import struct
 from typing import Final
 
 from . import base as _b
+from . import vec as _vec
 # from ..brick import Brick as _Brick
 
 
@@ -92,6 +93,24 @@ class Float32Meta(_b.PropertyMeta[float]):
     def deserialize(v: bytes, version: int) -> float:
         return _STRUCT_SPFLOAT.unpack(v)[0]
 
+
+_STRUCT_2SPFLOAT = struct.Struct('<2f')
+
+class Vec2Meta(_b.PropertyMeta[_vec.Vec2]):
+    """Size of bricks"""
+
+    @staticmethod
+    def serialize(
+        v: _vec.Vec2,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes:
+        return _STRUCT_2SPFLOAT.pack(*v.as_tuple())
+
+    @staticmethod
+    def deserialize(v: bytes, version: int) -> _vec.Vec2:
+        return _vec.Vec2(*_STRUCT_2SPFLOAT.unpack_from(v))
+    
 
 class UInteger24(_b.PropertyMeta[int]):
     """Class for 24-bit unsigned integers"""

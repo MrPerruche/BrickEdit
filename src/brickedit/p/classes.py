@@ -250,6 +250,15 @@ class BrakeStrength(_m.ValueMeta):
     BASE: Final[float] = 1.0
 
 
+BRIGHTNESS: Final[str] = 'Brightness'
+
+@_b.register(BRIGHTNESS)
+class Brightness(_m.Float32Meta):
+    """Brightness of a light brick"""
+    DEFAULT: Final[float] = 1.0
+    PERCENT: Final[float] = 0.01
+
+
 B_INVERT_TANK_STEERING: Final[str] = 'bInvertTankSteering'
 
 @_b.register(B_INVERT_TANK_STEERING)
@@ -272,6 +281,14 @@ class CameraName(_m.TextMeta):
     EMPTY: Final[str] = ''
 
 
+CONE_ANGLE: Final[str] = 'LightConeAngle'
+
+@_b.register(CONE_ANGLE)
+class ConeAngle(_m.Float32Meta):
+    """Cone angle of a light brick"""
+    DEFAULT: Final[float] = 45.0
+
+
 CONNECTOR_SPACING: Final[str] = 'ConnectorSpacing'
 
 @_b.register(CONNECTOR_SPACING)
@@ -280,6 +297,7 @@ class ConnectorSpacing(_b.PropertyMeta[int]):
     # Format: zp_zn_yp_yn_xp_xn big endian / yp_yn_xp_xn_00_00_zp_zn little endian
     NO_CONNECTIONS: Final[int] = 0b00_00_00_00_00_00
     ALL_CONNECTIONS: Final[int] = 0b11_11_11_11_11_11
+    SPINNER_CONNECTIONS: Final[int]= 0b00_00_00_00_11_11
     NO_TOP: Final[int] = 0b00_11_11_11_11_11
 
     @staticmethod
@@ -317,6 +335,26 @@ class DisplayColor(_m.UInteger24):
     """Digit display color for display bricks"""
 
 
+EXIT_LOCATION: Final[str] = 'ExitLocation'
+
+@_b.register(EXIT_LOCATION)
+class ExitLocation(_b.PropertyMeta[_vec.Vec3]):
+    """Exit location of a light brick"""
+
+    @staticmethod
+    def serialize(
+        v: _vec.Vec3,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes:
+        return _STRUCT_3SPFLOAT.pack(*v.as_tuple())
+
+    @staticmethod
+    def deserialize(v: bytes, version: int) -> _vec.Vec3:
+        return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
+
+
+
 EXHAUST_EFFECT: Final[str] = 'ExhaustEffect'
 
 @_b.register(EXHAUST_EFFECT)
@@ -324,6 +362,27 @@ class ExhaustEffect(_m.EnumMeta):
     """Exhaust brick effect type"""
     SMOKE: Final[str] = 'Smoke'
     TRAIL: Final[str] = 'Trail'
+
+
+FLASH_SEQUENCE: Final[str] = 'FlashSequence'
+
+@_b.register(FLASH_SEQUENCE)
+class FlashSequence(_m.EnumMeta):
+    """Flash pattern of a light brick"""
+    STATIC: Final[str] = 'Static'
+    BLINKER: Final[str] = 'Blinker_Sequence'
+    BLINKER_INVERTED: Final[str] = 'Blinker_Sequence_Inverted'
+    DOUBLE_FLASH_INVERTED: Final[str] = 'DoubleFlash_Inverted_Sequence'
+    DOUBLE_FLASH: Final[str] = 'DoubleFlash_Sequence'
+    RUNNING_LIGHT_01_INVERTED: Final[str] = 'RunningLight_01_Inverted_Sequence'
+    RUNNING_LIGHT_01: Final[str] = 'RunningLight_01_Sequence'
+    RUNNING_LIGHT_02_INVERTED: Final[str] = 'RunningLight_02_Inverted_Sequence'
+    RUNNING_LIGHT_02: Final[str] = 'RunningLight_02_Sequence'
+    RUNNING_LIGHT_03_INVERTED: Final[str] = 'RunningLight_03_Inverted_Sequence'
+    RUNNING_LIGHT_03: Final[str] = 'RunningLight_03_Sequence'
+    RUNNING_LIGHT_04_INVERTED: Final[str] = 'RunningLight_04_Inverted_Sequence'
+    RUNNING_LIGHT_04: Final[str] = 'RunningLight_04_Sequence'
+    STROBE: Final[str] = 'Strobe_Sequence'
 
 
 GEAR_RATIO: Final[str] = 'GearRatioScale'
@@ -462,6 +521,21 @@ class EnabledInputCnl_Value(_m.ValueMeta):
 
 
 
+LIGHT_DIRECTION: Final[str] = 'LightDirection'
+
+@_b.register(LIGHT_DIRECTION)
+class LightDirection(_m.EnumMeta):
+    """Light direction"""
+    OFF: Final[str] = 'Off'
+    OMNIDIRECTIONAL: Final[str] = 'Omnidirectional'
+    X: Final[str] = 'X'
+    X_NEG: Final[str] = 'XNeg'
+    Y: Final[str] = 'Y'
+    Y_NEG: Final[str] = 'YNeg'
+    Z: Final[str] = 'Z'
+    Z_NEG: Final[str] = 'ZNeg'
+
+
 INPUT_SCALE: Final[str] = 'InputScale'
 
 @_b.register(INPUT_SCALE)
@@ -524,6 +598,13 @@ class OwningSeat(_m.SingleSourceBrickMeta):
     """Seat owning the brick (camera, ...)"""
 
 
+SEAT_NAME: Final[str] = 'SeatName'
+
+@_b.register(SEAT_NAME)
+class SeatName(_m.TextMeta):
+    """Name of the seat"""
+
+
 SIREN_TYPE: Final[str] = 'SirenType'
 
 @_b.register(SIREN_TYPE)
@@ -555,6 +636,28 @@ SPEED_FACTOR: Final[str] = 'SpeedFactor'
 class SpeedFactor(_m.Float32Meta):
     """Actuator speed factor"""
     DEFAULT_VALUE: Final[float] = 1.0
+
+
+SPINNER_ANGLE: Final[str] = 'SpinnerAngle'
+
+@_b.register(SPINNER_ANGLE)
+class SpinnerAngle(_m.Float32Meta):
+    """Angle of a spinner brick"""
+
+
+SPINNER_RADIUS: Final[str] = 'SpinnerRadius'
+
+@_b.register(SPINNER_RADIUS)
+class SpinnerRadius(_m.Vec2Meta):
+    """Radius of a spinner brick"""
+    
+
+SPINNER_SIZE: Final[str] = 'SpinnerSize'
+
+@_b.register(SPINNER_SIZE)
+class SpinnerSize(_m.Vec2Meta):
+    """Size of a spinner brick"""
+
 
 SMOKE_COLOR: Final[str] = 'SmokeColor'
 

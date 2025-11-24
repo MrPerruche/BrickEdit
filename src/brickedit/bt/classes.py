@@ -203,6 +203,8 @@ AXLE_2X2X1S: Final = AxleBrickMeta('Axle_2X2X1S', 1000, 50)
 AXLE_2X4X1S: Final = AxleBrickMeta('Axle_2x4x1s', 3000, 150)
 AXLE_2X6X1S: Final = AxleBrickMeta('Axle_2x6x1s', 4000, 200)
 
+LANDING_GEAR_2X2X2: Final = AxleBrickMeta('LandingGear_2x2x2', 7000, 5000)
+
 
 
 class BarrelBrickMeta(_b.BrickMeta):
@@ -213,6 +215,7 @@ class BarrelBrickMeta(_b.BrickMeta):
 BARREL_1SX1SX3: Final = BarrelBrickMeta('Barrel_1sx1sx3')
 BARREL_1X1X4: Final = BarrelBrickMeta('Barrel_1x1x4')
 BARREL_1X1X4_FLAT: Final = BarrelBrickMeta('Barrel_1x1x4_Flat')
+BARREL_1SX1SX3 = BarrelBrickMeta('Barrel_1sx1sx3')
 
 
 
@@ -311,6 +314,15 @@ class CarWheelBrickMeta(_b.BrickMeta):
 
 DRAG_WHEEL_4X2: Final = CarWheelBrickMeta('DragWheel_4x2', 30, 10, 0.1, 60, 37.5, 2, 55, 4,
                                           wd=120, ww=70, tw=30)
+OFFROAD_WHEEL_3X4S = CarWheelBrickMeta('OffroadWheel_3x4s', 22.5, 5, 0.1, 41, 22.5, 2, 20, 4,
+                                       wd=82, ww=40, tw=18.5)
+OFFROAD_WHEEL_5X2 = CarWheelBrickMeta('OffroadWheel_5x2', 35, 10, 4000000, 80, 32.5, 2, 35, 4,
+                                      wd=160, ww=60, tw=45)
+RACING_WHEEL_3X4S = CarWheelBrickMeta('RacingWheel_3x4s', 35, 5, .1, 45, 25, 2, 20, 4,
+                                      wd=90, ww=40, tw=10)
+RACING_WHEEL_4X2S = CarWheelBrickMeta('RacingWheel_4x2s', 35, 5, .1, 45, 25, 2, 20, 4,
+                                      wd=90, ww=20, tw=10)
+
 
 
 class ExhaustBrickMeta(_b.BrickMeta):
@@ -826,6 +838,21 @@ FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5, size=_v.Vec3(60, 10, 60), 
 
 
 
+class LauncherBrickMeta(_m.BaseGunBrickMeta):
+    pass
+
+LAUNCHER_2X1SX1S: Final = LauncherBrickMeta('Launcher_2x1sx1s', _ip.FirearmProperties(
+    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    False, 0), 2, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
+LAUNCHER_4X2SX2S: Final = LauncherBrickMeta('Launcher_4x2sx2s', _ip.FirearmProperties(
+    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    False, 0), 3, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
+LAUNCHER_6X1X1: Final = LauncherBrickMeta('Launcher_6x1x1', _ip.FirearmProperties(
+    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    False, 0), 4, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
+
+
+
 class LedgeBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
@@ -834,6 +861,68 @@ class LedgeBrickMeta(_b.BrickMeta):
         }
 
 CORNER_LEDGE_1X1X1: Final = LedgeBrickMeta('CornerLedge_1x1x1')
+LEDGE_1X1X1: Final = LedgeBrickMeta('Ledge_1x1x1')
+LEDGE_1X2X1: Final = LedgeBrickMeta('Ledge_1x2x1')
+LEDGE_1X4X1: Final = LedgeBrickMeta('Ledge_1x4x1')
+
+
+
+class LightBrick(_b.BrickMeta):
+    
+    def __init__(
+        self,
+        name,
+        intensity: float,
+        *args,
+        **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._intensity = intensity
+
+    def intensity(self):
+        """Default intensity of the light"""
+        return self._intensity
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.CUSTOM,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.BRIGHTNESS: 0.5,
+            _p.FLASH_SEQUENCE: _p.FlashSequence.STATIC,
+            _p.LIGHT_DIRECTION: _p.LightDirection.OFF,
+            _p.CONE_ANGLE: _p.ConeAngle.DEFAULT
+        }
+
+LIGHT_BRICK: Final = LightBrick('LightBrick', 5)
+LIGHT_CONE: Final = LightBrick('LightCone', 5)
+LIGHT_CONE_FLAT: Final = LightBrick('LightConeFlat', 5)
+LIGHT_CYLINDER: Final = LightBrick('LightCylinder', 5)
+LIGHT_HEMISPHERE: Final = LightBrick('LightHemisphere', 5)
+LIGHT_RAMP: Final = LightBrick('LightRamp', 5)
+LIGHT_RAMP_ROUNDED: Final = LightBrick('LightRampRounded', 5)
+LIGHT_RAMP_ROUNDED_N: Final = LightBrick('LightRampRoundedN', 5)
+
+
+
+class MathBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
+            _p.OPERATION: _p.Operation.ADD,
+            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.NONE,
+            _p.INPUT_CNL_A_SOURCE_BRICKS: _p.InputCnl_A_SourceBricks.EMPTY,
+            _p.INPUT_CNL_A_VALUE: _p.InputCnl_A_Value.DEFAULT_VALUE,
+            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.NONE,
+            _p.INPUT_CNL_B_SOURCE_BRICKS: _p.InputCnl_B_SourceBricks.EMPTY,
+            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE
+        }
+
+MATH_BRICK: Final = MathBrickMeta('MathBrick')
 
 
 
@@ -841,6 +930,7 @@ class MotorBrickMeta(_b.BrickMeta):
 
     def __init__(
         self,
+        name: str,
 
         startup_time: float,
         acceleration: float,
@@ -955,6 +1045,81 @@ DRAGV8: Final = MotorBrickMeta('DragV8', 1, 4, (1000, 10000), (0, 0.05), (0.65, 
                                0.85, 0.1, 2, 5, 1, 14000, 20, 0.5)
 EMOTOR_2X2X2: Final = MotorBrickMeta('EMotor_2x2x2', 0, 5, (0, 10000), (0, 0.05), (0.65, 0.95),
                                      (0.1, 0.3), 0.85, 0.2, 2, 3, 1, 8300, 10, 0.001)
+MOTOR_1X2X5S: Final = MotorBrickMeta('Motor_1x2x5s', 0.5, 1.6, (400, 4000), (0, .05), (.65, .95),
+                                     (.1, .3), .85, .5, 2, 5, 1, 5550, 10, 0.001)
+MOTOR_3X2X5S: Final = MotorBrickMeta('Motor_3x2x5s', .3, 2, (800, 4000), (0, .05), (.65, .95),
+                                     (.1, .3), .85, .5, 2, 8, 2, 3300, 10, .002)
+MOTOR_4X2X5S: Final = MotorBrickMeta('Motor_4x2x5s', .3, 3, (1000, 1e4), (0, .05), (.65, .95),
+                                     (.1, .3), .85, .3, 2, 4, 1, 8300, 10, .005)
+
+
+
+class MudguardBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+MUDGUARD_2X1SX3: Final = MudguardBrickMeta('Mudguard_2x1sx3')
+MUDGUARD_2X1X1S: Final = MudguardBrickMeta('Mudguard_2x1x1s')
+MUDGUARD_2X2X2S: Final = MudguardBrickMeta('Mudguard_2x2x2s')
+MUDGUARD_4X2X5S: Final = MudguardBrickMeta('Mudguard_4x2x5s')
+
+
+
+class PropellerBrickMeta(_b.BrickMeta):
+    
+    def __init__(
+        self,
+        name,
+        propeller_radius: float,
+        thrust: float,
+        *args, **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._propeller_radius = propeller_radius
+        self._thrust = thrust
+
+    def propeller_radius(self):
+        return self._propeller_radius
+
+    def thrust(self):
+        return self._thrust
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties.copy()
+
+PROP_10X1 = PropellerBrickMeta('Prop_10x1', 150, 12000)
+PROP_5X1 = PropellerBrickMeta('Prop_5x1', 75, 6000)
+
+
+
+class PumpBrickMeta(_b.BrickMeta):
+
+    def __init__(
+        self,
+        name,
+        extinguish_radius: float,
+        extinguish_distance: float,
+        extinguish_probability: float,
+        *args, **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._extinguish_radius = extinguish_radius
+        self._extinguish_distance = extinguish_distance
+        self._extinguish_probability = extinguish_probability
+
+    def extinguish_radius(self):
+        return self._extinguish_radius
+
+    def extinguish_distance(self):
+        return self._extinguish_distance
+
+    def extinguish_probability(self):
+        return self._extinguish_probability
+
+PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75, 300, 0.5)
 
 
 
@@ -981,6 +1146,52 @@ CORNER_ROUNDED_2X2X1_02: Final = RampBrickMeta('CornerRounded_2x2x1_02')
 DOUBLE_RAMP_3X1X1: Final = RampBrickMeta('DoubleRamp_3x1x1')
 DOUBLE_RAMP_N_3X1X1: Final = RampBrickMeta('DoubleRampN_3x1x1')
 
+RAMP_1X1X1: Final = RampBrickMeta('Ramp_1x1x1')
+RAMP_1X1X2S: Final = RampBrickMeta('Ramp_1x1x2s')
+RAMP_1X2X1: Final = RampBrickMeta('Ramp_1x2x1')
+RAMP_1X2X2S: Final = RampBrickMeta('Ramp_1x2x2s')
+RAMP_1X4X1: Final = RampBrickMeta('Ramp_1x4x1')
+RAMP_1X4X2S: Final = RampBrickMeta('Ramp_1x4x2s')
+RAMP_2X1X1: Final = RampBrickMeta('Ramp_2x1x1')
+RAMP_2X1X1_02: Final = RampBrickMeta('Ramp_2x1x1_02')
+RAMP_2X1X2: Final = RampBrickMeta('Ramp_2x1x2')
+RAMP_2X1X3: Final = RampBrickMeta('Ramp_2x1x3')
+RAMP_2X1X4: Final = RampBrickMeta('Ramp_2x1x4')
+RAMP_2X2X1: Final = RampBrickMeta('Ramp_2x2x1')
+RAMP_2X4X1: Final = RampBrickMeta('Ramp_2x4x1')
+RAMP_3X1X1: Final = RampBrickMeta('Ramp_3x1x1')
+RAMP_3X1X1_02: Final = RampBrickMeta('Ramp_3x1x1_02')
+RAMP_3X2X1: Final = RampBrickMeta('Ramp_3x2x1')
+RAMP_3X4X1: Final = RampBrickMeta('Ramp_3x4x1')
+RAMP_N_1X1X1: Final = RampBrickMeta('RampN_1x1x1')
+RAMP_N_2X1X1: Final = RampBrickMeta('RampN_2x1x1')
+RAMP_N_2X1X2: Final = RampBrickMeta('RampN_2x1x2')
+RAMP_N_2X1X3: Final = RampBrickMeta('RampN_2x1x3')
+RAMP_N_2X1X4: Final = RampBrickMeta('RampN_2x1x4')
+RAMP_N_2X2X1: Final = RampBrickMeta('RampN_2x2x1')
+RAMP_N_2X4X1: Final = RampBrickMeta('RampN_2x4x1')
+RAMP_N_3X1X1: Final = RampBrickMeta('RampN_3x1x1')
+RAMP_N_3X2X1: Final = RampBrickMeta('RampN_3x2x1')
+RAMP_N_3X4X1: Final = RampBrickMeta('RampN_3x4x1')
+RAMP_ROUNDED_2X1X1: Final = RampBrickMeta('RampRounded_2x1x1')
+RAMP_ROUNDED_3X1X2S: Final = RampBrickMeta('RampRounded_3x1x2s')
+RAMP_ROUNDED_4X1X2S: Final = RampBrickMeta('RampRounded_4x1x2s')
+RAMP_ROUNDED_N_1X1X1: Final = RampBrickMeta('RampRoundedN_1x1x1')
+RAMP_ROUNDED_N_2X1X2: Final = RampBrickMeta('RampRoundedN_2x1x2')
+RAMP_ROUNDED_N_4X2X4: Final = RampBrickMeta('RampRoundedN_4x2x4')
+
+
+
+class RCBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS
+        }
+
+RC_BRICK: Final = RCBrickMeta('RCBrick')
+
 
 
 class RedirectorBrickMeta(_b.BrickMeta):
@@ -992,6 +1203,43 @@ class RedirectorBrickMeta(_b.BrickMeta):
 
 CORNER_BRICK_1X1X1S_FLAT: Final = RedirectorBrickMeta('CornerBrick_1x1x1s_Flat')
 
+OCTAGON_2X4X4: Final = RedirectorBrickMeta('Octagon_2x4x4')
+
+REDIRECTOR_1X1X0: Final = RedirectorBrickMeta('Redirector_1x1x0')
+REDIRECTOR_1X1X1: Final = RedirectorBrickMeta('Redirector_1x1x1')
+REDIRECTOR_1X1X1_02: Final = RedirectorBrickMeta('Redirector_1x1x1_02')
+REDIRECTOR_1X1X1_03: Final = RedirectorBrickMeta('Redirector_1x1x1_03')
+REDIRECTOR_1X1X1_04: Final = RedirectorBrickMeta('Redirector_1x1x1_04')
+REDIRECTOR_3X2X1: Final = RedirectorBrickMeta('Redirector_3x2x1')
+REDIRECTOR_3X2X1_02: Final = RedirectorBrickMeta('Redirector_3x2x1_02')
+REDIRECTOR_4SX1X1: Final = RedirectorBrickMeta('Redirector_4sx1x1')
+REDIRECTOR_4SX1X4S: Final = RedirectorBrickMeta('Redirector_4sx1x4s')
+REDIRECTOR_4SX4X1: Final = RedirectorBrickMeta('Redirector_4sx4x1')
+REDIRECTOR_4SX6X1: Final = RedirectorBrickMeta('Redirector_4sx6x1')
+REDIRECTOR_ZYLINDER_1X1X1: Final = RedirectorBrickMeta('RedirectorZylinder_1x1x1')
+REDIRECTOR_ZYLINDER_1X1X1_02: Final = RedirectorBrickMeta('RedirectorZylinder_1x1x1_02')
+REDIRECTOR_ZYLINDER_2X2X1: Final = RedirectorBrickMeta('RedirectorZylinder_2x2x1')
+REDIRECTOR_ZYLINDER_2X2X1_02: Final = RedirectorBrickMeta('RedirectorZylinder_2x2x1_02')
+
+
+
+class RodBrickMeta(_b.BrickMeta):
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+ROD_1X1X1: Final = RodBrickMeta('Rod_1x1x1')
+ROD_1X1X10: Final = RodBrickMeta('Rod_1x1x10')
+ROD_1X1X12: Final = RodBrickMeta('Rod_1x1x12')
+ROD_1X1X16: Final = RodBrickMeta('Rod_1x1x16')
+ROD_1X1X2: Final = RodBrickMeta('Rod_1x1x2')
+ROD_1X1X20: Final = RodBrickMeta('Rod_1x1x20')
+ROD_1X1X3: Final = RodBrickMeta('Rod_1x1x3')
+ROD_1X1X4: Final = RodBrickMeta('Rod_1x1x4')
+ROD_1X1X6: Final = RodBrickMeta('Rod_1x1x6')
+ROD_1X1X8: Final = RodBrickMeta('Rod_1x1x8')
 
 
 class RotorBladeBrickMeta(_b.BrickMeta):
@@ -999,8 +1247,19 @@ class RotorBladeBrickMeta(_b.BrickMeta):
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy()
 
-BARREL_1SX1SX3 = BarrelBrickMeta('Barrel_1sx1sx3')
+ROTOR_3X4: Final = RotorBladeBrickMeta('Rotor_3x4')
+ROTOR_4X8: Final = RotorBladeBrickMeta('Rotor_4x8')
 
+
+
+class TailBrickMeta(_b.BrickMeta):
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+PLANE_TAIL_10X10X16: Final = TailBrickMeta('PlaneTail_10x10x16')
 
 
 class TrussBrickMeta(_b.BrickMeta):
@@ -1024,6 +1283,127 @@ class ScalableBrickMeta(_b.BrickMeta):
         }
 
 SCALABLE_BRICK: Final = ScalableBrickMeta('ScalableBrick')
+SCALABLE_CONE: Final = ScalableBrickMeta('ScalableCone')
+SCALABLE_CONE_FLAT: Final = ScalableBrickMeta('ScalableConeFlat')
+SCALABLE_CONE_ROUNDED: Final = ScalableBrickMeta('ScalableConeRounded')
+SCALABLE_CORNER: Final = ScalableBrickMeta('ScalableCorner')
+SCALABLE_CORNER_N: Final = ScalableBrickMeta('ScalableCornerN')
+SCALABLE_CORNER_ROUNDED: Final = ScalableBrickMeta('ScalableCornerRounded')
+SCALABLE_CORNER_ROUNDED_N: Final = ScalableBrickMeta('ScalableCornerRoundedN')
+SCALABLE_CYLINDER_90R0: Final = ScalableBrickMeta('ScalableCylinder90R0')
+SCALABLE_CYLINDER_90R1: Final = ScalableBrickMeta('ScalableCylinder90R1')
+SCALABLE_HALF_CONE: Final = ScalableBrickMeta('ScalableHalfCone')
+SCALABLE_HALF_CYLINDER: Final = ScalableBrickMeta('ScalableHalfCylinder')
+SCALABLE_HEMISPHERE: Final = ScalableBrickMeta('ScalableHemisphere')
+SCALABLE_PYRAMID: Final = ScalableBrickMeta('ScalablePyramid')
+SCALABLE_PYRAMID_CORNER: Final = ScalableBrickMeta('ScalablePyramidCorner')
+SCALABLE_PYRAMID_CORNER_ROUNDED: Final = ScalableBrickMeta('ScalablePyramidCornerRounded')
+SCALABLE_QUARTER_CONE: Final = ScalableBrickMeta('ScalableQuarterCone')
+SCALABLE_QUARTER_SPHERE: Final = ScalableBrickMeta('ScalableQuarterSphere')
+SCALABLE_RAMP: Final = ScalableBrickMeta('ScalableRamp')
+SCALABLE_RAMP_ROUNDED: Final = ScalableBrickMeta('ScalableRampRounded')
+SCALABLE_RAMP_ROUNDED_N: Final = ScalableBrickMeta('ScalableRampRoundedN')
+SCALABLE_WEDGE: Final = ScalableBrickMeta('ScalableWedge')
+SCALABLE_WEDGE_CORNER: Final = ScalableBrickMeta('ScalableWedgeCorner')
+SCALABLE_ZYLINDER: Final = ScalableBrickMeta('ScalableZylinder')
+
+
+
+class SeatBrickMeta(_b.BrickMeta):
+    
+    def __init__(
+        self,
+        name,
+        view_pitch_range: tuple[float, float],
+        view_pitch_range_item: tuple[float, float],
+        view_yaw_range: tuple[float, float],
+        view_yaw_range_item: tuple[float, float],
+        character_damage_scale: float,
+        min_character_damage: float,
+        character_capsule_half_height: float,
+        num_inventory_slots: int,
+        *args, **kwargs
+    ):
+        super().__init__(name, *args, **kwargs)
+        self._view_pitch_range = view_pitch_range
+        self._view_pitch_range_item = view_pitch_range_item
+        self._view_yaw_range = view_yaw_range
+        self._view_yaw_range_item = view_yaw_range_item
+        self._character_damage_scale = character_damage_scale
+        self._min_character_damage = min_character_damage
+        self._character_capsule_half_height = character_capsule_half_height
+        self._num_inventory_slots = num_inventory_slots
+
+    def view_pitch_range(self):
+        return self._view_pitch_range
+
+    def view_pitch_range_item(self):
+        return self._view_pitch_range_item
+
+    def view_yaw_range(self):
+        return self._view_yaw_range
+
+    def view_yaw_range_item(self):
+        return self._view_yaw_range_item
+
+    def character_damage_scale(self):
+        return self._character_damage_scale
+
+    def min_character_damage(self):
+        return self._min_character_damage
+
+    def character_capsule_half_height(self):
+        return self._character_capsule_half_height
+
+    def num_inventory_slots(self):
+        return self._num_inventory_slots
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False,
+            _p.SEAT_NAME: "",
+            _p.EXIT_LOCATION: None
+        }
+
+SEAT_2X2X7S: Final = SeatBrickMeta('Seat_2x2x7s', (-75, 75), (-45, 45), (-90, 90), (-60, 60), 3, .25, 60)
+SEAT_3X2X2: Final = SeatBrickMeta('Seat_3x2x2', (-30, 30), (-30, 45), (-45, 45), (-45, 45), 3, .25, 40)
+SEAT_5X2X1S: Final = SeatBrickMeta('Seat_5x2x1s', (-20, 20), (-60, 30), (-20, 20), (-45, 45), 3, .25, 80)
+
+
+
+class SensorBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.ENABLED_INPUT_CNL_INPUT_AXIS: _p.EnabledInputCnl_InputAxis.ALWAYS_ON,
+            _p.ENABLED_INPUT_CNL_SOURCE_BRICKS: _p.EnabledInputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
+            _p.B_RETURN_TO_ZERO: False,
+            _p.SENSOR_TYPE: _p.SensorType.SPEED,
+            _p.OUTPUT_CNL_MIN_IN: -1.0,
+            _p.OUTPUT_CNL_MAX_IN: 1.0,
+            _p.OUTPUT_CNL_MIN_OUT: -1.0,
+            _p.OUTPUT_CNL_MAX_OUT: 1.0
+        }
+
+SENSOR_BRICK: Final = SensorBrickMeta('SensorBrick')
+SENSOR_CYLINDER: Final = SensorBrickMeta('SensorCylinder')
+
+
+
+class SpinnerBrickMeta(_b.BrickMeta):
+    
+    def base_properties(self):
+        return _base_properties | {
+            _p.SPINNER_RADIUS: _v.Vec2(30, 30),
+            _p.SPINNER_SIZE: _v.Vec2(30, 30),
+            _p.SPINNER_ANGLE: 90,
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.SPINNER_CONNECTIONS
+        }
+
+SPINNER_BRICK: Final = SpinnerBrickMeta('SpinnerBrick')
 
 
 
@@ -1039,6 +1419,41 @@ class SirenBrickMeta(_b.BrickMeta):
         }
 
 DOUBLE_SIREN_1X2X1S: Final = SirenBrickMeta('DoubleSiren_1x2x1s')
+
+
+
+class SwitchBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.SWITCH_NAME: _p.SwitchName.EMPTY,
+            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
+            _p.B_RETURN_TO_ZERO: True,
+            _p.OUTPUT_CNL_MIN_IN: -1.0,
+            _p.OUTPUT_CNL_MAX_IN: 1.0,
+            _p.OUTPUT_CNL_MIN_OUT: -1.0,
+            _p.OUTPUT_CNL_MAX_OUT: 1.0
+        }
+
+SWITCH_BRICK: Final = SwitchBrickMeta('SwitchBrick')
+SCALABLE_BUTTON: Final = SwitchBrickMeta('ScalableButton')
+
+
+class WindowBrickMeta(_b.BrickMeta):
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.B_FLUID_DYNAMIC: False
+        }
+
+PANEL_1X2X4: Final = WindowBrickMeta('Panel_1x2x4')
+PANEL_1X4X4: Final = WindowBrickMeta('Panel_1x4x4')
+PANEL_1X6X6: Final = WindowBrickMeta('Panel_1x6x6')
+
 
 # FIXME: This has BRMK properties missing.
 class TextBrickMeta(_b.BrickMeta):
@@ -1059,61 +1474,6 @@ TEXT_BRICK: Final = TextBrickMeta('TextBrick')
 TEXT_CYLINDER: Final = TextBrickMeta('TextCylinder')
 
 # FIXME: This (probably) has BRMK properties missing.
-class SwitchBrickMeta(_b.BrickMeta):
-
-    def base_properties(self, *args, **kwargs):
-        return _base_properties | {
-            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
-            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
-            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
-            _p.SWITCH_NAME: _p.SwitchName.EMPTY,
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
-            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
-            _p.B_RETURN_TO_ZERO: True,
-            _p.OUTPUT_CNL_MIN_IN: -1.0,
-            _p.OUTPUT_CNL_MAX_IN: 1.0,
-            _p.OUTPUT_CNL_MIN_OUT: -1.0,
-            _p.OUTPUT_CNL_MAX_OUT: 1.0
-        }
-
-SWITCH_BRICK: Final = SwitchBrickMeta('SwitchBrick')
 # other switches need to be implemented, beware
 
-# FIXME: This (probably) has BRMK properties missing.
-class MathBrickMeta(_b.BrickMeta):
-
-    def base_properties(self, *args, **kwargs):
-        return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
-            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
-            _p.OPERATION: _p.Operation.ADD,
-            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.NONE,
-            _p.INPUT_CNL_A_SOURCE_BRICKS: _p.InputCnl_A_SourceBricks.EMPTY,
-            _p.INPUT_CNL_A_VALUE: _p.InputCnl_A_Value.DEFAULT_VALUE,
-            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.NONE,
-            _p.INPUT_CNL_B_SOURCE_BRICKS: _p.InputCnl_B_SourceBricks.EMPTY,
-            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE
-        }
-
-MATH_BRICK: Final = MathBrickMeta('MathBrick')
-
 # FIXME: This has BRMK properties missing.
-class SensorBrickMeta(_b.BrickMeta):
-
-    def base_properties(self, *args, **kwargs):
-        return _base_properties | {
-            _p.ENABLED_INPUT_CNL_INPUT_AXIS: _p.EnabledInputCnl_InputAxis.ALWAYS_ON,
-            _p.ENABLED_INPUT_CNL_SOURCE_BRICKS: _p.EnabledInputCnl_SourceBricks.EMPTY,
-            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
-            _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
-            _p.B_RETURN_TO_ZERO: False,
-            _p.SENSOR_TYPE: _p.SensorType.SPEED,
-            _p.OUTPUT_CNL_MIN_IN: -1.0,
-            _p.OUTPUT_CNL_MAX_IN: 1.0,
-            _p.OUTPUT_CNL_MIN_OUT: -1.0,
-            _p.OUTPUT_CNL_MAX_OUT: 1.0
-        }
-
-SENSOR_BRICK: Final = SensorBrickMeta('SensorBrick')
-# other sensors need to be implemented too
