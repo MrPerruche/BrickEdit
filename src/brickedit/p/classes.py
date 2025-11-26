@@ -169,6 +169,14 @@ class AmmoType(_m.EnumMeta):
     MAX: Final[str] = 'Max'
 
 
+
+B_ACCUMULATED: Final[str] = 'bAccumulated'
+
+@_b.register(B_ACCUMULATED)
+class BAccumulated(_m.Boolean):
+    """Thruster input accumulates"""
+
+
 B_ACCUMULATE_INPUT: Final[str] = 'bAccumulateInput'
 
 @_b.register(B_ACCUMULATE_INPUT)
@@ -385,6 +393,17 @@ class FlashSequence(_m.EnumMeta):
     STROBE: Final[str] = 'Strobe_Sequence'
 
 
+FUEL_TYPE: Final[str] = 'FuelType'
+
+@_b.register(FUEL_TYPE)
+class FuelType(_m.EnumMeta):
+    """Fuel type of a fuel brick"""
+    PETROL: Final[str] = 'Petrol'
+    NITRO: Final[str] = 'Nitro'
+    ROCKET_FUEL: Final[str] = 'RocketFuel'
+    C4: Final[str] = 'C4'
+
+
 GEAR_RATIO: Final[str] = 'GearRatioScale'
 
 @_b.register(B_TANK_DRIVE)
@@ -399,6 +418,13 @@ HORN_PITCH: Final[str] = 'HornPitch'
 class HornPitch(_m.Float32Meta):
     """Horn pitch"""
     DEFAULT_VALUE: Final[float] = 1.0
+
+
+IDLER_WHEELS: Final[str] = 'IdlerWheels'
+
+@_b.register(IDLER_WHEELS)
+class IdlerWheels(_m.SourceBricksMeta):
+    """Idler wheels connected to a sprocket (for tracks)"""
 
 
 IMAGE: Final[str] = 'Image'
@@ -650,7 +676,27 @@ SPINNER_RADIUS: Final[str] = 'SpinnerRadius'
 @_b.register(SPINNER_RADIUS)
 class SpinnerRadius(_m.Vec2Meta):
     """Radius of a spinner brick"""
-    
+
+
+SPINNER_SHAPE: Final[str] = 'SpinnerShape'
+
+@_b.register(SPINNER_SHAPE)
+class SpinnerShape(_m.EnumMeta):
+    """Shape of a spinner brick"""
+    SQUARE: Final[str] = 'Square'
+    TRIANGLE_IN: Final[str] = 'TriangleIn'
+    TRIANGLE_OUT: Final[str] = 'TriangleOut'
+    ISOSCELES_TRIANGLE_IN: Final[str] = 'IsoscelesTriangleIn'
+    ISOSCELES_TRIANGLE_OUT: Final[str] = 'IsoscelesTriangleOut'
+    ISOSCELES_TRIANGLE_UP: Final[str] = 'IsoscelesTriangleUp'
+    CIRCLE: Final[str] = 'Circle'
+    HALF_CIRCLE_IN: Final[str] = 'HalfCircleIn'
+    HALF_CIRCLE_OUT: Final[str] = 'HalfCircleOut'
+    HALF_CIRCLE_UP: Final[str] = 'HalfCircleUp'
+    QUARTER_CIRCLE_IN: Final[str] = 'QuarterCircleIn'
+    QUARTER_CIRCLE_OUT: Final[str] = 'QuarterCircleOut'
+    DIAMOND: Final[str] = 'Diamond'
+
 
 SPINNER_SIZE: Final[str] = 'SpinnerSize'
 
@@ -734,6 +780,14 @@ class ThrottleInputCnl_SourceBricks(_m.SourceBricksMeta):
 @_b.register(THROTTLE_INPUT_CNL_VALUE)
 class ThrottleInputCnl_Value(_m.ValueMeta):
     """Constant value for ThrottleInputChannel"""
+
+
+TRACK_COLOR: Final[str] = 'TrackColor'
+
+@_b.register(TRACK_COLOR)
+class TrackColor(_m.UInteger32Meta):
+    """Track color"""
+    DEFAULT: Final[int] = 0x595959ff
 
 
 WHEEL_DIAMETER: Final[str] = 'WheelDiameter'
@@ -905,7 +959,7 @@ class SensorType(_m.EnumMeta):
     WIND_DIRECTION_DEGREES: Final[str] = 'WindDirectionDeg'
     WIND_DIRECTION: Final[str] = 'WindDirection'
 
-    # Ingame display names, and some other aliases such as _DEG instead of _DEGREES :3
+    # Ingame display names, and some other aliases such as _DEG instead of _DEGREES
     GROUND_DISTANCE = DISTANCE_TO_GROUND
     RELATIVE_ALTITUDE = ALTITUDE
     NUMBER_OF_TRACKING_MISSILES = NUM_SEEKING_PROJECTILES
@@ -913,3 +967,11 @@ class SensorType(_m.EnumMeta):
     WIND_DIRECTION_DEG = WIND_DIRECTION_DEGREES
     WIND_DIRECTION_RADIANS = WIND_DIRECTION
     WIND_DIRECTION_RAD = WIND_DIRECTION
+
+
+WINCH_SPEED: Final[str] = 'WinchSpeed'
+
+@_b.register(WINCH_SPEED)
+class WinchSpeed(_m.Float32Meta):
+    """Winch speed in centimeters per second"""
+    DEFAULT_VALUE: Final[float] = 100.0

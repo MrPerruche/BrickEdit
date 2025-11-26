@@ -128,6 +128,22 @@ class UInteger24(_b.PropertyMeta[int]):
         return _STRUCT_UINT32_BIGENDIAN.unpack(v + b'\x00')[0]
 
 
+class UInteger32Meta(_b.PropertyMeta[int]):
+
+    @staticmethod
+    def serialize(
+        v: int,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes | _b.InvalidVersionType:
+        return _STRUCT_UINT32_BIGENDIAN.pack(v)  # Technically it's little-endian but brickedit
+                                                 # represent colors the other way around so...
+
+    @staticmethod
+    def deserialize(v: bytes, version: int) -> int:
+        return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
+
+
 class InputAxisMeta(EnumMeta):
     """Class for input channel input axis"""
 
