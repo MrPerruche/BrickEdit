@@ -1,7 +1,7 @@
 from copy import deepcopy
 from typing import Optional, Self, Callable, Hashable
 
-from . import bt
+from . import bt, id
 from .exceptions import BrickError
 from .vec import Vec3, Vec4
 
@@ -11,7 +11,7 @@ class Brick:
     __slots__ = ('_meta', 'ref', 'pos', 'rot', 'ppatch')
 
     def __init__(self,
-                 ref: str,
+                 ref: id.ID,
                  meta: bt.BrickMeta,
                  pos: Optional[Vec3] = None,
                  rot: Optional[Vec3] = None,

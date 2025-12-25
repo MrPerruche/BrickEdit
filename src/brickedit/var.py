@@ -11,10 +11,12 @@ BRICKEDIT_VERSION_FULL: Final[str] = (
     ("-dev" if BRICKEDIT_IS_DEV_VERSION else "")
 )
 
+FILE_DEV_VERSION: Final[int] = 17
 FILE_EXP_VERSION: Final[int] = 16
 FILE_MAIN_VERSION: Final[int] = 16
 FILE_LEGACY_VERSION: Final[int] = 6
 
+GROUPS_UPDATE: Final[int] = 17
 FILE_UNIT_UPDATE: Final[int] = 15
 
 VISIBILITY_PUBLIC: Final[int] = 0

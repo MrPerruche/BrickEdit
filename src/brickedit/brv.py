@@ -137,10 +137,17 @@ class BRVFile:
         # A list that for each prop gives {for each value index gives us its serialized version}
         indexes_to_serialized = defaultdict(list)
         # A list of reference to brick index for source brick properties
-        reference_to_brick_index: dict[str, int] = {b.ref: i+1 for i, b in enumerate(self.bricks)}
+        reference_to_brick_index: dict[str, int] = {b.ref.id: i+1 for i, b in enumerate(self.bricks)}
+        # A list of weld references and editor references to _ index
+        weld_reference_to_weld_index: dict[str | None, int] = {None: 0}
+        editor_reference_to_editor_index: dict[str | None, int] = {None: 0}
 
         # Exploring all bricks
         for brick in self.bricks:
+            
+            # Log in all weld / editor groups
+            weld_reference_to_weld_index.setdefault(brick.weld, len(weld_reference_to_weld_index))
+            editor_reference_to_editor_index.setdefault(brick.editor, len(editor_reference_to_editor_index))
 
             # Exploring all properties
             for prop, value in brick.ppatch.items():
@@ -275,6 +282,16 @@ class BRVFile:
             # 4. Write len and write to buffer
             write(pack_I(len(subbuffer)))  # <I → LE uint32
             write(subbuffer)
+            
+            # 5. Weld and editor groups
+            if self.version >= _var.GROUPS_UPDATE:
+                # 5.1. Weld gorup
+                weld_index = weld_reference_to_weld_index[brick.ref.weld]
+                editor_index = editor_reference_to_editor_index[brick.ref.editor]
+                # 5.2. Editor group
+                write(pack_H(weld_index))
+                write(pack_H(editor_index))
+                
 
         return buffer.getvalue()
 
