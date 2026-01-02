@@ -144,10 +144,10 @@ class BRVFile:
 
         # Exploring all bricks
         for brick in self.bricks:
-            
+
             # Log in all weld / editor groups
-            weld_reference_to_weld_index.setdefault(brick.weld, len(weld_reference_to_weld_index))
-            editor_reference_to_editor_index.setdefault(brick.editor, len(editor_reference_to_editor_index))
+            weld_reference_to_weld_index.setdefault(brick.ref.weld, len(weld_reference_to_weld_index))
+            editor_reference_to_editor_index.setdefault(brick.ref.editor, len(editor_reference_to_editor_index))
 
             # Exploring all properties
             for prop, value in brick.ppatch.items():
@@ -158,7 +158,7 @@ class BRVFile:
                 # Get the serialization class and make sure it's valid
                 prop_serialization_class = pmeta_registry_get(prop)
                 if prop_serialization_class is None:
-                    raise BrickError(f"Property {prop!r} from brick {brick!r}"
+                    raise BrickError(f"Property {prop!r} from brick {brick!r} "
                                         "does not have any serialization class registered.")
 
                 # Put in the lists if it's not already
@@ -282,7 +282,7 @@ class BRVFile:
             # 4. Write len and write to buffer
             write(pack_I(len(subbuffer)))  # <I → LE uint32
             write(subbuffer)
-            
+
             # 5. Weld and editor groups
             if self.version >= _var.GROUPS_UPDATE:
                 # 5.1. Weld gorup
@@ -291,7 +291,7 @@ class BRVFile:
                 # 5.2. Editor group
                 write(pack_H(weld_index))
                 write(pack_H(editor_index))
-                
+
 
         return buffer.getvalue()
 

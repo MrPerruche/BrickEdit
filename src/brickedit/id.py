@@ -4,8 +4,8 @@ class ID:
 
     __slots__ = ('id', 'weld', 'editor')
 
-    def __init__(self, id: str, weld: Optional[str] = None, editor: Optional[str] = None):
-        self.id: str = id
+    def __init__(self, id_: str, weld: Optional[str] = None, editor: Optional[str] = None):
+        self.id: str = id_
         self.weld: Optional[str] = weld
         self.editor: Optional[str] = editor
 

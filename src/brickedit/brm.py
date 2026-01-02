@@ -50,26 +50,28 @@ class BRMFile:
         """Serializes a BRMFile
 
         Args:
-            file_name (Optional[str], optional): Auto-generated if it is an empty string. Can be an empty string. Defaults to None.
+            file_name (Optional[str], optional): Auto-generated if it is an empty string. Can be an
+                empty string. Defaults to None.
             description (str, optional): Description. Defaults to ''.
-            brick_count (Optional[int], optional): Auto-generated if None and a brv is provided. Defaults to None.
+            brick_count (Optional[int], optional): Auto-generated if None and a brv is provided.
+                Defaults to None.
             size (_Vec3, optional): Size. Defaults to _Vec3(0, 0, 0).
             weight (float, optional): Weight. Defaults to 0.0.
             price (float, optional): Price. Defaults to 0.0.
             creation_time (int | None, optional): Creation time in BR's format. Defaults to None.
             last_update_time (int | None, optional): Creation time in BR's format. Defaults to None.
         """
-        
+
         creation_time = _net_ticks_now() if creation_time is None else creation_time
         last_update_time = _net_ticks_now() if last_update_time is None else last_update_time
-        
+
         if self.brv is not None:
             if brick_count is None:
                 brick_count = len(self.brv.bricks)
-        
+
         if file_name is None:
             file_name = f'BrickEdit-{last_update_time}'
-            
+
         assert brick_count <= 65_534, "Too many bricks! Max: 65,534"
 
         # Init buffer
@@ -81,7 +83,7 @@ class BRMFile:
         # Precompile struct
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
         pack_H = struct.Struct('<H').pack  # '<H' → uint16 LE
-        pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
+        # pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
         pack_Q = struct.Struct('<Q').pack  # '<Q' → uint64 LE
         pack_f = struct.Struct('<f').pack  # '<f' → sp float LE
         pack_vec3 = struct.Struct('<3f').pack
@@ -105,9 +107,9 @@ class BRMFile:
         write(pack_f(price))
 
         # Write author
-        # Convert author to string. basically, 
+        # Convert author to string.
         write(b'\x1D')  # Steam id stuff
-        for b in _encode_author(author):
+        for b in bytearray(_encode_author(author)):
             write(pack_B(b))
 
         write(b'\x00\x00\x00\x00')  # TODO
@@ -115,15 +117,12 @@ class BRMFile:
         # Creation and update time
         write(pack_Q(creation_time))
         write(pack_Q(last_update_time))
-        
+
         write(pack_B(visibility))
-        
+
         write(pack_H(len(tags)))
         for t in tags:
             write(pack_B(len(t)))
             write(t.encode('ascii'))
-        
+
         return buffer.getvalue()
-        
-        
-        

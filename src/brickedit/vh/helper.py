@@ -1,7 +1,8 @@
 """Value helper."""
 
-import math
-from .units import *
+from typing import Final
+
+from . import units as _u
 from . import color as _col
 from . import time as _time
 from .. import vec as _vec
@@ -13,7 +14,7 @@ _INV_255: Final[float] = 1.0/255.0
 def float_to_int(v: float):
     """Converts a float [0, 1] to an int [0, 255] with epsilon for FPA accuracy issues.
     Example: 1 → 255"""
-    return int(v * 255 + 1e-10)  # 1e-10 for FPA issu
+    return int(v * 255 + 1e-10)  # 1e-10 (epsilon) for FPA issues
 
 def pack(*args):
     """Pack 8-bit integers into a single integer.
@@ -37,9 +38,9 @@ def pack_float_to_int(*args):
 class ValueHelper:
     """A helper for converting values between different units."""
     def __init__(self, version: int,
-                 default_physical_unit=METER,
-                 default_rotational_unit=DEGREE,
-                 default_force_unit=NEWTON):
+                 default_physical_unit=_u.METER,
+                 default_rotational_unit=_u.DEGREE,
+                 default_force_unit=_u.NEWTON):
         self.version = version
         self.default_physical_unit = default_physical_unit
         self.default_rotational_unit = default_rotational_unit
@@ -48,7 +49,7 @@ class ValueHelper:
 
     def current_time(self):
         """Returns time formatted for metadata folders"""
-        return _time.get_time_100ns()
+        return _time.net_ticks_now()
 
     def pos(self, x: float, y: float, z: float, unit=None) -> _vec.Vec3:
         """A helper method for physical positioning.
@@ -117,7 +118,7 @@ class ValueHelper:
             unit = self.default_physical_unit
 
         if self.version < _var.FILE_UNIT_UPDATE:
-            unit *= DECI  # CENTI = 1, division is useless
+            unit *= _u.DECI  # CENTI = 1, division is useless
 
         return _vec.Vec3(x * unit, y * unit, z * unit)
 
@@ -233,7 +234,8 @@ class ValueHelper:
 
         Args:
             value (float): The force value.
-            unit (int, optional): The unit of the value. Defaults to None, for the default force unit of this instance.
+            unit (int, optional): The unit of the value. Defaults to None, for the default force
+                unit of this instance.
 
         Returns:
             float: The force value, taking into account the desired force unit.

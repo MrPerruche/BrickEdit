@@ -2,7 +2,7 @@ import struct
 from typing import Final
 
 from . import base as _b
-from . import vec as _vec
+from .. import vec as _vec
 # from ..brick import Brick as _Brick
 
 

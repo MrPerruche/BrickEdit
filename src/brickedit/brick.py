@@ -1,9 +1,11 @@
 from copy import deepcopy
-from typing import Optional, Self, Callable, Hashable
+from typing import Optional, Self, Callable
+from collections.abc import Hashable
 
-from . import bt, id
+from . import bt
+from .id import ID as _ID
 from .exceptions import BrickError
-from .vec import Vec3, Vec4
+from .vec import Vec3
 
 
 class Brick:
@@ -11,7 +13,7 @@ class Brick:
     __slots__ = ('_meta', 'ref', 'pos', 'rot', 'ppatch')
 
     def __init__(self,
-                 ref: id.ID,
+                 ref: _ID,
                  meta: bt.BrickMeta,
                  pos: Optional[Vec3] = None,
                  rot: Optional[Vec3] = None,
@@ -62,6 +64,14 @@ class Brick:
         Edits a property of a brick using a lambda function.
         BrickEdit counts None properties as not set -> ignored, goes to default.
         You may use this to reset a property, however Brick.reset_property is usually preferred.
+        
+        Args:
+            p (str): The name of the property to edit.
+            lf (Callable[[Hashable], Hashable]): A lambda function that takes the current property
+                value and returns the new property value.
+
+        Returns:
+            Self: The Brick instance.
         """
         self.ppatch[p] = lf(self.get_property(p))
         return self

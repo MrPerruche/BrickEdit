@@ -1,4 +1,5 @@
 # pylint: disable=invalid-name
+# pylint: disable=too-many-lines
 from typing import Final
 import struct
 
@@ -168,6 +169,22 @@ class AmmoType(_m.EnumMeta):
     FLARE: Final[str] = 'Flare'
     MAX: Final[str] = 'Max'
 
+
+AUTO_HOVER_INPUT_CNL_INPUT_AXIS: Final[str] = 'AutoHoverInputChannel.InputAxis'
+AUTO_HOVER_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'AutoHoverInputChannel.SourceBricks'
+AUTO_HOVER_INPUT_CNL_VALUE: Final[str] = 'AutoHoverInputChannel.Value'
+
+@_b.register(AUTO_HOVER_INPUT_CNL_INPUT_AXIS)
+class AutoHoverInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for AutoHoverInputChannel"""
+
+@_b.register(AUTO_HOVER_INPUT_CNL_SOURCE_BRICKS)
+class AutoHoverInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source type for AutoHoverInputChannel"""
+
+@_b.register(AUTO_HOVER_INPUT_CNL_VALUE)
+class AutoHoverInputCnl_Value(_m.ValueMeta):
+    """Value type for AutoHoverInputChannel"""
 
 
 B_ACCUMULATED: Final[str] = 'bAccumulated'
@@ -546,7 +563,6 @@ class EnabledInputCnl_Value(_m.ValueMeta):
     """Constant value for EnabledInputChannel"""
 
 
-
 LIGHT_DIRECTION: Final[str] = 'LightDirection'
 
 @_b.register(LIGHT_DIRECTION)
@@ -622,6 +638,57 @@ OWNING_SEAT: Final[str] = 'OwningSeat'
 @_b.register(OWNING_SEAT)
 class OwningSeat(_m.SingleSourceBrickMeta):
     """Seat owning the brick (camera, ...)"""
+
+
+PITCH_INPUT_CNL_INPUT_AXIS: Final[str] = 'PitchInputChannel.InputAxis'
+PITCH_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'PitchInputChannel.SourceBricks'
+PITCH_INPUT_CNL_VALUE: Final[str] = 'PitchInputChannel.Value'
+
+@_b.register(PITCH_INPUT_CNL_INPUT_AXIS)
+class PitchInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for PitchInputChannel"""
+
+@_b.register(PITCH_INPUT_CNL_SOURCE_BRICKS)
+class PitchInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for PitchInputChannel"""
+
+@_b.register(PITCH_INPUT_CNL_VALUE)
+class PitchInputCnl_Value(_m.ValueMeta):
+    """Constant value for PitchInputChannel"""
+
+
+POWER_INPUT_CNL_INPUT_AXIS: Final[str] = 'PowerInputChannel.InputAxis'
+POWER_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'PowerInputChannel.SourceBricks'
+POWER_INPUT_CNL_VALUE: Final[str] = 'PowerInputChannel.Value'
+
+@_b.register(POWER_INPUT_CNL_INPUT_AXIS)
+class PowerInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for PowerInputChannel"""
+
+@_b.register(POWER_INPUT_CNL_SOURCE_BRICKS)
+class PowerInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for PowerInputChannel"""
+
+@_b.register(POWER_INPUT_CNL_VALUE)
+class PowerInputCnl_Value(_m.ValueMeta):
+    """Constant value for PowerInputChannel"""
+
+
+ROLL_INPUT_CNL_INPUT_AXIS: Final[str] = 'RollInputChannel.InputAxis'
+ROLL_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'RollInputChannel.SourceBricks'
+ROLL_INPUT_CNL_VALUE: Final[str] = 'RollInputChannel.Value'
+
+@_b.register(ROLL_INPUT_CNL_INPUT_AXIS)
+class RollInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for RollInputChannel"""
+
+@_b.register(ROLL_INPUT_CNL_SOURCE_BRICKS)
+class RollInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for RollInputChannel"""
+
+@_b.register(ROLL_INPUT_CNL_VALUE)
+class RollInputCnl_Value(_m.ValueMeta):
+    """Constant value for RollInputChannel"""
 
 
 SEAT_NAME: Final[str] = 'SeatName'
@@ -920,18 +987,6 @@ class FontSize(_m.Float32Meta):
     DEFAULT_VALUE: Final[float] = 60.0
 
 
-TEXT_COLOR = 'TextColor'
-@_b.register(TEXT_COLOR)
-class TextColor(_m.UInteger24):
-    """Text color property for text bricks."""
-    DEFAULT_COLOR: Final[int] = 0x000000
-
-OUTLINE_THICKNESS = 'OutlineThickness'
-@_b.register(OUTLINE_THICKNESS)
-class OutlineThickness(_m.Float32Meta):
-    """Outline thickness property for text bricks."""
-    DEFAULT_VALUE: Final[float] = 0.0
-
 SENSOR_TYPE = 'SensorType'
 @_b.register(SENSOR_TYPE)
 class SensorType(_m.EnumMeta):
@@ -969,9 +1024,39 @@ class SensorType(_m.EnumMeta):
     WIND_DIRECTION_RAD = WIND_DIRECTION
 
 
+TEXT_COLOR = 'TextColor'
+@_b.register(TEXT_COLOR)
+class TextColor(_m.UInteger24):
+    """Text color property for text bricks."""
+    DEFAULT_COLOR: Final[int] = 0x000000
+
+OUTLINE_THICKNESS = 'OutlineThickness'
+@_b.register(OUTLINE_THICKNESS)
+class OutlineThickness(_m.Float32Meta):
+    """Outline thickness property for text bricks."""
+    DEFAULT_VALUE: Final[float] = 0.0
+
+
 WINCH_SPEED: Final[str] = 'WinchSpeed'
 
 @_b.register(WINCH_SPEED)
 class WinchSpeed(_m.Float32Meta):
     """Winch speed in centimeters per second"""
     DEFAULT_VALUE: Final[float] = 100.0
+
+
+YAW_INPUT_CNL_INPUT_AXIS: Final[str] = 'YawInputChannel.InputAxis'
+YAW_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'YawInputChannel.SourceBricks'
+YAW_INPUT_CNL_VALUE: Final[str] = 'YawInputChannel.Value'
+
+@_b.register(YAW_INPUT_CNL_INPUT_AXIS)
+class YawInputCnl_InputAxis(_m.InputAxisMeta):
+    """Input type for YawInputChannel"""
+
+@_b.register(YAW_INPUT_CNL_SOURCE_BRICKS)
+class YawInputCnl_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for YawInputChannel"""
+
+@_b.register(YAW_INPUT_CNL_VALUE)
+class YawInputCnl_Value(_m.ValueMeta):
+    """Constant value for YawInputChannel"""

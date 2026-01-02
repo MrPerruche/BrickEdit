@@ -18,24 +18,37 @@ flowchart LR
         BT_B[base: Base]
         BT_C["classes: All brick classes initialized and instanced"]
         BT_I["inner_properties: All dataclasses related to BRMK properties"]
+        BT_M["meta: Parent classes"]
     end
     subgraph P[p: Properties]
         P_B[base: Base]
         P_C["classes: All property classes are initialized and finals declared"]
         P_M["meta: All kinds of common property classes to be initialized and inherited from"]
     end
+    subgraph VH["vh: Vehicle Helper class"]
+        VH_COL["color: Functions used in helper to handle colors"]
+        VH_H["helper: Vehicle Helper class (see VH documentation)"]
+        VH_T["time: Time related helper functions"]
+        VH_U["units: Constants describing units"]
+    end
     BRICK["brick: Holds the Brick class, a container for each brick's type, id,... with related methods"]
+    BRM["brm: BRMFile class, which (de)serialize metadata files"]
+    BRV["brv: BRVFile class, which (de)serialize vehicle files"]
     EXC["exceptions: Custom Exceptions from brickedit"]
-    SRZ["serialization: Classes being an abstraction of struct module"]
+    ID["id: ID class"]
     VAR["var: Commmon variables (brickedit version, Brick Rigs version,...)"]
     VEC["vec: Custom implementation of vectors"]
 
     %% LINKS
     SRC --> BT
     SRC --> P
+    SRC --> VH
+
     SRC --> BRICK
+    SRC --> BRM
+    SRC --> BRV
     SRC --> EXC
-    SRC --> SRZ
+    SRC --> ID
     SRC --> VAR
     SRC --> VEC
 ```

@@ -352,6 +352,8 @@ ZYLINDER_2X2X1S: Final = CylinderBrickMeta('Zylinder_2x2x1s')
 ZYLINDER_2X2X1S_FLAT: Final = CylinderBrickMeta('Zylinder_2x2x1s_Flat')
 ZYLINDER_2X2X4: Final = CylinderBrickMeta('Zylinder_2x2x4')
 
+HALF_CYLINDER_4X2X4: Final = CylinderBrickMeta('HalfZylinder_4x2x4')
+
 
 
 class ExhaustBrickMeta(_b.BrickMeta):
@@ -571,17 +573,6 @@ COUPLING_1X1X1S_FRONT_FEMALE: Final = CouplingBrickBaseMeta('Coupling_1x1x1s_Fro
 COUPLING_2X2X1S_FEMALE: Final = CouplingBrickBaseMeta('Coupling_2x2x1s_Female')
 COUPLING_2X2X1S_FRONT_FEMALE: Final = CouplingBrickBaseMeta('Coupling_2x2x1s_Front_Female')
 COUPLING_4X1X2S_TOP: Final = CouplingBrickBaseMeta('Coupling_4x1x2s_Top')
-
-
-
-class CylinderBrickMeta(_b.BrickMeta):
-
-    def base_properties(self, *args, **kwargs):
-        return _base_properties | {
-            _p.B_FLUID_DYNAMIC: False
-        }
-
-HALF_CYLINDER_4X2X4: Final = CylinderBrickMeta('HalfZylinder_4x2x4')
 
 
 
@@ -1152,6 +1143,13 @@ class PumpBrickMeta(_b.BrickMeta):
 
     def extinguish_probability(self):
         return self._extinguish_probability
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties.copy() | {
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
+            _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
+            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE
+        }
 
 PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75, 300, 0.5)
 
@@ -1401,9 +1399,9 @@ class SeatBrickMeta(_b.BrickMeta):
             _p.EXIT_LOCATION: None
         }
 
-SEAT_2X2X7S: Final = SeatBrickMeta('Seat_2x2x7s', (-75, 75), (-45, 45), (-90, 90), (-60, 60), 3, .25, 60)
-SEAT_3X2X2: Final = SeatBrickMeta('Seat_3x2x2', (-30, 30), (-30, 45), (-45, 45), (-45, 45), 3, .25, 40)
-SEAT_5X2X1S: Final = SeatBrickMeta('Seat_5x2x1s', (-20, 20), (-60, 30), (-20, 20), (-45, 45), 3, .25, 80)
+SEAT_2X2X7S: Final = SeatBrickMeta('Seat_2x2x7s', (-75, 75), (-45, 45), (-90, 90), (-60, 60), 3, .25, 60, 1)
+SEAT_3X2X2: Final = SeatBrickMeta('Seat_3x2x2', (-30, 30), (-30, 45), (-45, 45), (-45, 45), 3, .25, 40, 1)
+SEAT_5X2X1S: Final = SeatBrickMeta('Seat_5x2x1s', (-20, 20), (-60, 30), (-20, 20), (-45, 45), 3, .25, 80, 1)
 
 
 
@@ -1779,7 +1777,7 @@ class ThrusterBrickMeta(_b.BrickMeta):
 
     def afterglow_interp_speed_down(self):
         """Afterglow Interp Speed Down"""
-        return self._arterglow_interp_speed_down
+        return self._afterglow_interp_speed_down
 
     def glow_color(self):
         """Glow Color"""
@@ -1947,6 +1945,28 @@ class TurbineBrickMeta(_b.BrickMeta):
     def fuel_consumption(self):
         """Amount of fuel in liters to consume per second"""
         return self._fuel_consumption
+    
+    def base_properties(self, *args, **kwargs):
+        return _base_properties | {
+            _p.POWER_INPUT_CNL_INPUT_AXIS: _p.PowerInputCnl_InputAxis.OPERATION_MODE,
+            _p.POWER_INPUT_CNL_SOURCE_BRICKS: _p.PowerInputCnl_SourceBricks.EMPTY,
+            _p.POWER_INPUT_CNL_VALUE: _p.PowerInputCnl_Value.DEFAULT_VALUE,
+            _p.AUTO_HOVER_INPUT_CNL_INPUT_AXIS: _p.AutoHoverInputCnl_InputAxis.DISABLE_STEERING,
+            _p.AUTO_HOVER_INPUT_CNL_SOURCE_BRICKS: _p.AutoHoverInputCnl_SourceBricks.EMPTY,
+            _p.AUTO_HOVER_INPUT_CNL_VALUE: _p.AutoHoverInputCnl_Value.DEFAULT_VALUE,
+            _p.THROTTLE_INPUT_CNL_INPUT_AXIS: _p.ThrottleInputCnl_InputAxis.THROTTLE_ALT,
+            _p.THROTTLE_INPUT_CNL_SOURCE_BRICKS: _p.ThrottleInputCnl_SourceBricks.EMPTY,
+            _p.THROTTLE_INPUT_CNL_VALUE: _p.ThrottleInputCnl_Value.DEFAULT_VALUE,
+            _p.PITCH_INPUT_CNL_INPUT_AXIS: _p.PitchInputCnl_InputAxis.PITCH_ALT,
+            _p.PITCH_INPUT_CNL_SOURCE_BRICKS: _p.PitchInputCnl_SourceBricks.EMPTY,
+            _p.PITCH_INPUT_CNL_VALUE: _p.PitchInputCnl_Value.DEFAULT_VALUE,
+            _p.YAW_INPUT_CNL_INPUT_AXIS: _p.YawInputCnl_InputAxis.STEERING_ALT,
+            _p.YAW_INPUT_CNL_SOURCE_BRICKS: _p.YawInputCnl_SourceBricks.EMPTY,
+            _p.YAW_INPUT_CNL_VALUE: _p.YawInputCnl_Value.DEFAULT_VALUE,
+            _p.ROLL_INPUT_CNL_INPUT_AXIS: _p.RollInputCnl_InputAxis.VIEW_YAW_ALT,
+            _p.ROLL_INPUT_CNL_SOURCE_BRICKS: _p.RollInputCnl_SourceBricks.EMPTY,
+            _p.ROLL_INPUT_CNL_VALUE: _p.RollInputCnl_Value.DEFAULT_VALUE
+        }
 
 TURBINE_12X8X5: Final = TurbineBrickMeta('Turbine_12x8x5', 240, 3, 1200, 2000, (1, 1, 0.785398),
     (.75, .75, .5), .5, (1, 1, 1), 30, 600, 100, .1)
