@@ -41,7 +41,7 @@ class PropertyMeta(Generic[_T], ABC):
             bytes | InvalidVersionType: Result as bytes object or InvalidVersion sentinel
             if the property does not support this version.
         """
-        
+
     @staticmethod
     @abstractmethod
     def deserialize(v: bytes, version: int) -> _T | InvalidVersionType:

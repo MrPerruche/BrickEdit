@@ -21,7 +21,7 @@ _STRUCT_SPFLOAT = struct.Struct('<f')
 
 
 
-class Boolean(_b.PropertyMeta[bool]):
+class BooleanMeta(_b.PropertyMeta[bool]):
     """Base class for booleans"""
 
     @staticmethod
@@ -110,9 +110,9 @@ class Vec2Meta(_b.PropertyMeta[_vec.Vec2]):
     @staticmethod
     def deserialize(v: bytes, version: int) -> _vec.Vec2:
         return _vec.Vec2(*_STRUCT_2SPFLOAT.unpack_from(v))
-    
 
-class UInteger24(_b.PropertyMeta[int]):
+
+class UInteger24Meta(_b.PropertyMeta[int]):
     """Class for 24-bit unsigned integers"""
 
     @staticmethod

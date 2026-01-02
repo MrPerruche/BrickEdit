@@ -190,63 +190,63 @@ class AutoHoverInputCnl_Value(_m.ValueMeta):
 B_ACCUMULATED: Final[str] = 'bAccumulated'
 
 @_b.register(B_ACCUMULATED)
-class BAccumulated(_m.Boolean):
+class BAccumulated(_m.BooleanMeta):
     """Thruster input accumulates"""
 
 
 B_ACCUMULATE_INPUT: Final[str] = 'bAccumulateInput'
 
 @_b.register(B_ACCUMULATE_INPUT)
-class BAccumulateInput(_m.Boolean):
+class BAccumulateInput(_m.BooleanMeta):
     """Flap input is accumulated property"""
 
 
 B_CAN_DISABLE_STEERING: Final[str] = 'bCanDisableSteering'
 
 @_b.register(B_CAN_DISABLE_STEERING)
-class BCanDisableSteering(_m.Boolean):
+class BCanDisableSteering(_m.BooleanMeta):
     """Axle can disable steering property"""
 
 
 B_CAN_INVERT_STEERING: Final[str] = 'bCanInvertSteering'
 
 @_b.register(B_CAN_INVERT_STEERING)
-class BCanInvertSteering(_m.Boolean):
+class BCanInvertSteering(_m.BooleanMeta):
     """Axle can invert steering property"""
 
 
 B_DRIVEN: Final[str] = 'bDriven'
 
 @_b.register(B_DRIVEN)
-class BDriven(_m.Boolean):
+class BDriven(_m.BooleanMeta):
     """Axle is driven property"""
 
 
 B_FLUID_DYNAMIC: Final[str] = 'bGenerateLift'
 
 @_b.register(B_DRIVEN)
-class BFluidDynamic(_m.Boolean):
+class BFluidDynamic(_m.BooleanMeta):
     """Brick fluid dynamics (generate lift / aero) property"""
 
 
 B_HAS_BRAKE: Final[str] = 'bHasBrake'
 
 @_b.register(B_HAS_BRAKE)
-class BHasBrake(_m.Boolean):
+class BHasBrake(_m.BooleanMeta):
     """Axle has brake property"""
 
 
 B_HAS_HANDBRAKE: Final[str] = 'bHasHandBrake'
 
 @_b.register(B_HAS_HANDBRAKE)
-class BHasHandbrake(_m.Boolean):
+class BHasHandbrake(_m.BooleanMeta):
     """Axle has handbrake property"""
 
 
 B_INVERT_DRIVE: Final[str] = 'bInvertDrive'
 
 @_b.register(B_INVERT_DRIVE)
-class BInvertDrive(_m.Boolean):
+class BInvertDrive(_m.BooleanMeta):
     """Invert axle direction property"""
 
 
@@ -287,14 +287,14 @@ class Brightness(_m.Float32Meta):
 B_INVERT_TANK_STEERING: Final[str] = 'bInvertTankSteering'
 
 @_b.register(B_INVERT_TANK_STEERING)
-class BInvertTankSteering(_m.Boolean):
+class BInvertTankSteering(_m.BooleanMeta):
     """Invert tank steering on wheels property"""
 
 
 B_TANK_DRIVE: Final[str] = 'bTankDrive'
 
 @_b.register(B_TANK_DRIVE)
-class BTankDrive(_m.Boolean):
+class BTankDrive(_m.BooleanMeta):
     """Tank drive style property"""
 
 
@@ -356,7 +356,7 @@ class CouplingMode(_m.EnumMeta):
 DISPLAY_COLOR: Final[str] = 'DisplayColor'
 
 @_b.register(DISPLAY_COLOR)
-class DisplayColor(_m.UInteger24):
+class DisplayColor(_m.UInteger24Meta):
     """Digit display color for display bricks"""
 
 
@@ -487,7 +487,7 @@ class Image(_m.EnumMeta):
 IMAGE_COLOR: Final[str] = 'ImageColor'
 
 @_b.register(IMAGE_COLOR)
-class ImageColor(_m.UInteger24):
+class ImageColor(_m.UInteger24Meta):
     """Color of the image of an image brick"""
     DEFAULT_COLOR: Final[str] = 0xffffff
 
@@ -775,7 +775,7 @@ class SpinnerSize(_m.Vec2Meta):
 SMOKE_COLOR: Final[str] = 'SmokeColor'
 
 @_b.register(SMOKE_COLOR)
-class SmokeColor(_m.UInteger24):
+class SmokeColor(_m.UInteger24Meta):
     """Exhaust effect color"""
 
 
@@ -878,7 +878,7 @@ class SwitchName(_m.TextMeta):
 
 B_RETURN_TO_ZERO = 'bReturnToZero'
 @_b.register(B_RETURN_TO_ZERO)
-class BReturnToZero(_m.Boolean):
+class BReturnToZero(_m.BooleanMeta):
     """Return to zero property"""
 
 OUTPUT_CNL_MIN_IN = 'OutputChannel.MinIn'
@@ -1026,7 +1026,7 @@ class SensorType(_m.EnumMeta):
 
 TEXT_COLOR = 'TextColor'
 @_b.register(TEXT_COLOR)
-class TextColor(_m.UInteger24):
+class TextColor(_m.UInteger24Meta):
     """Text color property for text bricks."""
     DEFAULT_COLOR: Final[int] = 0x000000
 
