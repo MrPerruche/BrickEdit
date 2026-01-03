@@ -121,11 +121,11 @@ class UInteger24Meta(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytes:
-        return _STRUCT_UINT32_BIGENDIAN.pack(v)[1: ]
+        return _STRUCT_UINT32_BIGENDIAN.pack(v | 0x000000ff)
 
     @staticmethod
     def deserialize(v: bytes, version: int) -> float:
-        return _STRUCT_UINT32_BIGENDIAN.unpack(v + b'\x00')[0]
+        return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
 
 
 class UInteger32Meta(_b.PropertyMeta[int]):

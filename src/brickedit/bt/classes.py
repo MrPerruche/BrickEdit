@@ -175,6 +175,8 @@ class AxleBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
+            _p.STEERING_ANGLE: 0.0,
+            _p.STEERING_SPEED: 1.0,
             _p.SUSPENSION_LENGTH: 0,
             _p.SUSPENSION_STIFFNESS: 2,
             _p.SUSPENSION_DAMPING: 1,
@@ -496,7 +498,7 @@ class CameraBrickMeta(_b.BrickMeta):
             _p.OWNING_SEAT: _p.OwningSeat.EMPTY
         }
 
-CAMERA_1SX1SX1S: Final = CameraBrickMeta('Camera_2x1x1')
+CAMERA_1SX1SX1S: Final = CameraBrickMeta('Camera_1sx1sx1s')
 CAMERA_2X1X1: Final = CameraBrickMeta('Camera_2x1x1')
 
 
@@ -1416,6 +1418,7 @@ class SensorBrickMeta(_b.BrickMeta):
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
             _p.B_RETURN_TO_ZERO: False,
             _p.SENSOR_TYPE: _p.SensorType.SPEED,
+            _p.TRACE_MASK: _p.TraceMask.ALL,
             _p.OUTPUT_CNL_MIN_IN: -1.0,
             _p.OUTPUT_CNL_MAX_IN: 1.0,
             _p.OUTPUT_CNL_MIN_OUT: -1.0,

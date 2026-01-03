@@ -39,12 +39,15 @@ class Brick:
         Returns:
             object: The value of the property.
         """
-        pobj = self.ppatch.get(p)
-        if pobj is None:
-            pobj = self._meta.p.get(p)
-            if pobj is None:
-                raise BrickError(f"Property '{p}' does not exist on brick type '{self._meta.name}'")
-            return deepcopy(pobj)
+        # If the property key exists in the patch, return its stored value
+        # (including explicit None). Otherwise return a deepcopy of the
+        # default value from the BrickMeta.
+        if p in self.ppatch:
+            return self.ppatch[p]
+        if p not in self._meta.p:
+            raise BrickError(f"Property '{p}' does not exist on brick type '{self._meta.name()}'")
+        pobj = self._meta.p.get(p)
+        return deepcopy(pobj)
 
     def set_property(self, p: str, v: Hashable) -> Self:
         """Sets a property of the brick.
@@ -88,3 +91,14 @@ class Brick:
         if p in self.ppatch:
             del self.ppatch[p]
         return self
+
+    def get_all_properties(self) -> dict[str, Hashable]:
+        """Returns a dictionary of all properties of the brick, including modified and default values.
+
+        Returns:
+            dict[str, Hashable]: A dictionary of all properties of the brick.
+        """
+        props = {}
+        for p in self._meta.p.keys():
+            props[p] = self.get_property(p)
+        return props

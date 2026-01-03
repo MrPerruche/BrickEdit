@@ -19,7 +19,7 @@ _STRUCT_3SPFLOAT = struct.Struct('<3f')
 BRICK_COLOR: Final[str] = 'BrickColor'
 
 @_b.register(BRICK_COLOR)
-class BrickColor(_b.PropertyMeta[int]):
+class BrickColor(_m.UInteger32Meta):
     """Brick's color"""
 
     DEFAULT_COLOR: Final[int] = 0xbcbcbcff
@@ -224,6 +224,10 @@ class BDriven(_m.BooleanMeta):
 
 B_FLUID_DYNAMIC: Final[str] = 'bGenerateLift'
 
+@_b.register(B_FLUID_DYNAMIC)
+class BGenerateLift(_m.BooleanMeta):
+    """Brick generates lift (aero) property"""
+
 @_b.register(B_DRIVEN)
 class BFluidDynamic(_m.BooleanMeta):
     """Brick fluid dynamics (generate lift / aero) property"""
@@ -423,7 +427,7 @@ class FuelType(_m.EnumMeta):
 
 GEAR_RATIO: Final[str] = 'GearRatioScale'
 
-@_b.register(B_TANK_DRIVE)
+@_b.register(GEAR_RATIO)
 class GearRatio(_m.Float32Meta):
     """Gear Ratio Scale property"""
     BASE: Final[float] = 1.0
@@ -779,6 +783,21 @@ class SmokeColor(_m.UInteger24Meta):
     """Exhaust effect color"""
 
 
+STEERING_ANGLE: Final[str] = 'SteeringAngle'
+
+@_b.register(STEERING_ANGLE)
+class SteeringAngle(_m.Float32Meta):
+    """Steering angle property"""
+
+
+STEERING_SPEED: Final[str] = 'SteeringSpeed'
+
+@_b.register(STEERING_SPEED)
+class SteeringSpeed(_m.Float32Meta):
+    """Steering speed property"""
+    DEFAULT_VALUE: Final[float] = 1.0
+
+
 STEERING_INPUT_CNL_INPUT_AXIS: Final[str] = 'SteeringInputChannel.InputAxis'
 STEERING_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'SteeringInputChannel.SourceBricks'
 STEERING_INPUT_CNL_VALUE: Final[str] = 'SteeringInputChannel.Value'
@@ -847,6 +866,19 @@ class ThrottleInputCnl_SourceBricks(_m.SourceBricksMeta):
 @_b.register(THROTTLE_INPUT_CNL_VALUE)
 class ThrottleInputCnl_Value(_m.ValueMeta):
     """Constant value for ThrottleInputChannel"""
+
+
+TRACE_MASK: Final[str] = 'TraceMask'
+
+@_b.register(TRACE_MASK)
+class TraceMask(_m.EnumMeta):
+    """Trace mask for seat visibility checks"""
+    ALL: Final[str] = 'All'
+    STATIC: Final[str] = 'Static'
+    VEHICLES: Final[str] = 'Vehicles'
+    OTHER_VEHICLES: Final[str] = 'OtherVehicles'
+    PLAYERS: Final[str] = 'Pawn'
+    WATER: Final[str] = 'Water'
 
 
 TRACK_COLOR: Final[str] = 'TrackColor'

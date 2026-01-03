@@ -11,6 +11,7 @@ from . import var as _var
 from . import bt as _bt
 from . import p as _p
 from . import exceptions as _e
+from . import id as _id
 
 
 class BRVFile:
@@ -107,7 +108,6 @@ class BRVFile:
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
         pack_H = struct.Struct('<H').pack  # '<H' → uint16 LE
         pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
-        pack_6f = struct.Struct('<6f').pack  # '<f' → sp float LE
 
         # --------1. HEADER
 
@@ -143,6 +143,7 @@ class BRVFile:
         weld_reference_to_weld_index: dict[str | None, int] = {None: 0}
         editor_reference_to_editor_index: dict[str | None, int] = {None: 0}
 
+
         # Exploring all bricks
         for brick in self.bricks:
 
@@ -166,6 +167,7 @@ class BRVFile:
                 # Put in the lists if it's not already
                 if prop not in prop_to_index:
                     prop_to_index[prop] = len(prop_to_index)
+                    indexes_to_serialized.update({len(indexes_to_serialized): []})
                     prop_indices_to_serialized_len_sum.append(0)
 
                     # value_to_index and indexes_to_serialized are defaultdicts,
@@ -205,6 +207,15 @@ class BRVFile:
                     raise BrickError(f'Unhashable value {value!r} for property {prop!r} of brick '
                                         f'{brick!r}. Do not use lists. Use Vec or tuples.') from e
 
+        print(
+            f'prop_to_index = {str(prop_to_index)[ :10000]},\n'
+            f'value_to_index = {str(value_to_index)[ :10000]},\n'
+            f'indexes_to_serialized = {str(indexes_to_serialized)[ :10000]},\n'
+            f'prop_indices_to_serialized_len_sum = {str(prop_indices_to_serialized_len_sum)[ :10000]},\n'
+            f'reference_to_brick_index = {str(reference_to_brick_index)[ :10000]},\n'
+            f'weld_reference_to_weld_index = {str(weld_reference_to_weld_index)[ :10000]},\n'
+            f'editor_reference_to_editor_index = {str(editor_reference_to_editor_index)[ :10000]}'
+        )
 
         # ---- Back to header!
         write(pack_H(len(prop_to_index)))
@@ -315,7 +326,7 @@ class BRVFile:
                 editor_index = editor_reference_to_editor_index[brick.ref.editor]
                 # Last operation, no need to increment buffer offset
                 packinto_2H(subbuf, offset, weld_index, editor_index)
-                
+
             write(subbuf)
 
 
@@ -453,7 +464,7 @@ class BRVFile:
 
             # Create the brick
             self.add(_brick.Brick(
-                ref=f'brick_{i}',
+                ref=_id.ID(f'brick_{i}'),
                 meta=brick_meta,
                 pos=_vec.Vec3(pos_x, pos_y, pos_z),
                 rot=_vec.Vec3(rot_x, rot_y, rot_z),
