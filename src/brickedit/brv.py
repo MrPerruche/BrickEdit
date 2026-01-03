@@ -258,49 +258,65 @@ class BRVFile:
 
 
         # --------4. BRICKS
+        
+        packinto_HIB = struct.Struct('<HIB').pack_into
+        packinto_2H = struct.Struct('<2H').pack_into  # '<H' → LE uint16
+        packinto_6f = struct.Struct('<6f').pack_into  # '<f' → sp float LE
 
         # Remember. Index starts at 1 here because fluppi
         for brick in self.bricks:
 
-            brick_meta = brick.meta()
-            brick_ppatch = brick.ppatch
-            pos, rot = brick.pos, brick.rot
-
-            # 1. Brick Type
-            brick_type_index = types_to_index[brick_meta]
-            write(pack_H(brick_type_index))
-
-            subbuffer = bytearray()
-
-            # 2. Properties
+            # Prepare some values
+            brick_meta = brick.meta()  # Get brick meta object
+            brick_ppatch = brick.ppatch  # Properties, shortcut
+            pos, rot = brick.pos, brick.rot  # pos & rot
+            brick_type_index = types_to_index[brick_meta]  # Brick type
             # Num of properties
             num_properties = len(brick_ppatch)
-            subbuffer.extend(pack_B(num_properties))  # B → uint8
-            # Each property
-            ppatch_items = brick_ppatch.items()
-            for prop, value in ppatch_items:
+            this_brick_size = (  # Precompute size. len() is too slow
+                1 + num_properties * 4 + 24  # Base. 1 (num_properties) + property things + pos 6*4 (floats)
+                + (4 if self.version >= _var.GROUPS_UPDATE else 0)  # >=1.10
+            )
+
+            # Create buffer with allocated memory : 2 for brick type + 4 for size + the rest "this_brick_size"
+            subbuf = bytearray(6 + this_brick_size)
+
+            # 1. Brick header: Brick type index and size & beginning of properties
+            packinto_HIB(subbuf, 0,
+                brick_type_index,  # Brick type index
+                this_brick_size,  # Size
+                num_properties  # Number of properties
+            ) # Offset 0 → 2+4+1=7
+
+            # 2. Properties
+            # Size of properties section
+            # Each property  # From now on, we need to calculate offset
+            offset = 7
+            for prop in brick_ppatch:
+                value = brick_ppatch[prop]
                 prop_index = prop_to_index[prop]  # Key index
                 sub_list = value_to_index[prop_index]  # Where to get vals → index of this property
                 value_index = sub_list[value]  # Value index
                 # Add key and value to subbuffer
-                subbuffer.extend(pack_H(prop_index))  # <H → LE uint16
-                subbuffer.extend(pack_H(value_index))  # <H → LE uint16
+                packinto_2H(subbuf, offset, prop_index, value_index)
+                offset += 4  # Each property uses 4 bytes
 
             # 3. Position and rotation
             # For loop to reduce code repetition
-            subbuffer.extend(pack_6f(pos.x, pos.y, pos.z, rot.y, rot.z, rot.x))  # <f → Single-precision LE float
-            # 4. Write len and write to buffer
-            write(pack_I(len(subbuffer)))  # <I → LE uint32
-            write(subbuffer)
+            packinto_6f(subbuf, offset,
+                pos.x, pos.y, pos.z,
+                rot.y, rot.z, rot.x
+            )
+            offset += 24
 
-            # 5. Weld and editor groups
+            # 4. Weld and editor groups
             if self.version >= _var.GROUPS_UPDATE:
-                # 5.1. Weld gorup
                 weld_index = weld_reference_to_weld_index[brick.ref.weld]
                 editor_index = editor_reference_to_editor_index[brick.ref.editor]
-                # 5.2. Editor group
-                write(pack_H(weld_index))
-                write(pack_H(editor_index))
+                # Last operation, no need to increment buffer offset
+                packinto_2H(subbuf, offset, weld_index, editor_index)
+                
+            write(subbuf)
 
 
         return buffer
