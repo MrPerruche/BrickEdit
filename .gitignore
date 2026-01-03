@@ -215,3 +215,4 @@ IGNORE_*/*
 *.brv
 *.brm
 *.prof
+compiled_build/*

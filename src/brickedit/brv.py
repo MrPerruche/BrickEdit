@@ -86,7 +86,7 @@ class BRVFile:
 
 
 
-    def serialize(self) -> bytes:
+    def serialize(self) -> bytearray:
         """
         Serialize the vehicle file into a bytearray.
 
@@ -96,12 +96,12 @@ class BRVFile:
         assert len(self.bricks) <= 65_534, "Too many bricks! Max: 65,534"
 
         # Init buffer
-        buffer = io.BytesIO()
+        buffer = bytearray()
 
         # No repeated global lookups
         pmeta_registry_get = _p.pmeta_registry.get
         BrickError = _e.BrickError
-        write = buffer.write
+        write = buffer.extend
 
         # Precompile struct
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
@@ -135,7 +135,8 @@ class BRVFile:
         # A list that for each property index will give us the dict of values : index
         value_to_index = defaultdict(dict)
         # A list that for each prop gives {for each value index gives us its serialized version}
-        indexes_to_serialized = defaultdict(list)
+        indexes_to_serialized = {}  # defaultdict(list)
+        prop_indices_to_serialized_len_sum = []
         # A list of reference to brick index for source brick properties
         reference_to_brick_index: dict[str, int] = {b.ref.id: i+1 for i, b in enumerate(self.bricks)}
         # A list of weld references and editor references to _ index
@@ -161,9 +162,12 @@ class BRVFile:
                     raise BrickError(f"Property {prop!r} from brick {brick!r} "
                                         "does not have any serialization class registered.")
 
+                # When a new property is discovered
                 # Put in the lists if it's not already
                 if prop not in prop_to_index:
                     prop_to_index[prop] = len(prop_to_index)
+                    prop_indices_to_serialized_len_sum.append(0)
+
                     # value_to_index and indexes_to_serialized are defaultdicts,
                     # no need to init with an empty object.
 
@@ -193,6 +197,7 @@ class BRVFile:
                     # If it's new, put the binary:
                     if sub_dict_len != len(sub_dict):  # len(sub_dict) changed → something added
                         indexes_to_serialized[prop_index].append(binary)
+                        prop_indices_to_serialized_len_sum[prop_index] += len(binary)
 
                 except TypeError as e:
                     if 'unhashable' not in str(e):
@@ -227,18 +232,23 @@ class BRVFile:
             # Get the sum of all properties
             binaries = indexes_to_serialized[prop_index]
             # Write the length
-            total_len = sum(len(b) for b in binaries)
+            total_len = prop_indices_to_serialized_len_sum[prop_index]
             write(pack_I(total_len))
+            
+            # We check the len of the binaries.
+            expected_length = len(binaries[0])  # None represent a length differs.
+            # For every binary,
             for binary in binaries:
-                # Write the values
-                write(binary)
+                write(binary)  # Write the values
+                if len(binary) != expected_length: # If lengths differ, keep this in mind for later
+                    expected_length = None
+                
 
             # Property footer
             # If 1 element, no footer
             if num_values > 1:
                 # If all elements are of the same length, only show the length of one (the 1st)
-                len_first_binaries = len(binaries[0])
-                if all(len(b) == len_first_binaries for b in binaries):
+                if expected_length is not None:
                     write(pack_H(len(binaries[0])))
                 # Else elements have different lenghts, write 0 then length of each element
                 else:
@@ -293,7 +303,7 @@ class BRVFile:
                 write(pack_H(editor_index))
 
 
-        return buffer.getvalue()
+        return buffer
 
 
 
