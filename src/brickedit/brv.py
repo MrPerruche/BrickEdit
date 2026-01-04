@@ -207,15 +207,15 @@ class BRVFile:
                     raise BrickError(f'Unhashable value {value!r} for property {prop!r} of brick '
                                         f'{brick!r}. Do not use lists. Use Vec or tuples.') from e
 
-        print(
-            f'prop_to_index = {str(prop_to_index)[ :10000]},\n'
-            f'value_to_index = {str(value_to_index)[ :10000]},\n'
-            f'indexes_to_serialized = {str(indexes_to_serialized)[ :10000]},\n'
-            f'prop_indices_to_serialized_len_sum = {str(prop_indices_to_serialized_len_sum)[ :10000]},\n'
-            f'reference_to_brick_index = {str(reference_to_brick_index)[ :10000]},\n'
-            f'weld_reference_to_weld_index = {str(weld_reference_to_weld_index)[ :10000]},\n'
-            f'editor_reference_to_editor_index = {str(editor_reference_to_editor_index)[ :10000]}'
-        )
+        # print(
+        #     f'prop_to_index = {str(prop_to_index)[ :10000]},\n'
+        #     f'value_to_index = {str(value_to_index)[ :10000]},\n'
+        #     f'indexes_to_serialized = {str(indexes_to_serialized)[ :10000]},\n'
+        #     f'prop_indices_to_serialized_len_sum = {str(prop_indices_to_serialized_len_sum)[ :10000]},\n'
+        #     f'reference_to_brick_index = {str(reference_to_brick_index)[ :10000]},\n'
+        #     f'weld_reference_to_weld_index = {str(weld_reference_to_weld_index)[ :10000]},\n'
+        #     f'editor_reference_to_editor_index = {str(editor_reference_to_editor_index)[ :10000]}'
+        # )
 
         # ---- Back to header!
         write(pack_H(len(prop_to_index)))
@@ -245,7 +245,7 @@ class BRVFile:
             # Write the length
             total_len = prop_indices_to_serialized_len_sum[prop_index]
             write(pack_I(total_len))
-            
+
             # We check the len of the binaries.
             expected_length = len(binaries[0])  # None represent a length differs.
             # For every binary,
@@ -253,7 +253,7 @@ class BRVFile:
                 write(binary)  # Write the values
                 if len(binary) != expected_length: # If lengths differ, keep this in mind for later
                     expected_length = None
-                
+
 
             # Property footer
             # If 1 element, no footer
@@ -269,7 +269,7 @@ class BRVFile:
 
 
         # --------4. BRICKS
-        
+
         packinto_HIB = struct.Struct('<HIB').pack_into
         packinto_2H = struct.Struct('<2H').pack_into  # '<H' → LE uint16
         packinto_6f = struct.Struct('<6f').pack_into  # '<f' → sp float LE

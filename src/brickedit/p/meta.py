@@ -112,8 +112,13 @@ class Vec2Meta(_b.PropertyMeta[_vec.Vec2]):
         return _vec.Vec2(*_STRUCT_2SPFLOAT.unpack_from(v))
 
 
-class UInteger24Meta(_b.PropertyMeta[int]):
-    """Class for 24-bit unsigned integers"""
+class Color3ChannelsMeta(_b.PropertyMeta[int]):
+    """
+    Class for 3-channel colors.
+    All 3-channel color properties accepts a 4th channel since BRV15.
+    When deserializing in BRV15 and newer, the 4th channel is included.
+        By default, Brick Rigs set alpha to 0xff (255).
+    """
 
     @staticmethod
     def serialize(
@@ -121,14 +126,17 @@ class UInteger24Meta(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytes:
-        return _STRUCT_UINT32_BIGENDIAN.pack(v | 0x000000ff)
+        # We use big-endian since brickedit represent colors as 0xrrggbbaa
+        return _STRUCT_UINT32_BIGENDIAN.pack(v)
 
     @staticmethod
     def deserialize(v: bytes, version: int) -> float:
+        # We use big-endian since brickedit represent colors as 0xrrggbbaa
         return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
 
 
-class UInteger32Meta(_b.PropertyMeta[int]):
+class Color4ChannelsMeta(_b.PropertyMeta[int]):
+    """Class for 4-channel colors"""
 
     @staticmethod
     def serialize(
@@ -136,11 +144,12 @@ class UInteger32Meta(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytes | _b.InvalidVersionType:
-        return _STRUCT_UINT32_BIGENDIAN.pack(v)  # Technically it's little-endian but brickedit
-                                                 # represent colors the other way around so...
+        # We use big-endian since brickedit represent colors as 0xrrggbbaa
+        return _STRUCT_UINT32_BIGENDIAN.pack(v)
 
     @staticmethod
     def deserialize(v: bytes, version: int) -> int:
+        # We use big-endian since brickedit represent colors as 0xrrggbbaa
         return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
 
 

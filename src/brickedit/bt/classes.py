@@ -370,7 +370,7 @@ class ExhaustBrickMeta(_b.BrickMeta):
             _p.SPAWN_SCALE: 1,
             _p.SIZE_SCALE: 1,
             _p.EXHAUST_EFFECT: _p.ExhaustEffect.SMOKE,
-            _p.SMOKE_COLOR: 0xffffff
+            _p.SMOKE_COLOR: 0xffffffff
         }
 
 EXHAUST_BRICK: Final = ExhaustBrickMeta('ExhaustBrick')
@@ -609,7 +609,7 @@ class DisplayBrickMeta(_b.BrickMeta):
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
             _p.NUM_FRACTIONAL_DIGITS: 1,
-            _p.DISPLAY_COLOR: 0xbc5959
+            _p.DISPLAY_COLOR: 0xbc5959ff
         }
 
 DISPLAY_BRICK: Final = DisplayBrickMeta('DisplayBrick')
@@ -895,7 +895,7 @@ LEDGE_1X4X1: Final = LedgeBrickMeta('Ledge_1x4x1')
 
 
 class LightBrick(_b.BrickMeta):
-    
+
     def __init__(
         self,
         name,
@@ -1096,7 +1096,7 @@ MUDGUARD_4X2X5S: Final = MudguardBrickMeta('Mudguard_4x2x5s')
 
 
 class PropellerBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self,
         name,
@@ -1113,7 +1113,7 @@ class PropellerBrickMeta(_b.BrickMeta):
 
     def thrust(self):
         return self._thrust
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy()
 
@@ -1145,7 +1145,7 @@ class PumpBrickMeta(_b.BrickMeta):
 
     def extinguish_probability(self):
         return self._extinguish_probability
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy() | {
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
@@ -1260,7 +1260,7 @@ REDIRECTOR_ZYLINDER_2X2X1_02: Final = RedirectorBrickMeta('RedirectorZylinder_2x
 
 
 class RodBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: False
@@ -1289,7 +1289,7 @@ ROTOR_4X8: Final = RotorBladeBrickMeta('Rotor_4x8')
 
 
 class TailBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: False
@@ -1346,7 +1346,7 @@ SCALABLE_ZYLINDER: Final = ScalableBrickMeta('ScalableZylinder')
 
 
 class SeatBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self,
         name,
@@ -1431,8 +1431,8 @@ SENSOR_CYLINDER: Final = SensorBrickMeta('SensorCylinder')
 
 
 class SpinnerBrickMeta(_b.BrickMeta):
-    
-    def base_properties(self):
+
+    def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.SPINNER_SHAPE: _p.SpinnerShape.SQUARE,
             _p.SPINNER_RADIUS: _v.Vec2(30, 30),
@@ -1446,7 +1446,7 @@ SPINNER_BRICK: Final = SpinnerBrickMeta('SpinnerBrick')
 
 
 class SprocketWheelBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self,
         name,
@@ -1456,13 +1456,13 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
         max_num_track_instances: int,
         max_num_idler_wheels: int,
         track_break_particle_ratio: float,
-        
+
         wheel_radius: float,
         min_wheel_radius: float,
         max_wheel_radius_scale: float,
         min_wheel_width: float,
         max_wheel_width_scale: float,
-        
+
         *args, **kwargs
     ):
         super().__init__(name, *args, **kwargs)
@@ -1472,7 +1472,7 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
         self._max_num_track_instances = max_num_track_instances
         self._max_num_idler_wheels = max_num_idler_wheels
         self._track_break_particle_ratio = track_break_particle_ratio
-        
+
         self._wheel_radius = wheel_radius
         self._min_wheel_radius = min_wheel_radius
         self._max_wheel_radius_scale = max_wheel_radius_scale
@@ -1502,7 +1502,7 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
     def track_break_particle_ratio(self):
         """How many of the track instances should be spawned as particles"""
         return self._track_break_particle_ratio
-    
+
     def wheel_radius(self):
         """Radius of the wheel"""
         return self._wheel_radius
@@ -1522,7 +1522,7 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
     def max_wheel_width_scale(self):
         """Max Width Scale of the wheel"""
         return self._max_wheel_width_scale
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_INVERT_TANK_STEERING: False,
@@ -1537,7 +1537,7 @@ SPROCKET_WHEEL: Final = SprocketWheelBrickMeta('SprocketWheel', (30, 60), 5, 6, 
 
 
 class SteeringWheelBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: False
@@ -1588,14 +1588,14 @@ SWITCH_CYLINDER: Final = SwitchBrickMeta('SwitchCylinder')
 
 
 class TankBrickMeta(_b.BrickMeta):
-    
+
     def __init__(self, name, fuel_capacity: float, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
         self._fuel_capacity = fuel_capacity
-        
+
     def fuel_capacity(self):
         return self._fuel_capacity
-        
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
@@ -1610,20 +1610,20 @@ TANK_CYLINDER_02: Final = TankBrickMeta('TankCylinder_02', 21.200001)
 
 
 class TargetMarkerBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self, name,
         num_trajectory_iterations_per_gun: int,
         trajectory_distribution_exponent: float,
         max_guns_iterations_per_frame: int,
-        
+
         lense_offset: _v.Vec3,
         zoom_zoom_range: tuple[float, float],
         zoom_input_rate: float,
         zoom_step: float,
         zoom_exponent: float,
         zoom_interp_speed: float,
-        
+
         max_target_range: float,
         view_pitch_range: tuple[float, float],
         view_yaw_range: tuple[float, float],
@@ -1723,7 +1723,7 @@ TEXT_CYLINDER: Final = TextBrickMeta('TextCylinder')
 
 
 class ThrusterBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self, name,
         fuel_capacity: float,
@@ -1813,7 +1813,7 @@ THRUSTER_CYLINDER_02: Final = ThrusterBrickMeta('ThrusterCylinder_02', 21.200001
 
 
 class TrainWheelBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self, name,
         wheel_radius: float,
@@ -1851,12 +1851,12 @@ class TrainWheelBrickMeta(_b.BrickMeta):
         return self._max_wheel_width_scale
 
     def base_properties(self, *args, **kwargs):
-        
+
         wd = kwargs.get('wd')
         assert wd is not None, f"wheel_diameter is not set for brick type {self._name}"
         ww = kwargs.get('ww')
         assert ww is not None, f"wheel_width is not set for brick type {self._name}"
-        
+
         return _base_properties | {
             _p.B_INVERT_TANK_STEERING: False,
             _p.WHEEL_DIAMETER: wd,
@@ -1870,7 +1870,7 @@ TRAIN_WHEEL_4X2S: Final = TrainWheelBrickMeta('TrainWheel_4x2s', 50, 10.5, 2, 10
 
 
 class TurbineBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self, name,
         max_rpm: float,
@@ -1948,7 +1948,7 @@ class TurbineBrickMeta(_b.BrickMeta):
     def fuel_consumption(self):
         """Amount of fuel in liters to consume per second"""
         return self._fuel_consumption
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.POWER_INPUT_CNL_INPUT_AXIS: _p.PowerInputCnl_InputAxis.OPERATION_MODE,
@@ -1981,7 +1981,7 @@ TURBINE_8X4X2: Final = TurbineBrickMeta('Turbine_8x4x2', 240, 3, 1200, 2000, (1,
 
 
 class WheelHubBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy()
 
@@ -1991,7 +1991,7 @@ WHEEL_1X1X1: Final = WheelHubBrickMeta('Wheel_1x1x1')
 
 
 class WinchBrickMeta(_b.BrickMeta):
-    
+
     def __init__(
         self, name,
         min_rope_length: float,
@@ -2026,7 +2026,7 @@ WINCH_3X2X1: Final = WinchBrickMeta('Winch_3x2x1', 75, 5000, 100)
 
 
 class WindowBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: False
@@ -2046,7 +2046,7 @@ WINDSCREEN_4X6X3: Final = WindowBrickMeta('Windscreen_4x6x3')
 
 
 class WingBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: True
