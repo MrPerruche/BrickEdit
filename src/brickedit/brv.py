@@ -273,6 +273,8 @@ class BRVFile:
         packinto_HIB = struct.Struct('<HIB').pack_into
         packinto_2H = struct.Struct('<2H').pack_into  # '<H' → LE uint16
         packinto_6f = struct.Struct('<6f').pack_into  # '<f' → sp float LE
+        
+        is_post_groups_update = self.version >= _var.GROUPS_UPDATE
 
         # Remember. Index starts at 1 here because fluppi
         for brick in self.bricks:
@@ -286,7 +288,7 @@ class BRVFile:
             num_properties = len(brick_ppatch)
             this_brick_size = (  # Precompute size. len() is too slow
                 1 + num_properties * 4 + 24  # Base. 1 (num_properties) + property things + pos 6*4 (floats)
-                + (4 if self.version >= _var.GROUPS_UPDATE else 0)  # >=1.10
+                + (4 if is_post_groups_update else 0)  # >=1.10
             )
 
             # Create buffer with allocated memory : 2 for brick type + 4 for size + the rest "this_brick_size"

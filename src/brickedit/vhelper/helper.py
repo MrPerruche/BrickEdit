@@ -11,29 +11,6 @@ from .. import var as _var
 
 _INV_255: Final[float] = 1.0/255.0
 
-def float_to_int(v: float):
-    """Converts a float [0, 1] to an int [0, 255] with epsilon for FPA accuracy issues.
-    Example: 1 → 255"""
-    return int(v * 255 + 1e-10)  # 1e-10 (epsilon) for FPA issues
-
-def pack(*args):
-    """Pack 8-bit integers into a single integer.
-    Example: pack(1, 2, 3) -> 0x010203"""
-    shift_offset = len(args) - 1
-    packed = 0
-    for i, v in enumerate(args):
-        packed |= v << ((shift_offset - i) * 8)
-    return packed
-
-def pack_float_to_int(*args):
-    """Pack floats converted to 8-bit integers with float_to_int into a single integer
-    Example; pack_float_to_int(0, 0.5, 1) -> 0x007fff"""
-    shift_offset = len(args) - 1
-    packed = 0
-    for i, v in enumerate(args):
-        packed |= int(v * 255 + 1e-10) << ((shift_offset - i) * 8)
-    return packed
-
 
 class ValueHelper:
     """A helper for converting values between different units."""
@@ -128,65 +105,58 @@ class ValueHelper:
 
 
 
-    def p_rgba(self, rgba: int) -> int:
-        """Converts a packed RGBA value into Brick Rigs' format"""
-        if self.version >= _var.FILE_UNIT_UPDATE:
-            return rgba
-        r = (rgba >> 24) & 0xff
-        g = (rgba >> 16) & 0xff
-        b = (rgba >> 8)  & 0xff
-        a = rgba         & 0xff
-        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
-        return pack_float_to_int(h, s, v, a)
+    def p_rgba(self, rgba: int, to_srgb: bool = False) -> int:
+        """Converts a packed RGBA value into Brick Rigs' format
+        
+        Args:
+            rgba (int): The packed RGBA value
+            to_srgb (bool, optional): Convert to sRGB first
+        """
+        # Unpack
+        r = ((rgba >> 24) & 0xff) * _INV_255
+        g = ((rgba >> 16) & 0xff) * _INV_255
+        b = ((rgba >> 8)  & 0xff) * _INV_255
+        a = (rgba         & 0xff) * _INV_255
+        return self.rgba(r, g, b, a, to_srgb)
 
 
-    def rgba(self, r: int, g: int, b: int, a: int = 0xFF) -> int:
+    def rgba(self, r: int, g: int, b: int, a: int = 0xFF, to_srgb: bool = False) -> int:
         """Convert an RGBA value to Brick Rigs' format"""
+        # Convert to rgb?
+        if to_srgb:
+            r, g, b = _col.multi_linear_to_srgb(r, g, b)
+        # To HSV / RGB depending on update
         if self.version >= _var.FILE_UNIT_UPDATE:
-            return pack(r, g, b, a)
-        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
-        return pack_float_to_int(h, s, v, a)
+            return _col.pack_float_to_int(r, g, b, a)
+        else:
+            h, s, v = _col.rgb_to_hsv(r, g, b)
+            return _col.pack_float_to_int(h, s, v, a)
 
 
 
-    def p_rgb(self, rgb: int) -> int:
-        """Converts a packed RGB value into Brick Rigs' format"""
-        if self.version >= _var.FILE_UNIT_UPDATE:
-            return rgb
-        r = (rgb >> 16) & 0xff
-        g = (rgb >> 8)  & 0xff
-        b = rgb         & 0xff
-        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
-        return pack_float_to_int(h, s, v)
-
-    def rgb(self, r: int, g: int, b: int) -> int:
-        """Convert an RGB value to Brick Rigs' format"""
-        if self.version >= _var.FILE_UNIT_UPDATE:
-            return pack(r, g, b)
-        h, s, v = _col.rgb_to_hsv(r * _INV_255, g * _INV_255, b * _INV_255)
-        return pack_float_to_int(h, s, v)
-
-
-
-    def hsva(self, h: float, s: float, v: float, a: float = 1.0) -> int:
+    def hsva(self, h: float, s: float, v: float, a: float = 1.0, to_srgb: bool = False) -> int:
         """Convert an HSVA value to Brick Rigs' format"""
-        if self.version >= _var.FILE_UNIT_UPDATE:
+        # Keep check in memory
+        is_post_file_unit_update = self.version >= _var.FILE_UNIT_UPDATE
+
+        # Do we have to go through RGB?
+        if to_srgb or is_post_file_unit_update:
             r, g, b = _col.hsv_to_rgb(h, s, v)
-            return pack_float_to_int(r, g, b, a)
-        return pack_float_to_int(h, s, v, a)
+            # Convert to sRGB?
+            if to_srgb:
+                r, g, b = _col.multi_linear_to_srgb(r, g, b)
+            # Pack RGB (new format) or correct HSV (old format) ?
+            if is_post_file_unit_update:
+                return _col.pack_float_to_int(r, g, b, a)
+            else:
+                h, s, v = _col.rgb_to_hsv(r, g, b)
+
+        # Pack HSV
+        return _col.pack_float_to_int(h, s, v, a)
 
 
 
-    def hsv(self, h: float, s: float, v: float) -> int:
-        """Convert an HSV value to Brick Rigs' format"""
-        if self.version >= _var.FILE_UNIT_UPDATE:
-            r, g, b = _col.hsv_to_rgb(h, s, v)
-            return pack_float_to_int(r, g, b)
-        return pack_float_to_int(h, s, v)
-
-
-
-    def oklab(self, l: float, a: float, b: float) -> int:
+    def oklab(self, l: float, a: float, b: float, alpha: float = 1.0, to_srgb: bool = False) -> int:
         """Convert OKLAB colors into RGBA.
 
         Args:
@@ -198,10 +168,19 @@ class ValueHelper:
             int: The RGBA value, as a hexadecimal integer.
         """
 
-        r, g, b = _col.oklab_to_srgb(l, a, b)
-        return r << 24 | b << 16 | g << 8 | 0xFF
+        # sRGB or linear RGB?
+        if to_srgb:
+            r, g, b = _col.oklab_to_srgb(l, a, b)
+        else:
+            r, g, b = _col.oklab_to_linear(l, a, b)
+        # HSV/RGB depending on version
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return _col.pack_float_to_int(*_col.multi_clamp(r, g, b, min_val=0, max_val=1), alpha)
+        else:
+            h, s, v = _col.rgb_to_hsv(r, g, b)
+            return _col.pack_float_to_int(_col.clamp(h, 0, 360), *_col.multi_clamp(s, v, min_val=0, max_val=1), alpha)
 
-    def oklch(self, L: float, C: float, h: float) -> int: # pylint: disable=invalid-name
+    def oklch(self, L: float, C: float, h: float, alpha: float = 1.0, to_srgb: bool = False) -> int: # pylint: disable=invalid-name
         """Convert OKLCH colors into RGBA.
 
         Args:
@@ -212,9 +191,9 @@ class ValueHelper:
         Returns:
             int: The RGBA value, as a hexadecimal integer.
         """
-        return self.oklab(*_col.oklch_to_oklab(L, C, h))
+        return self.oklab(*_col.oklch_to_oklab(L, C, h), alpha, to_srgb)
 
-    def cmyk(self, c: float, y: float, m: float, k: float) -> int:
+    def cmyk(self, c: float, y: float, m: float, k: float, a: float = 1.0, to_srgb: bool = False) -> int:
         """Convert CMYK colors into RGBA.
 
         Args:
@@ -227,7 +206,13 @@ class ValueHelper:
             int: The RGBA value, as a hexadecimal integer.
         """
         r, g, b = _col.cmyk_to_rgb(c, m, y, k)
-        return r << 24 | g << 16 | b << 8 | 0xFF
+        if to_srgb:
+            r, g, b = _col.multi_linear_to_srgb(r, g, b)
+        if self.version >= _var.FILE_UNIT_UPDATE:
+            return _col.pack_float_to_int(r, g, b, a)
+        else:
+            h, s, v = _col.rgb_to_hsv(r, g, b)
+            return _col.pack_float_to_int(h, s, v, a)
 
     def force(self, value: float, unit=None) -> float:
         """A helper method for physical force units.
