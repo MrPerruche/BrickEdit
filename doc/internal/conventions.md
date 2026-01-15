@@ -158,7 +158,7 @@ v: value_helper.ValueHelper = value_helper.ValueHelper(FILE_MAIN_VERSION, defaul
 brv: BRVFile = BRVFile(FILE_MAIN_VERSION)
 
 brv.add(Brick(
-    "my_brick",
+    ID("my_brick"),
     brick_type.SCALABLE_BRICK,
     pos=v.pos(2.0, 5.0, 0.0),
     ppatch={
@@ -179,7 +179,7 @@ v: vh.ValueHelper = vh.ValueHelper(FILE_MAIN_VERSION, default_unit=units.METER)
 brv: BRVFile = BRVFile(FILE_MAIN_VERSION)
 
 brv.add(Brick(
-    "my_brick",
+    ID("my_brick"),
     bt.SCALABLE_BRICK,
     pos=v.pos(2.0, 5.0, 0.0),
     ppatch={

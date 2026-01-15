@@ -5,7 +5,7 @@ from typing import Optional
 from .vec import Vec3 as _Vec3
 from .brv import BRVFile
 from .p import TextMeta as _UserTextSerialization
-from .vh.time import net_ticks_now as _net_ticks_now
+from .vhelper.time import net_ticks_now as _net_ticks_now
 
 
 def _encode_author(author: int) -> int:

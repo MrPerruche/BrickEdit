@@ -117,7 +117,7 @@ class Color3ChannelsMeta(_b.PropertyMeta[int]):
     Class for 3-channel colors.
     All 3-channel color properties accepts a 4th channel since BRV15.
     When deserializing in BRV15 and newer, the 4th channel is included.
-        By default, Brick Rigs set alpha to 0xff (255).
+    By default, Brick Rigs set alpha to 0xff (255). To remove alpha, use value & 0x00ffffff
     """
 
     @staticmethod

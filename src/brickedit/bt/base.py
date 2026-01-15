@@ -41,7 +41,7 @@ def register(
     registry: dict[str, _Tbm] | None = None
 ):
     """
-    Decorator to register a BrickMeta instances.
+    Function to register a BrickMeta instances.
     If registry is none, will use BrickEdit's default registry bt_registry.
     
     Args:

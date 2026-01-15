@@ -105,7 +105,7 @@ class ValueHelper:
 
 
 
-    def p_rgba(self, rgba: int, to_srgb: bool = False) -> int:
+    def p_rgba(self, rgba: int) -> int:
         """Converts a packed RGBA value into Brick Rigs' format
         
         Args:
@@ -117,14 +117,11 @@ class ValueHelper:
         g = ((rgba >> 16) & 0xff) * _INV_255
         b = ((rgba >> 8)  & 0xff) * _INV_255
         a = (rgba         & 0xff) * _INV_255
-        return self.rgba(r, g, b, a, to_srgb)
+        return self.rgba(r, g, b, a)
 
 
-    def rgba(self, r: int, g: int, b: int, a: int = 0xFF, to_srgb: bool = False) -> int:
+    def rgba(self, r: int, g: int, b: int, a: int = 0xFF) -> int:
         """Convert an RGBA value to Brick Rigs' format"""
-        # Convert to rgb?
-        if to_srgb:
-            r, g, b = _col.multi_linear_to_srgb(r, g, b)
         # To HSV / RGB depending on update
         if self.version >= _var.FILE_UNIT_UPDATE:
             return _col.pack_float_to_int(r, g, b, a)
@@ -134,29 +131,23 @@ class ValueHelper:
 
 
 
-    def hsva(self, h: float, s: float, v: float, a: float = 1.0, to_srgb: bool = False) -> int:
+    def hsva(self, h: float, s: float, v: float, a: float = 1.0) -> int:
         """Convert an HSVA value to Brick Rigs' format"""
         # Keep check in memory
         is_post_file_unit_update = self.version >= _var.FILE_UNIT_UPDATE
 
         # Do we have to go through RGB?
-        if to_srgb or is_post_file_unit_update:
+        if is_post_file_unit_update:
             r, g, b = _col.hsv_to_rgb(h, s, v)
-            # Convert to sRGB?
-            if to_srgb:
-                r, g, b = _col.multi_linear_to_srgb(r, g, b)
-            # Pack RGB (new format) or correct HSV (old format) ?
-            if is_post_file_unit_update:
-                return _col.pack_float_to_int(r, g, b, a)
-            else:
-                h, s, v = _col.rgb_to_hsv(r, g, b)
+            # Pack RGB
+            return _col.pack_float_to_int(r, g, b, a)
 
         # Pack HSV
         return _col.pack_float_to_int(h, s, v, a)
 
 
 
-    def oklab(self, l: float, a: float, b: float, alpha: float = 1.0, to_srgb: bool = False) -> int:
+    def oklab(self, l: float, a: float, b: float, alpha: float = 1.0) -> int:
         """Convert OKLAB colors into RGBA.
 
         Args:
@@ -169,10 +160,7 @@ class ValueHelper:
         """
 
         # sRGB or linear RGB?
-        if to_srgb:
-            r, g, b = _col.oklab_to_srgb(l, a, b)
-        else:
-            r, g, b = _col.oklab_to_linear(l, a, b)
+        r, g, b = _col.oklab_to_linear(l, a, b)
         # HSV/RGB depending on version
         if self.version >= _var.FILE_UNIT_UPDATE:
             return _col.pack_float_to_int(*_col.multi_clamp(r, g, b, min_val=0, max_val=1), alpha)
@@ -180,7 +168,7 @@ class ValueHelper:
             h, s, v = _col.rgb_to_hsv(r, g, b)
             return _col.pack_float_to_int(_col.clamp(h, 0, 360), *_col.multi_clamp(s, v, min_val=0, max_val=1), alpha)
 
-    def oklch(self, L: float, C: float, h: float, alpha: float = 1.0, to_srgb: bool = False) -> int: # pylint: disable=invalid-name
+    def oklch(self, L: float, C: float, h: float, alpha: float = 1.0) -> int: # pylint: disable=invalid-name
         """Convert OKLCH colors into RGBA.
 
         Args:
@@ -191,9 +179,14 @@ class ValueHelper:
         Returns:
             int: The RGBA value, as a hexadecimal integer.
         """
-        return self.oklab(*_col.oklch_to_oklab(L, C, h), alpha, to_srgb)
+        r, g, b = _col.oklch_to_linear_fitted(L, C, h)
 
-    def cmyk(self, c: float, y: float, m: float, k: float, a: float = 1.0, to_srgb: bool = False) -> int:
+        return _col.pack_float_to_int(
+            *_col.multi_clamp(r, g, b, min_val=0, max_val=1),
+            alpha
+        )
+
+    def cmyk(self, c: float, y: float, m: float, k: float, a: float = 1.0) -> int:
         """Convert CMYK colors into RGBA.
 
         Args:
@@ -206,8 +199,6 @@ class ValueHelper:
             int: The RGBA value, as a hexadecimal integer.
         """
         r, g, b = _col.cmyk_to_rgb(c, m, y, k)
-        if to_srgb:
-            r, g, b = _col.multi_linear_to_srgb(r, g, b)
         if self.version >= _var.FILE_UNIT_UPDATE:
             return _col.pack_float_to_int(r, g, b, a)
         else:

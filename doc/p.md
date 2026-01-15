@@ -13,62 +13,67 @@ Are you a beginner in computer science or unfamiliar with Python? This short sec
 </details>
 
 ## Structure as a graph
+
 ```mermaid
 flowchart LR
 
-    subgraph BASE["base.py"]
+    %% BASE
+    subgraph BASE_PY["base.py"]
     
         %% MAIN CLASS
-        PMETA["class PropertyMeta"]
+        PMETA_BASE_CLS["abstract class PropertyMeta[T]"]
 
         %% SENTINEL
-        INV["class InvalidVersionType (Sentinel, use for type annotation)"]
-        INV_I["object InvalidVersion (Sentinel)"]
+        INVALID_T["class InvalidVersionType (Sentinel, use for type annotation)"]
+        INVALID_I["object InvalidVersion (Sentinel)"]
 
+        INVALID_T -.-> INVALID_I
+
+        %% REGISTRATION
         REG["decorator @register"]
         REG_VAR["pmeta_registry: dict[str, PropertyMeta]"]
 
-    end
-    subgraph META["meta.py"]
-        M_CLS["Classes inheriting PropertyMeta"]
-        subgraph METAE["Examples:"]
-            C_CLSE1["class SourceBricksMeta(PropertyMeta[tuple[str, ...]])"]
-            C_CLSE2["class EnumMeta(PropertyMeta[str])"]
-        end
-    end
-    subgraph CLASSES["classes.py"]
-        C_CLS["...Meta classes"]
-        C_F["Constant strings storing properties' internal names"]
-        subgraph C_CLSE["Examples:"]
-            C_CLSE1_1["class InputCnl_SourceBricks(SourceBricksMeta)"]
-            C_CLSE1_2["class ThrottleInputCnl_SourceBricks(SourceBricksMeta)"]
-            C_CLSE2_1["class BrickMaterial(EnumMeta)"]
-            C_CLSE2_2["class AmmoType(EnumMeta)"]
-            C_CLSE3["ConnectorSpacing(PropertyMeta[int])"]
-        end
-        subgraph C_FE["Examples:"]
-            C_FE1["BRICK_MATERIAL: Final[str] = 'BrickMaterial'"]
-            C_FE2["BRICK_PATTERN: Final[str] = 'BrickPattern'"]
-        end
+        REG --> REG_VAR
     end
 
-    PMETA --> C_CLS & M_CLS
-    M_CLS --> C_CLS
-    REG <-.-> REG_VAR
+    subgraph META_PY["meta.py"]
+        ABSTRACT_PMETA_SUBCLS["abstract subclasses of PropertyMeta"]
+        subgraph ABSTRACT_PMETA_SUBCLS_EXAMPLES["Examples:"]
+            ABSTRACT_PMETA_SUBCLS_EX1["class SourceBricksMeta(PropertyMeta[tuple[str, ...]])"]
+            ABSTRACT_PMETA_SUBCLS_EX2["class EnumMeta(PropertyMeta[str])"]
+            ABSTRACT_PMETA_SUBCLS_ETC["..."]
+        end
 
-    C_CLS -.-> C_CLSE1_1 & C_CLSE1_2 & C_CLSE2_1 & C_CLSE2_2 
-    C_F -.-> C_FE1 & C_FE2
+        PMETA_BASE_CLS --> ABSTRACT_PMETA_SUBCLS
+        ABSTRACT_PMETA_SUBCLS -.-> ABSTRACT_PMETA_SUBCLS_EX1 & ABSTRACT_PMETA_SUBCLS_EX2 & ABSTRACT_PMETA_SUBCLS_ETC
+    end
 
-    M_CLS -.-> C_CLSE1 & C_CLSE2 & C_CLSE3
+    subgraph CLASSES_PY["classes.py"]
 
-    INV <-.-> INV_I
+        PROPERTY_CLASSES["classes (in)directly inheriting PropertyMeta"]
+        ABSTRACT_PMETA_SUBCLS & PMETA_BASE_CLS --> PROPERTY_CLASSES
 
-    %% classDef cls_PMETA fill:#934
-    %% class PMETA cls_PMETA
-    %% classDef cls_MCLS fill:#a64
-    %% class M_CLS,C_CLSE1,C_CLSE2 cls_MCLS
-    %% classDef cls_iiCLS fill:#a84
-    %% class C_CLS,C_CLSE1_1,C_CLSE1_2,C_CLSE2_1,C_CLSE2_2,C_CLSE3 cls_iiCLS
+        subgraph PROPERTY_CLASSES_EXAMPLES["Examples:"]
+            PROPERTY_CLASSES_EX_PARENT1_SUBCLS1["class InputCnl_SourceBricks(SourceBricksMeta)"]
+            PROPERTY_CLASSES_EX_PARENT1_SUBCLS2["class ThrottleInputCnl_SourceBricks(SourceBricksMeta)"]
+            PROPERTY_CLASSES_EX_PARENT2_SUBCLS1["class BrickMaterial(EnumMeta)"]
+            PROPERTY_CLASSES_EX_PARENT2_SUBCLS2["class AmmoType(EnumMeta)"]
+            PROPERTY_CLASSES_EX_PARENT3_SUBCLS1["ConnectorSpacing(PropertyMeta[int])"]
+            PROPERTY_CLASSES_ETC["..."]
+        end
+
+        PROPERTY_CLASSES -.-> PROPERTY_CLASSES_EX_PARENT1_SUBCLS1 & PROPERTY_CLASSES_EX_PARENT1_SUBCLS2 & PROPERTY_CLASSES_EX_PARENT2_SUBCLS1 & PROPERTY_CLASSES_EX_PARENT2_SUBCLS2 & PROPERTY_CLASSES_EX_PARENT3_SUBCLS1 & PROPERTY_CLASSES_ETC
+
+        PROPERTY_NAMES["Constant strings storing properties' internal names"]
+
+        subgraph PROPERTY_NAMES_EXAMPLES["Examples:"]
+            PROPERTY_NAMES_EX1["object BRICK_MATERIAL: Final[str] = 'BrickMaterial'"]
+            PROPERTY_NAMES_EX2["object BRICK_PATTERN: Final[str] = 'BrickPattern'"]
+            PROPERTY_NAMES_ETC["..."]
+        end
+
+        PROPERTY_NAMES -.-> PROPERTY_NAMES_EX1 & PROPERTY_NAMES_EX2 & PROPERTY_NAMES_ETC
+    end
 ```
 
 -----
@@ -76,6 +81,7 @@ flowchart LR
 Note: as of the time of writing, BRMK does not let modders add their own property types. The methods to create your own properties are nonetheless documented here for future proofing, whether BRMK adds custom property support or brickedit becomes outdated.
 
 This module contains everything to handle properties in brickedit:
+
 - `PropertyMeta`: Class defining how to serialize and deserialize all properties. Its subclasses contains all its possible values throughout the versions.
 
 - `pmeta_registry`: A dictionary binding all `PropertyMeta`s subclasses to properties' internal name as string.
@@ -89,6 +95,7 @@ This module contains everything to handle properties in brickedit:
 `PropertyMeta` is the base class for all property types. It defines how a property is serialized and deserialized.
 
 Each subclass of `PropertyMeta[T]` must define the following:
+
 - `@staticmethod serialize(self, v: T, version: int) -> bytes`: Serializes the property value `v` to a bytes for the given version. Typically directly returns result of `serialization` classes methods.
 
 - `@staticmethod deserialize(self, v: bytes, version: int) -> T:`: Deserializes the property value from the given byte array `v` for the given version. Typically directly returns result of `serialization` classes methods.
@@ -114,7 +121,6 @@ BrickEdit will not know of a property unless you register it. To register a prop
 
 BrickEdit's default property meta registry is `pmeta_registry: dict[str, Type[PropertyMeta]]`.
 
-
 ## Available meta classes
 
 Writing the serialization logic for every property is tedious and disallow instance checks. Therefore, we made several meta classes that implement (de)serialization logic for properties. Here is the list of all meta classes inheriting `PropertyMeta`:
@@ -134,9 +140,7 @@ Writing the serialization logic for every property is tedious and disallow insta
 | `SourceBricksMeta`      | String = Tuple of brick names (`ID.ref`)          | Tuple of brick indices (internal values) taken from `ref_to_id` | Accepts multiple brick names, allows duplicates.                      |
 | `ValueMeta`             | Float numbers                                     | Single precision float LE                                       | Specifically for input channel properties (`.Value`).                 |
 
-
 ## Example of a full implementation of a property
-
 
 ### Implementation 1 (the hard way, not recommended)
 
@@ -162,6 +166,7 @@ value: int = _STRUCT_U8.unpack(bin_value)[0]  # → 213
 # When more complex format strings are provided (like '<6f'),
 # it may return multiple values (6 in this example).
 ```
+
 </details>
 
 **This approach is not recommended because it doesn't let users run instance checks like `isinstance(value, p.Float32Meta)`. It is only provided to show the FULL implementation of a class. See the second example `MyPropertyMeta2` for the recommended and easier implementation.**
@@ -205,7 +210,6 @@ class MyPropertyMeta1(p.PropertyMeta[str]):  # T becomes str
         # Given brickedit already slices the bytes object to only contain the property value, we can skip the first byte
         return v[1: ].decode('ascii')
 ```
-
 
 ### Implementation 2 (the easy way)
 
