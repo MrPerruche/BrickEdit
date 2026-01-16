@@ -5,6 +5,7 @@ from .var import *
 from .id import *
 from .brick import *
 from .brv import *
+from .brm import *
 from . import p
 from . import bt
 from . import vhelper

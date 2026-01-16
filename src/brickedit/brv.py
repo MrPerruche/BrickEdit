@@ -323,11 +323,11 @@ class BRVFile:
             offset += 24
 
             # 4. Weld and editor groups
-            if self.version >= _var.GROUPS_UPDATE:
+            if is_post_groups_update:
                 weld_index = weld_reference_to_weld_index[brick.ref.weld]
                 editor_index = editor_reference_to_editor_index[brick.ref.editor]
                 # Last operation, no need to increment buffer offset
-                packinto_2H(subbuf, offset, weld_index, editor_index)
+                packinto_2H(subbuf, offset, editor_index, weld_index)
 
             write(subbuf)
 
@@ -430,6 +430,9 @@ class BRVFile:
                 prop_to_index_to_value[prop].append(deserialized_value)
 
         # -------- 4. BRICKS
+        
+        is_post_groups_update: bool = self.version >= _var.GROUPS_UPDATE
+        unpack_2H = struct.Struct('<2H').unpack
 
         # For each brick
         for i in range(num_bricks):
@@ -464,11 +467,24 @@ class BRVFile:
             # Position and rotation
             pos_x, pos_y, pos_z, rot_y, rot_z, rot_x = unpack_6f(read(6 * 4))
 
-            # Create the brick
-            self.add(_brick.Brick(
-                ref=_id.ID(f'brick_{i}'),
-                meta=brick_meta,
-                pos=_vec.Vec3(pos_x, pos_y, pos_z),
-                rot=_vec.Vec3(rot_x, rot_y, rot_z),
-                ppatch=properties
-            ))
+
+            if is_post_groups_update:
+                # Get the indexes
+                weld_idx, editor_idx = unpack_2H(read(4))
+                # Then create the brick
+                self.add(_brick.Brick(
+                    ref=_id.ID(f'brick_{i}', f'weld_{weld_idx}', f'editor_{editor_idx}'),
+                    meta=brick_meta,
+                    pos=_vec.Vec3(pos_x, pos_y, pos_z),
+                    rot=_vec.Vec3(rot_x, rot_y, rot_z),
+                    ppatch=properties
+                ))
+            else:
+                # Create the brick
+                self.add(_brick.Brick(
+                    ref=_id.ID(f'brick_{i}'),
+                    meta=brick_meta,
+                    pos=_vec.Vec3(pos_x, pos_y, pos_z),
+                    rot=_vec.Vec3(rot_x, rot_y, rot_z),
+                    ppatch=properties
+                ))

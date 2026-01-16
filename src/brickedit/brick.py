@@ -102,3 +102,45 @@ class Brick:
         for p in self._meta.p.keys():
             props[p] = self.get_property(p)
         return props
+
+    def __repr__(self) -> str:
+        return f'Brick({self.ref}, {self._meta.name()}, {self.pos!r}, {self.rot!r}, {self.ppatch})'
+
+    def __format__(self, spec) -> str:
+        """Format the Brick instance. Each character adds a "flag" that affects the output. Order does not matter.
+        
+        'f' for full: also display properties set to default values.
+        'h' for human: represents as a human-readable list instead of the programmer-readable dict.
+        'r' for repr: represent values using repr() instead of using str().
+
+        Args:
+            spec (str): The format specifier.
+
+        Example:
+            f'{b:fh}' → Complete human readable format that could be displayed to the user
+
+        Returns:
+            str: The formatted Brick instance.
+        """
+        # ppatch formatting
+        displayed_properties = self.get_all_properties() if 'f' in spec else self.ppatch
+        display = repr if 'r' in spec else str
+
+        valid = {'f', 'h', 'r'}
+        invalid = set(spec) - valid
+        if invalid:
+            raise ValueError(f"Unknown format specifier(s): {''.join(sorted(invalid))}. Valid flags: {''.join(sorted(valid))}")
+
+        if 'h' in spec:
+            return (f"Identifier:"
+                  f"\n  Ref → {display(self.ref.id)}"
+                  f"\n  Weld group → {display(self.ref.weld)}"
+                  f"\n  Editor group → {display(self.ref.editor)}"
+                  f"\nInternal name → {display(self.meta().name())}"
+                  f"\nPosition → {display(self.pos)}"
+                  f"\nRotation → {display(self.rot)}"
+                  f"\nProperties:" +
+                ''.join(f"\n  {i+1:02d}. {display(k)} → {display(v)}" for i, (k, v) in enumerate(displayed_properties.items()))
+                )
+        else:
+            return f"Brick({display(self.ref)}, {display(self.meta().name())}, {display(self.pos)}, {display(self.rot)}, {display(displayed_properties)})"

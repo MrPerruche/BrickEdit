@@ -644,6 +644,27 @@ class OwningSeat(_m.SingleSourceBrickMeta):
     """Seat owning the brick (camera, ...)"""
 
 
+PATTERN_OFFSET: Final[str] = "PatternOffset"
+
+@_b.register(PATTERN_OFFSET)
+class PatternOffset(_m.Vec2Meta):
+    pass
+
+
+PATTERN_ROTATION: Final[str] = "PatternRotation"
+
+@_b.register(PATTERN_ROTATION)
+class PatternRotation(_m.Float32Meta):
+    pass
+
+
+PATTERN_SCALE: Final[str] = "PatternScale"
+
+@_b.register(PATTERN_SCALE)
+class PatternScale(_m.Vec2Meta):
+    pass
+
+
 PITCH_INPUT_CNL_INPUT_AXIS: Final[str] = 'PitchInputChannel.InputAxis'
 PITCH_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'PitchInputChannel.SourceBricks'
 PITCH_INPUT_CNL_VALUE: Final[str] = 'PitchInputChannel.Value'

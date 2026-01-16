@@ -10,7 +10,7 @@ class ID:
         self.editor: Optional[str] = editor
 
     def __repr__(self):
-        return f'ID({self.id}, {self.weld}, {self.editor})'
+        return f'ID({self.id!r}, {self.weld!r}, {self.editor!r})'
 
     def __eq__(self, other):
         return self.id == other.id and self.weld == other.weld and self.editor == other.editor

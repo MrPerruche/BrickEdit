@@ -10,8 +10,11 @@ from . import inner_properties as _ip
 
 _base_properties: dict[str, Hashable] = {
     _p.BRICK_COLOR: _p.BrickColor.DEFAULT_COLOR,
+    _p.BRICK_MATERIAL: _p.BrickMaterial.PLASTIC,
     _p.BRICK_PATTERN: _p.BrickPattern.NONE,
-    _p.BRICK_MATERIAL: _p.BrickMaterial.PLASTIC
+    _p.PATTERN_OFFSET: _v.Vec2(0.0, 0.0),
+    _p.PATTERN_SCALE: _v.Vec2(1.0, 1.0),
+    _p.PATTERN_ROTATION: 0.0
 }
 
 
