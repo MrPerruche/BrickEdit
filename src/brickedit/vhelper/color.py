@@ -34,9 +34,12 @@ def pack_float_to_int(*args):
     return packed
 
 def clamp(v: float, min_val: float, max_val: float) -> float:
+    """Clamps a value between min_val and max_val."""
     return max(min(v, max_val), min_val)
 
 def multi_clamp(*args: float, min_val: float, max_val: float) -> tuple[float, ...]:
+    """Clamps multiple values between min_val and max_val.
+    min_val and max_val must be defined using keywords."""
     return tuple(clamp(v, min_val, max_val) for v in args)
 
 

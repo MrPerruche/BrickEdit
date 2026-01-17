@@ -63,6 +63,9 @@ class Vec(ABC):
         """Right multiplication to support scalar * vector."""
         return self.__mul__(other)
 
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}({", ".join(str(n) for n in self.as_tuple())})'
+
 
 
 @dataclass(frozen=True, slots=True)
