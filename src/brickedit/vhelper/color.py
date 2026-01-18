@@ -199,12 +199,12 @@ def oklch_to_oklab(L: float, C: float, h: float) -> tuple[float, float, float]: 
 
 
 
-def srgb_to_oklab(r: float, g: float, b: float):
+def srgb_to_oklab(r: float, g: float, b: float) -> tuple[float, float, float]:
     """Converts sRGB (0-1) to OKLAB."""
     return linear_to_oklab(srgb_to_linear(r), srgb_to_linear(g), srgb_to_linear(b))
 
 
-def linear_to_oklab(r: float, g: float, b: float):
+def linear_to_oklab(r: float, g: float, b: float) -> tuple[float, float, float]:
     """Convert linear RGB (0–1) to OKLAB."""
 
         # linear RGB → LMS (via XYZ baked into matrix)
@@ -219,7 +219,7 @@ def linear_to_oklab(r: float, g: float, b: float):
 
 
 
-def oklab_to_linear(L: float, a: float, b: float): # pylint: disable=invalid-name
+def oklab_to_linear(L: float, a: float, b: float) -> tuple[float, float, float]: # pylint: disable=invalid-name
     """Convert OKLAB to linear rgb (unbounded float)."""
     ll, mm, ss = _mat.mul_mat3_vec3(M2_LAB_2_LMS_I, (L, a, b))
 
@@ -231,7 +231,7 @@ def oklab_to_linear(L: float, a: float, b: float): # pylint: disable=invalid-nam
 
     return rl, gl, bl
 
-def oklab_to_srgb(L: float, a: float, b: float): # pylint: disable=invalid-name
+def oklab_to_srgb(L: float, a: float, b: float) -> tuple[float, float, float]: # pylint: disable=invalid-name
     """Convert OKLAB to sRGB (0-1)."""
     rl, gl, bl = oklab_to_linear(L, a, b)
     return linear_to_srgb(rl), linear_to_srgb(gl), linear_to_srgb(bl)

@@ -123,10 +123,10 @@ class BRMFile:
         assert brick_count <= 65_534, "Too many bricks! Max: 65,534"
 
         # Init buffer
-        buffer = io.BytesIO()
+        buffer = bytearray()
 
         # No repeated global lookups
-        write = buffer.write
+        write = buffer.extend
 
         # Precompile struct
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
@@ -181,6 +181,7 @@ class BRMFile:
 
     _UNPACK_FROM_B = struct.Struct('B').unpack_from
     _UNPACK_FROM_h = struct.Struct('<h').unpack_from
+    _UNPACK_FROM_H = struct.Struct('<H').unpack_from
     _UNPACK_FROM_5f = struct.Struct('<5f').unpack_from
     _UNPACK_FROM_2Q = struct.Struct('<2Q').unpack_from
 
@@ -217,6 +218,7 @@ class BRMFile:
 
         unpack_from_B = self._UNPACK_FROM_B
         unpack_from_h = self._UNPACK_FROM_h
+        unpack_from_H = self._UNPACK_FROM_H
         unpack_from_5f = self._UNPACK_FROM_5f
         unpack_from_2Q = self._UNPACK_FROM_2Q
 
@@ -253,6 +255,16 @@ class BRMFile:
         offset += desc_byte_len
 
         if last_step <= 3:
+            return result
+
+        # -- Brick count
+
+        brick_count, = unpack_from_H(mv, offset)
+        if config.brick_count:
+            result.append(brick_count)
+        offset += 2
+
+        if last_step <= 4:
             return result
 
         # -- Size, weight, price
