@@ -1,5 +1,7 @@
-from datetime import datetime as _datetime, timezone as _timezone
+from datetime import datetime as _datetime, timezone as _timezone, timedelta as _timedelta
 
+
+DOTNET_EPOCH = _datetime(1, 1, 1, tzinfo=_timezone.utc)
 
 def net_ticks_now() -> int:
     """Provides the current time in the .NET DateTime ticks format.
@@ -20,9 +22,15 @@ def to_net_ticks(time: _datetime) -> int:
         int: .NET DateTime Ticks (100s of nanoseconds since 0001-01-01 00:00:00)
     """
 
-    # Get current UTC time
-    time_delta = time - _datetime(1, 1, 1, tzinfo=_timezone.utc)
-    return int(time_delta.total_seconds() * 1e7)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=_timezone.utc)
+
+    delta = dt - DOTNET_EPOCH
+    return (
+        delta.days * 86400 * 10_000_000 +
+        delta.seconds * 10_000_000 +
+        delta.microseconds * 10
+    )
 
 def from_net_ticks(time: int) -> _datetime:
     """
@@ -34,4 +42,5 @@ def from_net_ticks(time: int) -> _datetime:
     Returns:
         datetime: Converted datetime object
     """
-    return _datetime.fromtimestamp(time / 1e7, tz=_timezone.utc)
+    
+    return DOTNET_EPOCH + _timedelta(microseconds=time // 10_000_000)
