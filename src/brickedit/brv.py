@@ -470,10 +470,13 @@ class BRVFile:
 
             if is_post_groups_update:
                 # Get the indexes
-                weld_idx, editor_idx = unpack_2H(read(4))
+                editor_idx, weld_idx = unpack_2H(read(4))
                 # Then create the brick
                 self.add(_brick.Brick(
-                    ref=_id.ID(f'brick_{i}', f'weld_{weld_idx}', f'editor_{editor_idx}'),
+                    ref=_id.ID(f'brick_{i}',
+                        f'weld_{weld_idx}' if weld_idx > 0 else None,
+                        f'editor_{editor_idx}' if editor_idx > 0 else None
+                    ),
                     meta=brick_meta,
                     pos=_vec.Vec3(pos_x, pos_y, pos_z),
                     rot=_vec.Vec3(rot_x, rot_y, rot_z),
