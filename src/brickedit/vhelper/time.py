@@ -11,21 +11,23 @@ def net_ticks_now() -> int:
     """
     return to_net_ticks(_datetime.now(_timezone.utc))
 
-def to_net_ticks(time: _datetime) -> int:
+
+def to_net_ticks(dt: _datetime) -> int:
     """
-    Converts the given time to .NET DateTime ticks.
-    
+    Converts the given datetime to .NET DateTime ticks.
+
     Args:
-        time (datetime): Time to convert
+        dt (datetime): Time to convert
 
     Returns:
-        int: .NET DateTime Ticks (100s of nanoseconds since 0001-01-01 00:00:00)
+        int: .NET DateTime ticks (100 ns since 0001-01-01 00:00:00)
     """
 
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=_timezone.utc)
 
     delta = dt - DOTNET_EPOCH
+
     return (
         delta.days * 86400 * 10_000_000 +
         delta.seconds * 10_000_000 +
