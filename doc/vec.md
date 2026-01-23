@@ -24,14 +24,15 @@ This module contains vector-related classes used throughout brickedit.
 
 `Vec` is the abstract base class for all vector types in brickedit. It defines common methods and properties that all vector types must implement, such as addition, subtraction, scalar multiplication, and dot product.
 
-It features generic implementations for most methods. These generic implementations are slower, and should be replaced by more efficient ones in subclasses when possible.
+It features generic implementations for most methods. These generic implementations are slower, and should be overriden with more efficient versions in subclasses whenever possible.
 
-You must define the following abstract methods in subclasses:
+Subclasses must implement the following abstract methods:
 
 - `@abstractmethod as_tuple(self) -> tuple[float, ...]`: Converts the vector to a tuple of floats.
 - `@abstractmethod __len__(self) -> int`: Returns the number of dimensions in the vector.
 
-You should also override the following methods in subclasses for better performance:
+For improved performance, subclasses should override the following methods:
+
 - `magnitude(self) -> float`: Calculates the magnitude (length) of the vector.
 - `normalize(self) -> Self`: Normalizes the vector to have a magnitude of 1.
 - `__add__(self, other) -> Self`: Adds two vectors.
@@ -39,7 +40,8 @@ You should also override the following methods in subclasses for better performa
 - `__mul__(self, other: float) -> Self`: Multiplies the vector by a scalar.
 - `__repr__(self) -> str`: Returns a string representation of the vector.
 
-Vectors also contains the following methods of which their generic implementation already are fast enough and do not need to be overridden:
+Vectors also include the following method, whose generic implementation is already efficient and does not need to be overridden:
+
 - `__rmul__(self, other: float) -> Self`: Right multiplication to support scalar * vector.
 
 

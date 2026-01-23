@@ -22,7 +22,7 @@ flowchart TB
     FUNC_ENCODE_AUTH["function encode_author"]
     FUNC_DECODE_AUTH["function decode_author"]
 
-    FUNC_ENCODE_AUTH <-.-> FUNC_DECODE_AUTH
+    FUNC_ENCODE_AUTH <-.-> |Inverse of| FUNC_DECODE_AUTH
 
     CLS_BRMCONFIG["dataclass BRMDeserializationConfig"]
     CLS_BRMFILE["class BRMFile"]
@@ -40,7 +40,7 @@ This contains everything to handle metadata files for BrickRigs:
 - `encode_author` and `decode_author`: Functions to encode and decode author names in the specific format used by BRM files.
 
 
-## Set up for MetaData files: `BRMFile`
+## Setup for MetaData files: `BRMFile`
 
 The `BRMFile` class contains all necessary methods to (de)serialize MetaData files used in Brick Rigs. It only contains a single attribute:
 
@@ -59,11 +59,11 @@ Serialization is done using the `BRMFile.serialize` method. It takes the stored 
 - `size` (`_Vec3`) = `Vec3(0, 0, 0)`: The size of the vehicle in studs.
 - `weight` (`float`) = `0.0`: The weight of the vehicle in kilograms.
 - `price` (`float`) = `0.0`: The price of the vehicle in Brick Rigs currency.
-- `author` (`int`) = `0`: The encoded author name of the vehicle.
-- `visibility` (`int`) = `0`: The visibility level of the vehicle.
+- `author` (`int | None`) = `None`: The author name of the vehicle.
+- `visibility` (`int`) = `VISIBILITY_PUBLIC`: The visibility level of the vehicle.
 - `tags` (`Optional[list[str]]`) = `None`: A list of tags associated with the vehicle.
-- `creation_time` (`int | None`) = `None`: The creation time of the vehicle as a Unix timestamp.
-- `last_update_time` (`int | None`) = `None`: The last update time of the vehicle as a Unix timestamp.
+- `creation_time` (`int | None`) = `None`: The creation time of the vehicle as a .NET ticks timestamp.
+- `last_update_time` (`int | None`) = `None`: The last update time of the vehicle as a .NET ticks timestamp.
 
 It returns a bytearray object you may save. When writing the file, keep in mind Brick Rigs will only look for files named `MetaData.brm`.
 
@@ -74,7 +74,7 @@ It returns a bytearray object you may save. When writing the file, keep in mind 
 
 Deserializing a BRMFile using brickedit will return a tuple containing selected data. You may select which data you wish to deserialize using the `BRMDeserializationConfig` dataclass. It contains the following attributes:
 
-- `version`: The version of the BRM file.
+- `version`: The *detected* version of the BRM file.
 - `name`: Whether to deserialize the name.
 - `description`: Whether to deserialize the description.
 - `brick_count`: Whether to deserialize the brick count.
@@ -98,4 +98,4 @@ Deserialization is done using the `BRMFile.deserialize` method. It has 3 paramet
 - `config` (`BRMDeserializationConfig`): Configuration to pick the data to be deserialized.
 - `auto_version` (`bool`): Whether to automatically detect the version of the BRM file. If `True`, `self.version` will be updated.
 
-The method returns a tuple of all requested data in the order of the attributes in `BRMDeserializationConfig`. If an attribute is set to `False`, it will not be included in the returned tuple. BrickEdit will not bother deserializing data that is not requested, which improves performance. It may also stop deserializing early if it has already retrieved all requested data.
+The method returns a tuple of all requested data in the definition order of the attributes in `BRMDeserializationConfig`. If an attribute is set to `False`, it will not be included in the returned tuple. BrickEdit will not bother deserializing data that is not requested, which improves performance. It may also stop deserializing early if it has already retrieved all requested data.

@@ -38,7 +38,9 @@ class BRVFile:
         Returns:
             BRVFile: New instance
         """
-        return self.__class__().update_from_brvfile(self).update_from_brvfile(other)
+        if other.version != self.version:
+            raise ValueError(f"Cannot add BRVFile with version {other.version} to BRVFile with version {self.version}.")
+        return self.__class__(self.version).update_from_brvfile(self).update_from_brvfile(other)
 
 
     def add(self, brick: _brick.Brick) -> Self:
@@ -336,7 +338,7 @@ class BRVFile:
 
 
 
-    def deserialize(self, buffer: bytes | bytearray | io.BytesIO) -> None:
+    def deserialize(self, buffer: bytes | bytearray) -> None:
         """Deserialize a bytearray into this vehicle.
 
         Args:

@@ -53,8 +53,7 @@ The vhelper module provides unit conversion and value transformation utilities f
 
 ## Creating a value helper instance
 
-You must create a `ValueHelper` instance, which will store what version and units you are using by default.
-When creating a `ValueHelper` instance, you must define the following parameters:
+A `ValueHelper` instance stores the file version and default units for conversion. You must specify the following parameters when creating an instance:
 
 - `version`: The file version you are working with.
 - `default_physical_unit`, optional: The default physical unit to use.

@@ -9,7 +9,7 @@
 Are you a beginner in computer science or unfamiliar with Python? This short section will give some information to go back to if you need help reading:
 
 - Decorators are things that wrap around functions and classes to easily add additional code. You can see them as a special kind of function. They are placed above a class or function and start with `@`. They can take arguments in parentheses. For example: `@staticmethod`, `@p.register(BRICK_MATERIAL)`.
-- While somewhat uncommon in Python, there are generic types. TypeVars and Generic are used by type checkers (mypy, IDEs) and are not enforced at runtime. `T` is a common name for a type variable. Example usage: `class MyClass(ParentClass[str])` tells type checkers that all `T`s in `ParentClass`'s are `str`.
+- While somewhat uncommon in Python, there are generic types. TypeVars and Generic are used by type checkers (mypy, IDEs) and are not enforced at runtime. `T` is a common name for a type variable. Example usage: `class MyClass(ParentClass[str])` tells type checkers that all `T`s in `ParentClass` are `str`.
 
 </details>
 
@@ -61,7 +61,7 @@ flowchart TB
 
 This module contains all brick types and their classes in brickedit:
 
-- `BrickMeta`: Base class defining how brick types are declared. Its subclasses are the different brick classes instantiated by individual bricks.
+- `BrickMeta`: The base class that defines how brick types are declared. Its subclasses represent specific brick classes, which are instantiated by individual bricks.
 - A class for each brick "category" (e.g. `GunBrick`, `ScalableBrick`, …).
 
 The term "brick meta" refers to the `BrickMeta` base class and all of its subclasses, while the term "brick type" refers to concrete instances of those subclasses.
@@ -125,7 +125,7 @@ base_properties: dict[str, Hashable] = {
 class MyBrickMeta(bt.BrickMeta):
 
     # We create the base properties.
-    # Our made up property's default value depends on the brick,
+    # Our made-up property's default value depends on the brick,
     # so we pass as keyword argument the value of this brick for each brick type
     def base_properties(self, *args, **kwargs):
 

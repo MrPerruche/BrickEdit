@@ -8,7 +8,7 @@
 Are you a beginner in computer science or unfamiliar with Python? This short section will give some information to go back to if you need help reading:
 
 - Decorators are things that wrap around functions and classes to easily add additional code. You can see them as a special kind of function. They are placed above a class or function and start with `@`. They can take arguments in parentheses. For example: `@staticmethod`, `@p.register(BRICK_MATERIAL)`.
-- While somewhat uncommon in Python, there are generic types. TypeVars and Generic are used by type checkers (mypy, IDEs) and are not enforced at runtime. `T` is a common name for a type variable. Example usage: `class MyClass(ParentClass[str])` tells type checkers that all `T`s in `ParentClass`'s are `str`.
+- While somewhat uncommon in Python, there are generic types. TypeVars and Generic are used by type checkers (mypy, IDEs) and are not enforced at runtime. `T` is a common name for a type variable. Example usage: `class MyClass(ParentClass[str])` tells type checkers that all `T`s in `ParentClass` are `str`.
 
 </details>
 
@@ -83,11 +83,8 @@ Note: as of the time of writing, BRMK does not let modders add their own propert
 This module contains everything to handle properties in brickedit:
 
 - `PropertyMeta`: Class defining how to serialize and deserialize all properties. Its subclasses contains all its possible values throughout the versions.
-
 - `pmeta_registry`: A dictionary binding all `PropertyMeta`s subclasses to properties' internal name as string.
-
 - `@register`: Registers `PropertyMeta`s subclasses to `pmeta_registry`. For example: `@register(BRICK_MATERIAL)`.
-
 - Tens of subclasses of `PropertyMeta` each defining a property type and their internal name stored in similarly named screaming snake case variables. For example: `BRICK_MATERIAL: Final[str] = "BrickMaterial"` and `class BrickMaterialMeta(PropertyMeta)`.
 
 ## Defining properties: `PropertyMeta(Generic[T], ABC)`
@@ -97,12 +94,10 @@ This module contains everything to handle properties in brickedit:
 Each subclass of `PropertyMeta[T]` must define the following:
 
 - `@staticmethod serialize(self, v: T, version: int) -> bytes`: Serializes the property value `v` to a bytes for the given version. Typically directly returns result of `serialization` classes methods.
-
 - `@staticmethod deserialize(self, v: bytes, version: int) -> T:`: Deserializes the property value from the given byte array `v` for the given version. Typically directly returns result of `serialization` classes methods.
-
 - When applicable (mainly in the case of enums, e.g. for materials), class-level constant string variable defining the internal names of all possible options throughout the supported versions. For example: `PLASTIC: Final[str] = "Plastic"` for `BrickMaterialMeta`.
 
-Your property may not exist in your current version. You may signal brickedit that it should be disregarded by returning `InvalidVersion` upon serialization. For type annotation, use the class name `InvalidVersionType`.
+Your property may not exist in the current version. You may signal brickedit that it should be disregarded by returning `InvalidVersion` upon serialization. For type annotation, use the class name `InvalidVersionType`.
 
 Many meta classes are already implemented, so you can run instance checks and make custom properties faster. Learn more at the [Available meta classes](#available-meta-classes) section
 

@@ -19,16 +19,16 @@ Are you a beginner in computer science or unfamiliar with Python? This short sec
 
 The `BRVFile` class contains all necessary methods to work with vehicle files. They contain two attributes:
 - `version` (`int`): The version of the Brick Rigs Vehicle format to use.
-- `bricks` (`list[Brick]`): A list of all bricks in the vehicle.
+- `bricks` (`list[Brick]`): A (mutable) list of all bricks in the vehicle.
 
 
 ## Methods of `BRVFile`
 
 Here are all the methods of `BRVFile` outside and (de)serialization:
 
-- `__add__` (`BRVFile() + BRVFile()`): Merges two `BRVFile`s into one, combining their bricks. Returns a new `BRVFile` instance.
+- `__add__` (`BRVFile() + BRVFile()`): Merges two `BRVFile`s into one, combining their bricks. Both must be of the same version, otherwise they will raise a `ValueError`. Returns a new `BRVFile` instance.
 - `add(self, brick: Brick) -> Self`: Adds a brick to the vehicle. Returns self.
-- `update(self, bricks: Iterable[Brick]) -> Self`: Updates the vehicle by adding all bricks from another `BRVFile`. Returns self.
+- `update(self, bricks: Iterable[Brick]) -> Self`: Updates the vehicle by adding all bricks from any given iterable. Returns self.
 - `update_from_brvfile(self, other: BRVFile) -> Self`: Updates the vehicle by adding all bricks from another `BRVFile`. Returns self.
 
 

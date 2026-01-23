@@ -39,7 +39,7 @@ brv = BRVFile(FILE_MAIN_VERSION)
 
 ### Adding a brick
 
-BrickEdit represent bricks using the `Brick` class. To create a basic brick with no non-default properties, you may do something like this:; We will go over each argument after the example.
+BrickEdit represents bricks using the `Brick` class. To create a basic brick with no non-default properties, you may do something like this:; We will go over each argument after the example.
 
 ```py
 from brickedit import *
@@ -64,7 +64,7 @@ brick = Brick(
 
 ### Working with units
 
-As previously mentionned, units are a bit of a complicated topic. They depend on the version. Instead of letting you deal with these technicalities, we created the `vhelper` module to help you work with values. You will use it with the `ValueHelper` class.
+As previously mentioned, units are messy, because they depend on the version. Instead of letting you deal with these technicalities, we created the `vhelper` module to help you work with values. You will use it with the `ValueHelper` class.
 
 The `ValueHelper` class must be instantiated with the file version you are working with.
 
@@ -80,7 +80,7 @@ brick = Brick(
     ID("my_brick"),
     bt.SCALABLE_BRICK,
     pos=vh.pos(0, 0, 0),
-    rot=Vec3(0, 0, 0)
+    rot=Vec3(0, 0, 0),
     ppatch={}
 )
 ```
@@ -118,7 +118,7 @@ Here is an example of how to create a glowing red brick:
 from brickedit import *
 
 brv = BRVFile(FILE_MAIN_VERSION)
-vh = vhelper.VehicleHelper(FILE_MAIN_VERSION)
+vh = vhelper.ValueHelper(FILE_MAIN_VERSION)
 
 brick = Brick(
     ID("my_glowing_brick"),
@@ -145,7 +145,7 @@ You can directly edit the `bricks` attribute of `BRVFile`:
 from brickedit import *
 
 brv = BRVFile(FILE_MAIN_VERSION)
-vh = vhelper.VehicleHelper(FILE_MAIN_VERSION)
+vh = vhelper.ValueHelper(FILE_MAIN_VERSION)
 
 brick = Brick(
     ID("my_glowing_brick"),
@@ -167,7 +167,7 @@ Or you can directly use the `add` method (which we recommend). While we're there
 from brickedit import *
 
 brv = BRVFile(FILE_MAIN_VERSION)
-vh = vhelper.VehicleHelper(FILE_MAIN_VERSION)
+vh = vhelper.ValueHelper(FILE_MAIN_VERSION)
 
 brv.add(Brick(
     ID("my_glowing_brick"),
@@ -194,7 +194,7 @@ Here is an example:
 from brickedit import *
 
 brv = BRVFile(FILE_MAIN_VERSION)
-vh = vhelper.VehicleHelper(FILE_MAIN_VERSION)
+vh = vhelper.ValueHelper(FILE_MAIN_VERSION)
 
 brv.add(Brick(
     ID("my_glowing_brick"),
@@ -214,7 +214,7 @@ with open("Vehicle.brv", "wb") as f:
 
 Congratulations! You have created your first vehicle file! Next, we will learn how to add metadata to this vehicle.
 
-If you wish to train more, here is a few ideas of builds to create programatically:
+If you wish to train more, here is a few build ideas to create programmatically:
 - Easy: a pyramid of height n, similar to the *, **, etc. pyramids in tutorials;
 - Fair: a cube made of glowing scalable cubes;
 - Medium: a rainbow circle made of spinners.
@@ -232,7 +232,7 @@ from brickedit import *
 brm = BRMFile(FILE_MAIN_VERSION)
 ```
 
-Then, you will directly serialize the file using the `serialize` method. You will pass the name, description, and other informations using arguments. Here is an example:
+Then, you will directly serialize the file using the `serialize` method. You will pass the name, description, and other information using arguments. Here is an example:
 
 ```py
 from brickedit import *

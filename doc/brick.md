@@ -24,6 +24,8 @@ Learn more about the `ID` class in the [ID documentation](/doc/id.md).
 
 The `_meta` attribute is an instance of the `BrickMeta` class.
 
+The attribute is named `_meta` to discourage direct mutation; you should treat it as read-only and access it via meta().
+
 Each brick type in brickedit is represented by an instance of a subclass of `BrickMeta`. You do not have to worry about creating your own brick type instances. BrickEdit provides by default every vanilla brick type in the `bt` module. For example, `bt.SCALABLE_BRICK` is the brick type of scalable bricks (cube). It is an instance of the `ScalableBrickMeta` class, which is a subclass of `BrickMeta`.
 
 Learn more about the technicalities of brick types and `BrickMeta` in the [brick types documentation](/doc/bt.md).
