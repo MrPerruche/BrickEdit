@@ -35,7 +35,7 @@ Learn more about the technicalities of brick types and `BrickMeta` in the [brick
 
 The two vectors represent the position and rotation of the brick in 3D space, respectively. Both attributes are instances of the `Vec3` class, which represents a 3D vector with `x`, `y`, and `z` components.
 
-Learn more about vectors in BrickEdit in the [vectors documentation](/doc/vec3.md).
+Learn more about vectors in BrickEdit in the [vectors documentation](/doc/vec.md).
 
 
 ### `ppatch` attribute
@@ -51,9 +51,9 @@ Learn more about the technicalities of properties in BrickEdit in the [propertie
 
 The `Brick` class provides several methods to interact with and manipulate bricks:
 
-- `meta() -> BrickMeta`: Returns the brick type (`BrickMeta` subclass instance) of the brick.
-- `get_property(p: str) -> Hashable | None`: Returns the value of a property (deepcopied to avoid mutability issues). If the property does not exist for this brick, it raises a `BrickError`.
-- `set_property(p: str, v: Hashable) -> Self`: Sets the value of a property, regardless of if it is the default value or not, and regardless of it this property exists for this brick. Returns self.
+- `meta(self) -> BrickMeta`: Returns the brick type (`BrickMeta` subclass instance) of the brick.
+- `get_property(self, p: str) -> Hashable`: Returns the value of a property (deepcopied to avoid mutability issues). If the property does not exist for this brick, it raises a `BrickError`.
+- `set_property(self, p: str, v: Hashable) -> Self`: Sets the value of a property, regardless of if it is the default value or not, and regardless of it this property exists for this brick. Returns self.
 - `edit_property(self, p: str, lf: Callable[[Hashable], Hashable]) -> Self`: Edits the value of a property using a lambda function. The lambda function takes the current value of the property and returns the new value. Returns self.
 - `reset_property(self, p: str) -> Self`: Resets the value of a property to its default value as defined by the brick type. Returns self.
 - `get_all_properties(self) -> dict[str, Hashable]`: Returns a dictionary containing all properties of the brick, including those set to their default values.

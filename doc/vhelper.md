@@ -166,7 +166,7 @@ Converts a float in the range [0.0, 1.0] to an integer in the range [0, 255].
 Packs 8-bit arguments into an integer. For example, `pack(1, 2, 3)` returns `0x010203`.
 
 - **`pack_float_to_int(*args) -> int`**:
-Pack floats converted to 8-bit integers with float_to_int into a single integer For example, `pack_float_to_int(0, 0.5, 1)` returns `0x007fff`
+Pack floats (converted to 8-bit integers) with float_to_int into a single integer. For example, `pack_float_to_int(0, 0.5, 1)` returns `0x007fff`
 
 - **`clamp(value: float, min_value: float, max_value: float) -> float`**:
 Clamps a float value between min_value and max_value.
