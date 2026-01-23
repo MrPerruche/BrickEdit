@@ -2,6 +2,7 @@
 It can read, write, and manipulate the contents of .BRV and .BRM files."""
 from .vec import *
 from .var import *
+from .var import BRICKEDIT_VERSION_FULL as __version__
 from .id import *
 from .brick import *
 from .brv import *
