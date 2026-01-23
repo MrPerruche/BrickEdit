@@ -3,7 +3,47 @@
 ## Structure as a graph
 
 ```mermaid
-flowchart LR
+flowchart TD
+
+subgraph COLOR["color.py / brickedit.vhelper.color"]
+    COLOR_MATH_BITWISE["Math and bitwise functions: cbrt_copysign, float_to_int, pack, pack_float_to_int, clamp, multi_clamp"]
+    COLOR_CORRECTION["Color correction: srgb_to_linear, multi_srgb_to_linear, linear_to_srgb, multi_linear_to_srgb"]
+    COLOR_SPACES["Color spaces: hsv_to_rgb, rgb_to_hsv, M1_XYZ_2_LMS_N, M2_LMS_2_LAB_N, M1_LMS_2_XYZ_I, M2_LAB_2_LMS_I, oklab_to_oklch, oklch_to_oklab, srgb_to_oklab, linear_to_oklab, oklab_to_linear, oklab_to_srgb, rgb_to_cmyk, cmyk_to_rgb"]
+end
+
+
+subgraph VHELPER["vhelper.py / brickedit.vhelper"]
+    VHELPER_VH["class ValueHelper"]
+    VHELPER_POS_ROT["method Position & Rotation: pos, pos_vec, rot, rot_vec"]
+    VHELPER_BRICK_SIZE["method Brick Properties: brick_size, brick_size_vec"]
+    VHELPER_COLORS["method Colors: p_rgba, rgba, hsva, oklab, oklch, cmyk"]
+    VHELPER_OTHER["method Other: current_time, force"]
+
+    VHELPER_VH --> VHELPER_POS_ROT & VHELPER_BRICK_SIZE & VHELPER_COLORS & VHELPER_OTHER
+end
+
+
+subgraph MAT["mat.py / brickedit.vhelper"]
+    MAT_TUPLEVEC3["Type alias TupleVec3 = tuple[float, float, float]"]
+    MAT_MATRIX3["Type alias Matrix3 = tuple[TupleVec3, TupleVec3, TupleVec3]"]
+    MAT_MUL["function mul_mat3_vec3(m: Matrix3, v: TupleVec3) -> TupleVec3"]
+    MAT_DET["function det_mat3(m: Matrix3) -> float"]
+    MAT_INV["function inv_mat3(m: Matrix3) -> Matrix3"]
+end
+
+
+subgraph TIME["time.py / brickedit.vhelper"]
+    TIME_NET_TICKS_NOW["function net_ticks_now() -> int"]
+    TIME_TO_NET_TICKS["function to_net_ticks(dt: datetime.datetime) -> int"]
+    TIME_FROM_NET_TICKS["function from_net_ticks(time: int) -> datetime.datetime"]
+end
+
+
+subgraph UNITS["units.py / brickedit.vhelper"]
+    UNITS_SI["SI Multipliers: QUETTA, RONNA, YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO, DECA, DECI, CENTI, MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO, YOCTO, RONTO, QUECTO"]
+    UNITS_POS["Positional Units: KILOMETER/KM, METER/M, DECIMETER, CENTIMETER/CM, MILLIMETER/MM, INCH/IN, FOOT/FT, YARD/YD, MILE/MI"]
+    UNITS_ROT["Rotational Units: DEGREE/DEG, RADIAN/RAD"]
+    UNITS_FORCE["Force Units: NEWTON, KILO_NEWTON, MEGA_NEWTON"]
 end
 ```
 
@@ -191,8 +231,11 @@ The .NET DateTime ticks format represents time as the number of 100-nanosecond i
 - **`net_ticks_now() -> int`**:
 Provides the current time in the .NET DateTime ticks format.
 
-- **`to_net_ticks(time: datetime.datetime) -> int`**:
+- **`to_net_ticks(dt: datetime.datetime) -> int`**:
 Converts a `datetime.datetime` object to the .NET DateTime ticks format.
+
+- **`from_net_ticks(time: int) -> datetime.datetime`**:
+Converts a .NET DateTime ticks value to a `datetime.datetime` object.
 
 ### Matrices (`brickedit.vhelper`)
 
