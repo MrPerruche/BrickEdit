@@ -45,4 +45,4 @@ def from_net_ticks(time: int) -> _datetime:
         datetime: Converted datetime object
     """
     
-    return DOTNET_EPOCH + _timedelta(microseconds=time // 10_000_000)
+    return DOTNET_EPOCH + _timedelta(microseconds=time // 10)
