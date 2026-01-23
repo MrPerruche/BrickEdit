@@ -25,3 +25,9 @@ license-files = ["LICENSE"]
 Homepage = "https://github.com/MrPerruche/BrickEdit"
 Repository = "https://github.com/MrPerruche/BrickEdit"
 Issues = "https://github.com/MrPerruche/BrickEdit/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -169,7 +169,7 @@ class BRVFile:
                 # Put in the lists if it's not already
                 if prop not in prop_to_index:
                     prop_to_index[prop] = len(prop_to_index)
-                    indexes_to_serialized.update({len(indexes_to_serialized): []})
+                    indexes_to_serialized[len(indexes_to_serialized)] = []
                     prop_indices_to_serialized_len_sum.append(0)
 
                     # value_to_index and indexes_to_serialized are defaultdicts,

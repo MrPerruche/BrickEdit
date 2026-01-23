@@ -67,7 +67,7 @@ class TextMeta(_b.PropertyMeta[str]):
         is_ascii = v.isascii()
         v_bytes = v.encode('ascii') if is_ascii else v.encode('utf-16-le')
 
-        len_v = len(v) if is_ascii else -len(v)
+        len_v = len(v) if is_ascii else -len(v_bytes // 2)
         return _STRUCT_INT16.pack(len_v) + v_bytes
 
     @staticmethod
