@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brickedit"
-version = "5.0.0"
+version = "5.0.2"
 # dynamic = ["version"]
 authors = [{ name="MrPerruche" }, { name="FateUnix29" }]
 description = "BrickEdit is a tool for creating and editing Brick Rigs vehicle files (.brv & .brm)."
