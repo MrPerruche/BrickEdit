@@ -917,7 +917,7 @@ class LightBrick(_b.BrickMeta):
         return _base_properties | {
             _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
-            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.CUSTOM,
+            _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.HEADLIGHT,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
             _p.BRIGHTNESS: 0.5,
