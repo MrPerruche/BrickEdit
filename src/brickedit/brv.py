@@ -89,7 +89,7 @@ class BRVFile:
 
 
 
-    def serialize(self) -> bytearray:
+    def serialize(self, allow_unknown: bool = True) -> bytearray:
         """
         Serialize the vehicle file into a bytearray.
 
@@ -162,7 +162,10 @@ class BRVFile:
                 # Get the serialization class and make sure it's valid
                 prop_serialization_class = pmeta_registry_get(prop)
                 if prop_serialization_class is None:
-                    raise BrickError(f"Property {prop!r} from brick {brick!r} "
+                    if allow_unknown:
+                        prop_serialization_class = _p.UnknownPropertyMeta
+                    else:
+                        raise BrickError(f"Property {prop!r} from brick {brick!r} "
                                         "does not have any serialization class registered.")
 
                 # When a new property is discovered

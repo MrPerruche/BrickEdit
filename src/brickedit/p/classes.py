@@ -1113,3 +1113,24 @@ class YawInputCnl_SourceBricks(_m.SourceBricksMeta):
 @_b.register(YAW_INPUT_CNL_VALUE)
 class YawInputCnl_Value(_m.ValueMeta):
     """Constant value for YawInputChannel"""
+
+
+# -----
+
+
+class UnknownPropertyMeta(_m.PropertyMeta):
+
+    @staticmethod
+    def serialize(
+        v: bytes,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes:
+        return v
+
+    @staticmethod
+    def deserialize(
+        v: bytes,
+        version: int
+    ) -> bytes:
+        return v

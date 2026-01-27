@@ -2094,3 +2094,17 @@ WING_4X8X1S_R: Final = WingBrickMeta('Wing_4x8x1s_R')
 WING_6X14X1S_L: Final = WingBrickMeta('Wing_6x14x1s_L')
 WING_6X14X1S_R: Final = WingBrickMeta('Wing_6x14x1s_R')
 WING_ROUNDED_2X2X1S: Final = WingBrickMeta('WingRounded_2x2x1s')
+
+
+
+# -----
+
+
+class UnknownBrickMeta(_b.BrickMeta):
+
+    def __init__(self, name: str, custom_data: dict, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
+        self.custom_data = custom_data
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties.copy()

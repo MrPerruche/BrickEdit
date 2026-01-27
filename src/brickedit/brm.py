@@ -94,7 +94,7 @@ class BRMFile:
         tags: Optional[list[str]] = None,
         creation_time: int | None = None,
         last_update_time: int | None = None,
-    ):
+    ) -> bytearray:
         """Serializes a BRMFile
 
         Args:
@@ -170,12 +170,13 @@ class BRMFile:
 
         write(pack_B(visibility))
 
-        write(pack_H(len(tags)))
-        for t in tags:
-            write(pack_B(len(t)))
-            write(t.encode('ascii'))
+        if tags is not None:
+            write(pack_H(len(tags)))
+            for t in tags:
+                write(pack_B(len(t)))
+                write(t.encode('ascii'))
 
-        return buffer.getvalue()
+        return buffer
 
 
 
