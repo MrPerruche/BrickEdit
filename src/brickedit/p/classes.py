@@ -1118,7 +1118,7 @@ class YawInputCnl_Value(_m.ValueMeta):
 # -----
 
 
-class UnknownPropertyMeta(_m.PropertyMeta):
+class UnknownPropertyMeta(_b.PropertyMeta):
 
     @staticmethod
     def serialize(
