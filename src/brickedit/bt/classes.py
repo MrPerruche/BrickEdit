@@ -193,7 +193,7 @@ class AxleBrickMeta(_b.BrickMeta):
             _p.STEERING_INPUT_CNL_INPUT_AXIS: _p.SteeringInputCnl_InputAxis.STEERING,
             _p.STEERING_INPUT_CNL_SOURCE_BRICKS: _p.SteeringInputCnl_SourceBricks.EMPTY,
             _p.STEERING_INPUT_CNL_VALUE: _p.SteeringInputCnl_Value.DEFAULT_VALUE,
-            _p.BRAKE_INPUT_CNL_INPUT_AXIS: _p.BrakeInputCnl_InputAxis.STEERING,
+            _p.BRAKE_INPUT_CNL_INPUT_AXIS: _p.BrakeInputCnl_InputAxis.BRAKE,
             _p.BRAKE_INPUT_CNL_SOURCE_BRICKS: _p.BrakeInputCnl_SourceBricks.EMPTY,
             _p.BRAKE_INPUT_CNL_VALUE: _p.BrakeInputCnl_Value.DEFAULT_VALUE,
             _p.B_CAN_DISABLE_STEERING: False,
