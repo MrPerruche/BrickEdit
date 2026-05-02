@@ -368,7 +368,7 @@ EXIT_LOCATION: Final[str] = 'ExitLocation'
 
 @_b.register(EXIT_LOCATION)
 class ExitLocation(_b.PropertyMeta[_vec.Vec3]):
-    """Exit location of a light brick"""
+    """Exit location of a seat"""
 
     @staticmethod
     def serialize(
@@ -975,6 +975,8 @@ class Operation(_m.EnumMeta):
     MAX: Final[str] = 'Max'
     ABS: Final[str] = 'Abs'
     SIGN: Final[str] = 'Sign'
+    EQUAL: Final[str] = 'Equal'
+    NOT_EQUAL: Final[str] = 'NotEqual'
     ROUND: Final[str] = 'Round'
     CEIL: Final[str] = 'Ceil'
     FLOOR: Final[str] = 'Floor'
@@ -992,6 +994,8 @@ class Operation(_m.EnumMeta):
     TAN_RAD: Final[str] = 'Tan'
     ATAN_DEG: Final[str] = 'AtanDeg'
     ATAN_RAD: Final[str] = 'Atan'
+    ATAN2_DEG: Final[str] = 'Atan2Deg'
+    ATAN2_RAD: Final[str] = 'Atan2'
 
     SUB = SUBTRACT
     MUL = MULTIPLY
@@ -1055,6 +1059,10 @@ class SensorType(_m.EnumMeta):
     DISTANCE_TO_GROUND: Final[str] = 'DistanceToGround'
     ALTITUDE: Final[str] = 'Altitude'
     ABSOLUTE_ALTITUDE: Final[str] = 'AbsAltitude'
+    POSITION_X: Final[str] = 'PosX'
+    ABSOLUTE_POSITION_X: Final[str] = 'AbsPosX'
+    POSITION_Y: Final[str] = 'PosY'
+    ABSOLUTE_POSITION_Y: Final[str] = 'AbsPosY'
     PITCH: Final[str] = 'Pitch'
     YAW: Final[str] = 'Yaw'
     ROLL: Final[str] = 'Roll'
@@ -1075,7 +1083,14 @@ class SensorType(_m.EnumMeta):
     WIND_DIRECTION_DEG = WIND_DIRECTION_DEGREES
     WIND_DIRECTION_RADIANS = WIND_DIRECTION
     WIND_DIRECTION_RAD = WIND_DIRECTION
-
+    POSITION_Z = ALTITUDE
+    ABSOLUTE_POSITION_Z = ABSOLUTE_ALTITUDE
+    POS_Z = ALTITUDE
+    ABS_POS_Z = ABSOLUTE_ALTITUDE
+    POS_X = POSITION_X
+    ABS_POS_X = ABSOLUTE_POSITION_X
+    POS_Y = POSITION_Y
+    ABS_POS_Y = ABSOLUTE_POSITION_Y
 
 TEXT_COLOR = 'TextColor'
 @_b.register(TEXT_COLOR)
