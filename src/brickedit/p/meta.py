@@ -180,7 +180,7 @@ class InputAxisMeta(EnumMeta):
     DISABLE_STEERING: Final[str] = 'DisableSteering'
     INVERT_STEERING: Final[str] = 'InvertSteering'
 
-    HANDBRAKE: Final[str] = 'HandBreake'
+    HANDBRAKE: Final[str] = 'HandBrake'
     OPERATION_MODE: Final[str] = 'OperationMode'
     HEADLIGHT: Final[str] = 'Headlight'
 
