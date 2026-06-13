@@ -1629,7 +1629,8 @@ class TankBrickMeta(_b.BrickMeta):
         return _base_properties | {
             _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
-            _p.FUEL_TYPE: _p.FuelType.PETROL
+            _p.FUEL_TYPE: _p.FuelType.PETROL,
+            _p.B_FLUID_DYNAMIC: False
         }
 
 TANK_BRICK: Final = TankBrickMeta('TankBrick', 27)
