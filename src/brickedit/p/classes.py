@@ -228,11 +228,6 @@ B_FLUID_DYNAMIC: Final[str] = 'bGenerateLift'
 class BGenerateLift(_m.BooleanMeta):
     """Brick generates lift (aero) property"""
 
-@_b.register(B_DRIVEN)
-class BFluidDynamic(_m.BooleanMeta):
-    """Brick fluid dynamics (generate lift / aero) property"""
-
-
 B_HAS_BRAKE: Final[str] = 'bHasBrake'
 
 @_b.register(B_HAS_BRAKE)
