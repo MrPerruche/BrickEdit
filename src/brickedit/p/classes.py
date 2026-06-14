@@ -228,6 +228,7 @@ B_FLUID_DYNAMIC: Final[str] = 'bGenerateLift'
 class BGenerateLift(_m.BooleanMeta):
     """Brick generates lift (aero) property"""
 
+
 B_HAS_BRAKE: Final[str] = 'bHasBrake'
 
 @_b.register(B_HAS_BRAKE)
@@ -355,7 +356,7 @@ class CouplingMode(_m.EnumMeta):
 DISPLAY_COLOR: Final[str] = 'DisplayColor'
 
 @_b.register(DISPLAY_COLOR)
-class DisplayColor(_m.Color3ChannelsMeta):
+class DisplayColor(_m.Color4ChannelsMeta):
     """Digit display color for display bricks"""
 
 
@@ -486,7 +487,7 @@ class Image(_m.EnumMeta):
 IMAGE_COLOR: Final[str] = 'ImageColor'
 
 @_b.register(IMAGE_COLOR)
-class ImageColor(_m.Color3ChannelsMeta):
+class ImageColor(_m.Color4ChannelsMeta):
     """Color of the image of an image brick"""
     DEFAULT_COLOR: Final[str] = 0xffffff
 
@@ -795,7 +796,7 @@ class SpinnerSize(_m.Vec2Meta):
 SMOKE_COLOR: Final[str] = 'SmokeColor'
 
 @_b.register(SMOKE_COLOR)
-class SmokeColor(_m.Color3ChannelsMeta):
+class SmokeColor(_m.Color4ChannelsMeta):
     """Exhaust effect color"""
 
 
@@ -1089,7 +1090,7 @@ class SensorType(_m.EnumMeta):
 
 TEXT_COLOR = 'TextColor'
 @_b.register(TEXT_COLOR)
-class TextColor(_m.Color3ChannelsMeta):
+class TextColor(_m.Color4ChannelsMeta):
     """Text color property for text bricks."""
     DEFAULT_COLOR: Final[int] = 0x000000
 
