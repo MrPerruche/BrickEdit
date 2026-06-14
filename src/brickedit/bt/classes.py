@@ -359,7 +359,7 @@ ZYLINDER_2X2X1S: Final = CylinderBrickMeta('Zylinder_2x2x1s')
 ZYLINDER_2X2X1S_FLAT: Final = CylinderBrickMeta('Zylinder_2x2x1s_Flat')
 ZYLINDER_2X2X4: Final = CylinderBrickMeta('Zylinder_2x2x4')
 
-HALF_CYLINDER_4X2X4: Final = CylinderBrickMeta('HalfZylinder_4x2x4')
+HALF_ZYLINDER_4X2X4: Final = CylinderBrickMeta('HalfZylinder_4x2x4')
 
 
 
