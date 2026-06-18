@@ -1162,7 +1162,32 @@ PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75, 300, 0.5)
 
 
 
-class RampBrickMeta(_b.BrickMeta):
+class NoAeroRampBrickMeta(_b.BrickMeta):
+
+    def base_properties(self, *args, **kwargs):
+        return _base_properties.copy()
+
+
+
+CORNER_RAMP_1X1X1: Final = NoAeroRampBrickMeta('CornerRamp_1x1x1')
+CORNER_RAMP_2X2X1: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1')
+CORNER_RAMP_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1_02')
+CORNER_RAMP_3X2X1_L: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_L')
+CORNER_RAMP_3X2X1_R: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_R')
+CORNER_RAMP_5X3X1_L: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_L')
+CORNER_RAMP_5X3X1_R: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_R')
+CORNER_RAMP_N_2X2X1: Final = NoAeroRampBrickMeta('CornerRampN_2x2x1')
+CORNER_ROUNDED_2X2X1: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1')
+CORNER_ROUNDED_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1_02')
+
+RAMP_1X1X1: Final = NoAeroRampBrickMeta('Ramp_1x1x1')
+RAMP_ROUNDED_N_1X1X1: Final = NoAeroRampBrickMeta('RampRoundedN_1x1x1')
+
+TRAPEZOID_2X1X1: Final = NoAeroRampBrickMeta('Trapezoid_2x1x1')
+
+
+
+class RampBrickMeta(NoAeroRampBrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy() | {
@@ -1208,31 +1233,6 @@ RAMP_ROUNDED_3X1X2S: Final = RampBrickMeta('RampRounded_3x1x2s')
 RAMP_ROUNDED_4X1X2S: Final = RampBrickMeta('RampRounded_4x1x2s')
 RAMP_ROUNDED_N_2X1X2: Final = RampBrickMeta('RampRoundedN_2x1x2')
 RAMP_ROUNDED_N_4X2X4: Final = RampBrickMeta('RampRoundedN_4x2x4')
-
-
-
-class NoAeroRampBrickMeta(_b.BrickMeta):
-
-    def base_properties(self, *args, **kwargs):
-        return _base_properties.copy()
-
-
-
-CORNER_RAMP_1X1X1: Final = NoAeroRampBrickMeta('CornerRamp_1x1x1')
-CORNER_RAMP_2X2X1: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1')
-CORNER_RAMP_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1_02')
-CORNER_RAMP_3X2X1_L: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_L')
-CORNER_RAMP_3X2X1_R: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_R')
-CORNER_RAMP_5X3X1_L: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_L')
-CORNER_RAMP_5X3X1_R: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_R')
-CORNER_RAMP_N_2X2X1: Final = NoAeroRampBrickMeta('CornerRampN_2x2x1')
-CORNER_ROUNDED_2X2X1: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1')
-CORNER_ROUNDED_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1_02')
-
-RAMP_1X1X1: Final = NoAeroRampBrickMeta('Ramp_1x1x1')
-RAMP_ROUNDED_N_1X1X1: Final = RampBrickMeta('RampRoundedN_1x1x1')
-
-TRAPEZOID_2X1X1: Final = NoAeroRampBrickMeta('Trapezoid_2x1x1')
 
 
 
