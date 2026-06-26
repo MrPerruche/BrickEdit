@@ -341,7 +341,7 @@ class BRVFile:
 
 
 
-    def deserialize(self, buffer: bytes | bytearray, allow_unknown: bool = True) -> None:
+    def deserialize(self, buffer: bytes | bytearray, allow_unknown: bool = True, check_version: bool = False) -> None:
         """Deserialize a bytearray into this vehicle.
 
         Args:
@@ -364,7 +364,11 @@ class BRVFile:
 
         # --------1. HEADER
         self.bricks.clear()
-        self.version, = unpack_B(read(1))
+        to_version, = unpack_B(read(1))
+        if check_version and to_version != self.version:
+            raise BrickError(f'Version mismatch with check_version specified: {to_version} != {self.version}')
+
+        self.version = to_version
 
         num_bricks, = unpack_H(read(2))
         num_brick_types, = unpack_H(read(2))
