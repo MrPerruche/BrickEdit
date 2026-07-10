@@ -1438,7 +1438,6 @@ class SeatBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.B_FLUID_DYNAMIC: False,
             _p.SEAT_NAME: "",
             _p.EXIT_LOCATION: None
         }
