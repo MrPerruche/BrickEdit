@@ -1167,7 +1167,7 @@ class RampBrickMeta(_b.BrickMeta):
     def base_properties(self, *args, **kwargs):
         fluid_dynamic = kwargs.get("fluid_dynamic")
         return _base_properties.copy() | {
-                _p.B_FLUID_DYNAMIC: fluid_dynamic
+            _p.B_FLUID_DYNAMIC: fluid_dynamic
         }
 
 CORNER_RAMP_3X3X1: Final = RampBrickMeta('CornerRamp_3x3x1', fluid_dynamic=False)
