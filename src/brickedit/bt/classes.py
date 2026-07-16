@@ -1162,77 +1162,68 @@ PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75, 300, 0.5)
 
 
 
-class NoAeroRampBrickMeta(_b.BrickMeta):
+class RampBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
-        return _base_properties.copy()
-
-
-
-CORNER_RAMP_1X1X1: Final = NoAeroRampBrickMeta('CornerRamp_1x1x1')
-CORNER_RAMP_2X2X1: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1')
-CORNER_RAMP_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRamp_2x2x1_02')
-CORNER_RAMP_3X2X1_L: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_L')
-CORNER_RAMP_3X2X1_R: Final = NoAeroRampBrickMeta('CornerRamp_3x2x1_R')
-CORNER_RAMP_5X3X1_L: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_L')
-CORNER_RAMP_5X3X1_R: Final = NoAeroRampBrickMeta('CornerRamp_5x3x1_R')
-CORNER_RAMP_N_2X2X1: Final = NoAeroRampBrickMeta('CornerRampN_2x2x1')
-CORNER_ROUNDED_2X2X1: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1')
-CORNER_ROUNDED_2X2X1_02: Final = NoAeroRampBrickMeta('CornerRounded_2x2x1_02')
-
-RAMP_1X1X1: Final = NoAeroRampBrickMeta('Ramp_1x1x1')
-RAMP_ROUNDED_N_1X1X1: Final = NoAeroRampBrickMeta('RampRoundedN_1x1x1')
-
-TRAPEZOID_2X1X1: Final = NoAeroRampBrickMeta('Trapezoid_2x1x1')
-
-
-
-class RampBrickMeta(NoAeroRampBrickMeta):
-
-    def base_properties(self, *args, **kwargs):
+        fluid_dynamic = kwargs.get("fluid_dynamic")
         return _base_properties.copy() | {
-            _p.B_FLUID_DYNAMIC: False
+            _p.B_FLUID_DYNAMIC: fluid_dynamic
         }
 
+CORNER_RAMP_3X3X1: Final = RampBrickMeta('CornerRamp_3x3x1', fluid_dynamic=False)
+CORNER_RAMP_4X3X1_L: Final = RampBrickMeta('CornerRamp_4x3x1_L', fluid_dynamic=False)
+CORNER_RAMP_4X3X1_R: Final = RampBrickMeta('CornerRamp_4x3x1_R', fluid_dynamic=False)
+CORNER_RAMP_4X4X1: Final = RampBrickMeta('CornerRamp_4x4x1', fluid_dynamic=False)
+DOUBLE_RAMP_3X1X1: Final = RampBrickMeta('DoubleRamp_3x1x1', fluid_dynamic=False)
+DOUBLE_RAMP_N_3X1X1: Final = RampBrickMeta('DoubleRampN_3x1x1', fluid_dynamic=False)
+RAMP_1X1X2S: Final = RampBrickMeta('Ramp_1x1x2s', fluid_dynamic=False)
+RAMP_1X2X1: Final = RampBrickMeta('Ramp_1x2x1', fluid_dynamic=False)
+RAMP_1X2X2S: Final = RampBrickMeta('Ramp_1x2x2s', fluid_dynamic=False)
+RAMP_1X4X1: Final = RampBrickMeta('Ramp_1x4x1', fluid_dynamic=False)
+RAMP_1X4X2S: Final = RampBrickMeta('Ramp_1x4x2s', fluid_dynamic=False)
+RAMP_2X1X1: Final = RampBrickMeta('Ramp_2x1x1', fluid_dynamic=False)
+RAMP_2X1X1_02: Final = RampBrickMeta('Ramp_2x1x1_02', fluid_dynamic=False)
+RAMP_2X1X2: Final = RampBrickMeta('Ramp_2x1x2', fluid_dynamic=False)
+RAMP_2X1X3: Final = RampBrickMeta('Ramp_2x1x3', fluid_dynamic=False)
+RAMP_2X1X4: Final = RampBrickMeta('Ramp_2x1x4', fluid_dynamic=False)
+RAMP_2X2X1: Final = RampBrickMeta('Ramp_2x2x1', fluid_dynamic=False)
+RAMP_2X4X1: Final = RampBrickMeta('Ramp_2x4x1', fluid_dynamic=False)
+RAMP_3X1X1: Final = RampBrickMeta('Ramp_3x1x1', fluid_dynamic=False)
+RAMP_3X1X1_02: Final = RampBrickMeta('Ramp_3x1x1_02', fluid_dynamic=False)
+RAMP_3X2X1: Final = RampBrickMeta('Ramp_3x2x1', fluid_dynamic=False)
+RAMP_3X4X1: Final = RampBrickMeta('Ramp_3x4x1', fluid_dynamic=False)
+RAMP_N_1X1X1: Final = RampBrickMeta('RampN_1x1x1', fluid_dynamic=False)
+RAMP_N_2X1X1: Final = RampBrickMeta('RampN_2x1x1', fluid_dynamic=False)
+RAMP_N_2X1X2: Final = RampBrickMeta('RampN_2x1x2', fluid_dynamic=False)
+RAMP_N_2X1X3: Final = RampBrickMeta('RampN_2x1x3', fluid_dynamic=False)
+RAMP_N_2X1X4: Final = RampBrickMeta('RampN_2x1x4', fluid_dynamic=False)
+RAMP_N_2X2X1: Final = RampBrickMeta('RampN_2x2x1', fluid_dynamic=False)
+RAMP_N_2X4X1: Final = RampBrickMeta('RampN_2x4x1', fluid_dynamic=False)
+RAMP_N_3X1X1: Final = RampBrickMeta('RampN_3x1x1', fluid_dynamic=False)
+RAMP_N_3X2X1: Final = RampBrickMeta('RampN_3x2x1', fluid_dynamic=False)
+RAMP_N_3X4X1: Final = RampBrickMeta('RampN_3x4x1', fluid_dynamic=False)
+RAMP_ROUNDED_2X1X1: Final = RampBrickMeta('RampRounded_2x1x1', fluid_dynamic=False)
+RAMP_ROUNDED_3X1X2S: Final = RampBrickMeta('RampRounded_3x1x2s', fluid_dynamic=False)
+RAMP_ROUNDED_4X1X2S: Final = RampBrickMeta('RampRounded_4x1x2s', fluid_dynamic=False)
+RAMP_ROUNDED_N_2X1X2: Final = RampBrickMeta('RampRoundedN_2x1x2', fluid_dynamic=False)
+RAMP_ROUNDED_N_4X2X4: Final = RampBrickMeta('RampRoundedN_4x2x4', fluid_dynamic=False)
 
+CORNER_RAMP_1X1X1: Final = RampBrickMeta('CornerRamp_1x1x1')
+CORNER_RAMP_2X2X1: Final = RampBrickMeta('CornerRamp_2x2x1')
+CORNER_RAMP_2X2X1_02: Final = RampBrickMeta('CornerRamp_2x2x1_02')
+CORNER_RAMP_3X2X1_L: Final = RampBrickMeta('CornerRamp_3x2x1_L')
+CORNER_RAMP_3X2X1_R: Final = RampBrickMeta('CornerRamp_3x2x1_R')
+CORNER_RAMP_5X3X1_L: Final = RampBrickMeta('CornerRamp_5x3x1_L')
+CORNER_RAMP_5X3X1_R: Final = RampBrickMeta('CornerRamp_5x3x1_R')
+CORNER_RAMP_N_2X2X1: Final = RampBrickMeta('CornerRampN_2x2x1')
+CORNER_ROUNDED_2X2X1: Final = RampBrickMeta('CornerRounded_2x2x1')
+CORNER_ROUNDED_2X2X1_02: Final = RampBrickMeta('CornerRounded_2x2x1_02')
 
-CORNER_RAMP_3X3X1: Final = RampBrickMeta('CornerRamp_3x3x1')
-CORNER_RAMP_4X3X1_L: Final = RampBrickMeta('CornerRamp_4x3x1_L')
-CORNER_RAMP_4X3X1_R: Final = RampBrickMeta('CornerRamp_4x3x1_R')
-CORNER_RAMP_4X4X1: Final = RampBrickMeta('CornerRamp_4x4x1')
-DOUBLE_RAMP_3X1X1: Final = RampBrickMeta('DoubleRamp_3x1x1')
-DOUBLE_RAMP_N_3X1X1: Final = RampBrickMeta('DoubleRampN_3x1x1')
-RAMP_1X1X2S: Final = RampBrickMeta('Ramp_1x1x2s')
-RAMP_1X2X1: Final = RampBrickMeta('Ramp_1x2x1')
-RAMP_1X2X2S: Final = RampBrickMeta('Ramp_1x2x2s')
-RAMP_1X4X1: Final = RampBrickMeta('Ramp_1x4x1')
-RAMP_1X4X2S: Final = RampBrickMeta('Ramp_1x4x2s')
-RAMP_2X1X1: Final = RampBrickMeta('Ramp_2x1x1')
-RAMP_2X1X1_02: Final = RampBrickMeta('Ramp_2x1x1_02')
-RAMP_2X1X2: Final = RampBrickMeta('Ramp_2x1x2')
-RAMP_2X1X3: Final = RampBrickMeta('Ramp_2x1x3')
-RAMP_2X1X4: Final = RampBrickMeta('Ramp_2x1x4')
-RAMP_2X2X1: Final = RampBrickMeta('Ramp_2x2x1')
-RAMP_2X4X1: Final = RampBrickMeta('Ramp_2x4x1')
-RAMP_3X1X1: Final = RampBrickMeta('Ramp_3x1x1')
-RAMP_3X1X1_02: Final = RampBrickMeta('Ramp_3x1x1_02')
-RAMP_3X2X1: Final = RampBrickMeta('Ramp_3x2x1')
-RAMP_3X4X1: Final = RampBrickMeta('Ramp_3x4x1')
-RAMP_N_1X1X1: Final = RampBrickMeta('RampN_1x1x1')
-RAMP_N_2X1X1: Final = RampBrickMeta('RampN_2x1x1')
-RAMP_N_2X1X2: Final = RampBrickMeta('RampN_2x1x2')
-RAMP_N_2X1X3: Final = RampBrickMeta('RampN_2x1x3')
-RAMP_N_2X1X4: Final = RampBrickMeta('RampN_2x1x4')
-RAMP_N_2X2X1: Final = RampBrickMeta('RampN_2x2x1')
-RAMP_N_2X4X1: Final = RampBrickMeta('RampN_2x4x1')
-RAMP_N_3X1X1: Final = RampBrickMeta('RampN_3x1x1')
-RAMP_N_3X2X1: Final = RampBrickMeta('RampN_3x2x1')
-RAMP_N_3X4X1: Final = RampBrickMeta('RampN_3x4x1')
-RAMP_ROUNDED_2X1X1: Final = RampBrickMeta('RampRounded_2x1x1')
-RAMP_ROUNDED_3X1X2S: Final = RampBrickMeta('RampRounded_3x1x2s')
-RAMP_ROUNDED_4X1X2S: Final = RampBrickMeta('RampRounded_4x1x2s')
-RAMP_ROUNDED_N_2X1X2: Final = RampBrickMeta('RampRoundedN_2x1x2')
-RAMP_ROUNDED_N_4X2X4: Final = RampBrickMeta('RampRoundedN_4x2x4')
+RAMP_1X1X1: Final = RampBrickMeta('Ramp_1x1x1')
+RAMP_ROUNDED_N_1X1X1: Final = RampBrickMeta('RampRoundedN_1x1x1')
+
+TRAPEZOID_2X1X1: Final = RampBrickMeta('Trapezoid_2x1x1')
+
 
 
 
