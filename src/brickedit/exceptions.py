@@ -1,2 +1,2 @@
-class BrickError(BaseException):
+class BrickError(Exception):
     pass
