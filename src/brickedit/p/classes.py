@@ -57,22 +57,23 @@ class BrickMaterial(_m.EnumMeta):
     CHROME: Final[str] = 'Chrome'
     FROSTED_GLASS: Final[str] = 'CloudyGlass'
 
+    CONCRETE: Final[str] = 'Concrete'
     COPPER: Final[str] = 'Copper'
     FOAM: Final[str] = 'Foam'
+    
     GLASS: Final[str] = 'Glass'
-
     GLOW: Final[str] = 'Glow'
     GOLD: Final[str] = 'Gold'
+    
     LED_MATRIX: Final[str] = 'LEDMatrix'
-
     OAK: Final[str] = 'Oak'
     PINE: Final[str] = 'Pine'
+    
     PLASTIC: Final[str] = 'Plastic'
-
     WEATHERED_WOOD: Final[str] = 'RoughWood'
     RUBBER: Final[str] = 'Rubber'
+    
     RUSTED_STEEL: Final[str] = 'RustedSteel'
-
     STEEL: Final[str] = 'Steel'
     TUNGSTEN: Final[str] = 'Tungsten'
 
@@ -583,7 +584,7 @@ INPUT_SCALE: Final[str] = 'InputScale'
 @_b.register(INPUT_SCALE)
 class InputScale(_m.Float32Meta):
     """Input scale property"""
-    BASE: Final[float] = 1
+    BASE: Final[float] = 1.0
 
 
 MIN_LIMIT: Final[str] = 'MinLimit'
@@ -966,7 +967,9 @@ class Operation(_m.EnumMeta):
     MODULO: Final[str] = 'Fmod'
     POWER: Final[str] = 'Power'
     GREATER: Final[str] = 'Greater'
+    GREATER_EQUAL: Final[str] = 'GreaterEqual'
     LESS: Final[str] = 'Less'
+    LESS_EQUAL: Final[str] = 'LessEqual'
     MIN: Final[str] = 'Min'
     MAX: Final[str] = 'Max'
     ABS: Final[str] = 'Abs'
@@ -1000,7 +1003,9 @@ class Operation(_m.EnumMeta):
     POW = POWER
     EXPONENT = POWER
     GT = GREATER
+    GE = GREATER_EQUAL
     LT = LESS
+    LE = LESS_EQUAL
     MINIMUM = MIN
     MAXIMUM = MAX
     ABSOLUTE = ABS
