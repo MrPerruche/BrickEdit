@@ -2,7 +2,7 @@ from typing import Final
 
 BRICKEDIT_VERSION_MAJOR: Final[int] = 5
 BRICKEDIT_VERSION_MINOR: Final[int] = 1
-BRICKEDIT_VERSION_PATCH: Final[int] = 1
+BRICKEDIT_VERSION_PATCH: Final[int] = 2
 BRICKEDIT_IS_DEV_VERSION: Final[bool] = False
 BRICKEDIT_VERSION_FULL: Final[str] = (
     str(BRICKEDIT_VERSION_MAJOR) + '.' +
@@ -11,11 +11,11 @@ BRICKEDIT_VERSION_FULL: Final[str] = (
     ("-dev" if BRICKEDIT_IS_DEV_VERSION else "")
 )
 
-FILE_EXP_VERSION: Final[int] = 17
+FILE_EXP_VERSION: Final[int] = 18
 FILE_MAIN_VERSION: Final[int] = 17
 FILE_LEGACY_VERSION: Final[int] = 6
 
-FILE_MAX_SUPPORTED_VERSION: Final[int] = 17
+FILE_MAX_SUPPORTED_VERSION: Final[int] = 18
 FILE_MIN_SUPPORTED_VERSION: Final[int] = 16
 
 GROUPS_UPDATE: Final[int] = 17
