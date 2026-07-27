@@ -202,6 +202,10 @@ class InputAxisMeta(EnumMeta):
 
     FIRE_ACTION_8: Final[str] = 'Action8'
 
+    # aliases
+    AUXILIARY = PITCH
+    AUXILIARTY_ALT = PITCH_ALT
+
 
 
 class SingleSourceBrickMeta(_b.PropertyMeta[str]):
