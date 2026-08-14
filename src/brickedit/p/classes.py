@@ -168,7 +168,6 @@ class AmmoType(_m.EnumMeta):
     TARGET_SEEKING: Final[str] = 'TargetSeeking'
     GUIDED: Final[str] = 'Guided'
     FLARE: Final[str] = 'Flare'
-    MAX: Final[str] = 'Max'
 
 
 AUTO_HOVER_INPUT_CNL_INPUT_AXIS: Final[str] = 'AutoHoverInputChannel.InputAxis'
