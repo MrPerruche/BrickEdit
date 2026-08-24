@@ -446,7 +446,6 @@ class BRVFile:
         unpack_2H = struct.Struct('<2H').unpack
 
         # For each brick
-        brick_meta_default = _bt.UnknownBrickMeta if allow_unknown else None
         for i in range(num_bricks):
             # Brick type
             # print(f'{brick_types_list=}, {buffer.getvalue()[buffer.tell()-30:buffer.tell()]}'
@@ -454,9 +453,12 @@ class BRVFile:
             brick_type_index = unpack_H(read(2))[0]
             # print(f'{brick_type_index=}')
             brick_type_name = brick_types_list[brick_type_index]
-            brick_meta = _bt.bt_registry.get(brick_type_name, brick_meta_default)
+            brick_meta = _bt.bt_registry.get(brick_type_name, None)
             if brick_meta is None:
-                raise BrickError(f"Unknown brick type '{brick_type_name}'")
+                if allow_unknown:
+                    brick_meta = _bt.UnknownBrickMeta(brick_type_name, {})
+                else:
+                    raise BrickError(f"Unknown brick type '{brick_type_name}'")
 
             # Properties
             # Byte length of the properties part of this brick. We do not need it
