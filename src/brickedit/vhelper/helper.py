@@ -124,10 +124,10 @@ class ValueHelper:
         """Convert an RGBA value to Brick Rigs' format"""
         # To HSV / RGB depending on update
         if self.version >= _var.FILE_UNIT_UPDATE:
-            return _col.pack_float_to_int(r, g, b, a)
+            return _col.pack(r, g, b, a)
         else:
             h, s, v = _col.rgb_to_hsv(r, g, b)
-            return _col.pack_float_to_int(h, s, v, a)
+            return _col.pack(h, s, v, a)
 
 
 
@@ -179,7 +179,7 @@ class ValueHelper:
         Returns:
             int: The RGBA value, as a hexadecimal integer.
         """
-        r, g, b = _col.oklch_to_linear_fitted(L, C, h)
+        r, g, b = _col.oklab_to_linear(L, C, h)
 
         return _col.pack_float_to_int(
             *_col.multi_clamp(r, g, b, min_val=0, max_val=1),
