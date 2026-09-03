@@ -22,7 +22,7 @@ class Vec(ABC):
         Returns:
             float: The magnitude of the vector.
         """
-        return sqrt(sum((n ** 2 for n in self.as_tuple())))
+        return sqrt(sum(n ** 2 for n in self.as_tuple()))
 
     def normalize(self) -> Self:
         """Normalize the vector to have a magnitude of 1.
@@ -110,20 +110,61 @@ class Vec2(Vec):
     def __len__(self):
         return 2
 
-    def __add__(self, other: Self) -> Self:
-        """Add two vectors."""
-        return self.__class__(self.x + other.x, self.y + other.y)
+    def __add__(self, other: Self | float) -> Self:
+        """Add a scalar or another vector to a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x + other, self.y + other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other: Self) -> Self:
-        """Subtract two vectors."""
-        return self.__class__(self.x - other.x, self.y - other.y)
+    def __sub__(self, other: Self | float) -> Self:
+        """Subtract a vector or scalar from a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x - other, self.y - other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x - other.x, self.y - other.y)
 
-    def __mul__(self, other: float) -> Self:
-        """Multiply vector by a scalar."""
-        return self.__class__(self.x * other, self.y * other)
+    def __mul__(self, other: Self | float) -> Self:
+        """Multiply a vector by a scalar or vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x * other, self.y * other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x * other.x, self.y * other.y)
 
-    def __rmul__(self, other: float) -> Self:
+    def __rmul__(self, other: Self | float) -> Self:
         return self.__mul__(other)
+    
+    def __truediv__(self, other: Self | float) -> Self:
+        """Divide a vector by a scalar or vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x / other, self.y / other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x / other.x, self.y / other.y)
+    
+    def __floordiv__(self, other: Self | float) -> Self:
+        """Vector floor division"""
+        if isinstance(other, float):
+            return self.__class__(self.x // other, self.y // other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x // other.x, self.y // other.y)
+
+    def __mod__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x % other, self.y % other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x % other.x, self.y % other.y)
+    
+    def __pow__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x ** other, self.y ** other)
+        elif isinstance(other, Vec2):
+            return self.__class__(self.x ** other.x, self.y ** other.y)
+    
+    def __round__(self, digits: int) -> Self:
+        return self.__class__(
+            round(self.x, digits),
+            round(self.y, digits),
+            )
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,20 +211,62 @@ class Vec3(Vec):
     def __len__(self):
         return 3
 
-    def __add__(self, other: Self) -> Self:
-        """Add two vectors."""
-        return self.__class__(self.x + other.x, self.y + other.y, self.z + other.z)
+    def __add__(self, other: Self | float) -> Self:
+        """Add a scalar or another vector to a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x + other, self.y + other, self.z + other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x + other.x, self.y + other.y, self.z + other.z)
 
-    def __sub__(self, other: Self) -> Self:
-        """Subtract two vectors."""
-        return self.__class__(self.x - other.x, self.y - other.y, self.z - other.z)
+    def __sub__(self, other: Self | float) -> Self:
+        """Subtract a vector or scalar from a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x - other, self.y - other, self.z - other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x - other.x, self.y - other.y, self.z - other.z)
 
-    def __mul__(self, other: float) -> Self:
-        """Multiply vector by a scalar."""
-        return self.__class__(self.x * other, self.y * other, self.z * other)
+    def __mul__(self, other: Self | float) -> Self:
+        """Multiply a vector by a scalar or vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x * other, self.y * other, self.z * other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x * other.x, self.y * other.y, self.z * other.z)
 
-    def __rmul__(self, other: float) -> Self:
+    def __rmul__(self, other: Self | float) -> Self:
         return self.__mul__(other)
+
+    def __truediv__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x / other, self.y / other, self.z / other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x / other.x, self.y / other.y, self.z / other.z)
+
+    def __floordiv__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x // other, self.y // other, self.z // other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x // other.x, self.y // other.y, self.z // other.z)
+    
+    def __mod__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x % other, self.y % other, self.z % other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x % other.x, self.y % other.y, self.z % other.z)
+
+    def __pow__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x ** other, self.y ** other, self.z ** other)
+        if isinstance(other, Vec3):
+            return self.__class__(self.x ** other.x, self.y ** other.y, self.z ** other.z)
+
+    def __round__(self, digits: int) -> Self:
+        return self.__class__(
+            round(self.x, digits),
+            round(self.y, digits),
+            round(self.z, digits)
+            )
+
+
 
 
 
@@ -233,17 +316,58 @@ class Vec4(Vec):
     def __len__(self):
         return 4
 
-    def __add__(self, other: Self) -> Self:
-        """Add two vectors."""
-        return self.__class__(self.x + other.x, self.y + other.y, self.z + other.z, self.w + other.w)
+    def __add__(self, other: Self | float) -> Self:
+        """Add a scalar or another vector to a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x + other, self.y + other, self.z + other, self.w + other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x + other.x, self.y + other.y, self.z + other.z, self.w + other.w)
 
-    def __sub__(self, other: Self) -> Self:
-        """Subtract two vectors."""
-        return self.__class__(self.x - other.x, self.y - other.y, self.z - other.z, self.w - other.w)
+    def __sub__(self, other: Self | float) -> Self:
+        """Subtract a vector or scalar from a vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x - other, self.y - other, self.z - other, self.w - other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x - other.x, self.y - other.y, self.z - other.z, self.w - other.w)
 
-    def __mul__(self, other: float) -> Self:
-        """Multiply vector by a scalar."""
-        return self.__class__(self.x * other, self.y * other, self.z * other, self.w * other)
+    def __mul__(self, other: Self | float) -> Self:
+        """Multiply a vector by a scalar or vector."""
+        if isinstance(other, float):
+            return self.__class__(self.x * other, self.y * other, self.z * other, self.w * other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x * other.x, self.y * other.y, self.z * other.z, self.w * other.w)
 
-    def __rmul__(self, other: float) -> Self:
+    def __rmul__(self, other: Self | float) -> Self:
         return self.__mul__(other)
+
+    def __truediv__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x / other, self.y / other, self.z / other, self.w / other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x / other.x, self.y / other.y, self.z / other.z, self.w / other.w)
+
+    def __floordiv__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x // other, self.y // other, self.z // other, self.w // other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x // other.x, self.y // other.y, self.z // other.z, self.w // other.w)
+    
+    def __mod__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x % other, self.y % other, self.z % other, self.w % other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x % other.x, self.y % other.y, self.z % other.z, self.w % other.w)
+
+    def __pow__(self, other: Self | float) -> Self:
+        if isinstance(other, float):
+            return self.__class__(self.x ** other, self.y ** other, self.z ** other, self.w ** other)
+        if isinstance(other, Vec4):
+            return self.__class__(self.x ** other.x, self.y ** other.y, self.z ** other.z, self.w ** other.w)
+
+    def __round__(self, digits: int) -> Self:
+        return self.__class__(
+            round(self.x, digits),
+            round(self.y, digits),
+            round(self.z, digits),
+            round(self.w, digits)
+        )
