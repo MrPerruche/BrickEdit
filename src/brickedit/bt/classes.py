@@ -918,6 +918,7 @@ class LightBrick(_b.BrickMeta):
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_MATERIAL: _p.BrickMaterial.GLASS,
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.HEADLIGHT,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
