@@ -166,6 +166,18 @@ class Vec2(Vec):
             round(self.y, digits),
             )
 
+    def __eq__(self, other: Self | float) -> bool:
+        if isinstance(other, Vec2):
+            return (
+                self.x == other.x and
+                self.y == other.y
+            )
+        if isinstance(other, float):
+            return (
+                self.x == other and
+                self.y == other
+            )
+
 
 @dataclass(frozen=True, slots=True)
 class Vec3(Vec):
@@ -264,6 +276,20 @@ class Vec3(Vec):
             round(self.x, digits),
             round(self.y, digits),
             round(self.z, digits)
+            )
+
+    def __eq__(self, other: Self | float) -> bool:
+        if isinstance(other, Vec3):
+            return (
+                self.x == other.x and
+                self.y == other.y and
+                self.z == other.z
+            )
+        if isinstance(other, float):
+            return (
+                self.x == other and
+                self.y == other and
+                self.z == other
             )
 
 
@@ -371,3 +397,19 @@ class Vec4(Vec):
             round(self.z, digits),
             round(self.w, digits)
         )
+
+    def __eq__(self, other: Self | float) -> bool:
+        if isinstance(other, Vec4):
+            return (
+                self.x == other.x and
+                self.y == other.y and
+                self.z == other.z and
+                self.w == other.w
+            )
+        if isinstance(other, float):
+            return (
+                self.x == other and
+                self.y == other and
+                self.z == other and
+                self.w == other
+            )
