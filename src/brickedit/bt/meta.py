@@ -39,28 +39,28 @@ class BaseGunBrickMeta(_b.BrickMeta):
         """Firearm properties"""
         return self._firearm_properties
 
-    def reload_time(self):
+    def reload_time(self) -> float:
         """How long it takes to reload the gun"""
         return self._reload_time
 
-    def recoil_impulse(self):
+    def recoil_impulse(self) -> float:
         """Impulse to add to the gun for every shot"""
         return self._recoil_impulse
 
-    def max_barrel_length(self):
+    def max_barrel_length(self) -> float:
         """Max length at which barrels have an impact"""
         return self._max_barrel_length
 
-    def min_spread_radius_scale(self):
+    def min_spread_radius_scale(self) -> float:
         """Spread factor applied at the maximum barrel length, interpolated between"""
         return self._min_spread_radius_scale
 
-    def min_muzzle_velocity_scale(self):
+    def min_muzzle_velocity_scale(self) -> float:
         """Projectile speed factor applied at the minimum barrel length,
         interpolated up to the max barrel length"""
         return self._min_muzzle_velocity_scale
 
-    def min_damage_scale(self):
+    def min_damage_scale(self) -> float:
         """Projectile damage factor applied at the minimum barrel length,
         interpolated up to the max barrel length"""
         return self._min_damage_scale
@@ -72,5 +72,5 @@ class BaseGunBrickMeta(_b.BrickMeta):
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.FIRE_ACTION_1,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
-            _p.AMMO_TYPE: _p.AmmoType.DEFAULT
+            _p.AMMO_TYPE: ammo_type
         }

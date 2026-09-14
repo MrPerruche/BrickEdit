@@ -60,19 +60,19 @@ class BrickMaterial(_m.EnumMeta):
     CONCRETE: Final[str] = 'Concrete'
     COPPER: Final[str] = 'Copper'
     FOAM: Final[str] = 'Foam'
-    
+
     GLASS: Final[str] = 'Glass'
     GLOW: Final[str] = 'Glow'
     GOLD: Final[str] = 'Gold'
-    
+
     LED_MATRIX: Final[str] = 'LEDMatrix'
     OAK: Final[str] = 'Oak'
     PINE: Final[str] = 'Pine'
-    
+
     PLASTIC: Final[str] = 'Plastic'
     WEATHERED_WOOD: Final[str] = 'RoughWood'
     RUBBER: Final[str] = 'Rubber'
-    
+
     RUSTED_STEEL: Final[str] = 'RustedSteel'
     STEEL: Final[str] = 'Steel'
     TUNGSTEN: Final[str] = 'Tungsten'
@@ -415,6 +415,7 @@ FUEL_TYPE: Final[str] = 'FuelType'
 @_b.register(FUEL_TYPE)
 class FuelType(_m.EnumMeta):
     """Fuel type of a fuel brick"""
+    NONE: Final[str] = 'None'
     PETROL: Final[str] = 'Petrol'
     NITRO: Final[str] = 'Nitro'
     ROCKET_FUEL: Final[str] = 'RocketFuel'
@@ -505,6 +506,18 @@ INPUT_CNL_B_INPUT_AXIS: Final[str] = 'InputChannelB.InputAxis'
 INPUT_CNL_B_SOURCE_BRICKS: Final[str] = 'InputChannelB.SourceBricks'
 INPUT_CNL_B_VALUE: Final[str] = 'InputChannelB.Value'
 
+INPUT_CNL_C_INPUT_AXIS: Final[str] = 'InputChannelC.InputAxis'
+INPUT_CNL_C_SOURCE_BRICKS: Final[str] = 'InputChannelC.SourceBricks'
+INPUT_CNL_C_VALUE: Final[str] = 'InputChannelC.Value'
+
+INPUT_CNL_D_INPUT_AXIS: Final[str] = 'InputChannelD.InputAxis'
+INPUT_CNL_D_SOURCE_BRICKS: Final[str] = 'InputChannelD.SourceBricks'
+INPUT_CNL_D_VALUE: Final[str] = 'InputChannelD.Value'
+
+INPUT_CNL_E_INPUT_AXIS: Final[str] = 'InputChannelE.InputAxis'
+INPUT_CNL_E_SOURCE_BRICKS: Final[str] = 'InputChannelE.SourceBricks'
+INPUT_CNL_E_VALUE: Final[str] = 'InputChannelE.Value'
+
 ENABLED_INPUT_CNL_INPUT_AXIS: Final[str] = 'EnabledInputChannel.InputAxis'
 ENABLED_INPUT_CNL_SOURCE_BRICKS: Final[str] = 'EnabledInputChannel.SourceBricks'
 ENABLED_INPUT_CNL_VALUE: Final[str] = 'EnabledInputChannel.Value'
@@ -524,7 +537,7 @@ class InputCnl_Value(_m.ValueMeta):
 
 
 
-# why
+# Input channel A
 @_b.register(INPUT_CNL_A_INPUT_AXIS)
 class InputCnl_A_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannelA"""
@@ -537,7 +550,7 @@ class InputCnl_A_SourceBricks(_m.SourceBricksMeta):
 class InputCnl_A_Value(_m.ValueMeta):
     """Constant value for InputChannelA"""
 
-
+# Input channel B
 @_b.register(INPUT_CNL_B_INPUT_AXIS)
 class InputCnl_B_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannelB"""
@@ -549,6 +562,47 @@ class InputCnl_B_SourceBricks(_m.SourceBricksMeta):
 @_b.register(INPUT_CNL_B_VALUE)
 class InputCnl_B_Value(_m.ValueMeta):
     """Constant value for InputChannelB"""
+
+# Input channel C
+@_b.register(INPUT_CNL_C_INPUT_AXIS)
+class InputCnl_C_InputAxis(_m.InputAxisMeta):
+    """Input type for InputChannelC"""
+
+@_b.register(INPUT_CNL_C_SOURCE_BRICKS)
+class InputCnl_C_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for InputChannelC"""
+
+@_b.register(INPUT_CNL_C_VALUE)
+class InputCnl_C_Value(_m.ValueMeta):
+    """Constant value for InputChannelC"""
+
+# Input channel D
+@_b.register(INPUT_CNL_D_INPUT_AXIS)
+class InputCnl_D_InputAxis(_m.InputAxisMeta):
+    """Input type for InputChannelD"""
+
+@_b.register(INPUT_CNL_A_SOURCE_BRICKS)
+class InputCnl_D_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for InputChannelD"""
+
+@_b.register(INPUT_CNL_A_VALUE)
+class InputCnl_D_Value(_m.ValueMeta):
+    """Constant value for InputChannelD"""
+
+# Input channel E
+@_b.register(INPUT_CNL_E_INPUT_AXIS)
+class InputCnl_E_InputAxis(_m.InputAxisMeta):
+    """Input type for InputChannelE"""
+
+@_b.register(INPUT_CNL_E_SOURCE_BRICKS)
+class InputCnl_E_SourceBricks(_m.SourceBricksMeta):
+    """Source bricks for InputChannelE"""
+
+@_b.register(INPUT_CNL_E_VALUE)
+class InputCnl_E_Value(_m.ValueMeta):
+    """Constant value for InputChannelE"""
+
+# ----------------------
 
 @_b.register(ENABLED_INPUT_CNL_INPUT_AXIS)
 class EnabledInputCnl_InputAxis(_m.InputAxisMeta):
@@ -959,27 +1013,40 @@ class Operation(_m.EnumMeta):
     EMPTY: Final[str] = ''
     DEFAULT: Final[str] = 'Add'
 
+    # ARITHMETIC
     ADD: Final[str] = 'Add'
     SUBTRACT: Final[str] = 'Subtract'
     MULTIPLY: Final[str] = 'Multiply'
     DIVIDE: Final[str] = 'Divide'
     MODULO: Final[str] = 'Fmod'
-    POWER: Final[str] = 'Power'
-    GREATER: Final[str] = 'Greater'
-    GREATER_EQUAL: Final[str] = 'GreaterEqual'
-    LESS: Final[str] = 'Less'
-    LESS_EQUAL: Final[str] = 'LessEqual'
     MIN: Final[str] = 'Min'
     MAX: Final[str] = 'Max'
     ABS: Final[str] = 'Abs'
     SIGN: Final[str] = 'Sign'
-    EQUAL: Final[str] = 'Equal'
-    NOT_EQUAL: Final[str] = 'NotEqual'
+    NEGATE: Final[str] = 'Negate'
+    RECIPROCAL: Final[str] = 'Reciprocal'
+    SQUARE: Final[str] = 'Square'
+    DISTANCE: Final[str] = 'Distance'
+    HYPOTENUSE: Final[str] = 'Hypotenuse'
+    COPY_SIGN: Final[str] = 'CopySign'
+
+    # POWERS AND LOGARITHMS
+    POWER: Final[str] = 'Power'
+    SQUARE_ROOT: Final[str] = 'Sqrt'
+    ROOT: Final[str] = 'Root'
+    EXP: Final[str] = 'Exp'
+    LN: Final[str] = 'Ln'
+    LOG10: Final[str] = 'Log10'
+    LOG_BASE: Final[str] = 'LogBase'
+
+    # ROUNDING
     ROUND: Final[str] = 'Round'
     CEIL: Final[str] = 'Ceil'
     FLOOR: Final[str] = 'Floor'
-    SQUARE_ROOT: Final[str] = 'Sqrt'
+    FRACTION: Final[str] = 'Fraction'
+    TRUNCATE: Final[str] = 'Truncate'
 
+    # TRIGONOMETRY
     SIN_DEG: Final[str] = 'SinDeg'
     SIN_RAD: Final[str] = 'Sin'
     ASIN_DEG: Final[str] = 'AsinDeg'
@@ -995,6 +1062,40 @@ class Operation(_m.EnumMeta):
     ATAN2_DEG: Final[str] = 'Atan2Deg'
     ATAN2_RAD: Final[str] = 'Atan2'
 
+    # COMPARISON
+    GREATER: Final[str] = 'Greater'
+    GREATER_EQUAL: Final[str] = 'GreaterEqual'
+    LESS: Final[str] = 'Less'
+    LESS_EQUAL: Final[str] = 'LessEqual'
+    EQUAL: Final[str] = 'Equal'
+    NOT_EQUAL: Final[str] = 'NotEqual'
+    STEP: Final[str] = 'Step'
+    APPROXIMATELY_EQUAL: Final[str] = 'ApproximatelyEqual'
+
+    # LOGIC
+    AND: Final[str] = 'And'
+    OR: Final[str] = 'Or'
+    XOR: Final[str] = 'Xor'
+    NOT: Final[str] = 'Not'
+
+    # RANGES AND INTERPOLATION
+    SATURATE: Final[str] = 'Saturate'
+    CLAMP: Final[str] = 'Clamp'
+    SYMMETRIC_CLAMP: Final[str] = 'Symmetric Clamp' # Uses a space in the brv
+    LERP: Final[str] = 'Lerp'
+    REMAP: Final[str] = 'Remap'
+
+    # SIGNALS
+    DERIVATIVE: Final[str] = 'Derivative'
+    INTEGRAL: Final[str] = 'Integral'
+    LOW_PASS: Final[str] = 'LowPass'
+    RATE_LIMIT: Final[str] = 'RateLimit'
+    MIN_HOLD: Final[str] = 'MinHold'
+    MAX_HOLD: Final[str] = 'MaxHold'
+    SAMPLE_AND_HOLD: Final[str] = 'SampleAndHold'
+    PULSE: Final[str] = 'Pulse'
+
+    # Aliases
     SUB = SUBTRACT
     MUL = MULTIPLY
     DIV = DIVIDE
@@ -1010,6 +1111,27 @@ class Operation(_m.EnumMeta):
     ABSOLUTE = ABS
     CEILING = CEIL
     SQRT = SQUARE_ROOT
+    COPYSIGN = COPY_SIGN
+    EXPONENT = EXPONENTS = EXP
+    NATURAL_LOG = NATURAL_LOGARITHM = LN
+    LOGARITHM10 = LOG10
+    LOGARITHM = LOG_BASE
+    FRAC = FRACT = FRACTION
+    TRUNC = TRUNCATE
+    APPROXIMATELY_EQ = APPROX_EQ = APPROX_EQUAL = APPROXIMATELY_EQUAL
+    SYMM_CLAMP = SYMMETRIC_CLAMP
+    LINEAR_INTERPOLATION = LINEAR_INTERPOLATE = LERP
+    MAP_RANGE = REMAP
+    LOW_PASS_FILTER = LOW_PASS
+
+    ARCSIN_DEG = ASIN_DEG
+    ARCSIN_RAD = ASIN_RAD
+    ARCCOS_DEG = ACOS_DEG
+    ARCCOS_RAD = ACOS_RAD
+    ARCTAN_DEG = ATAN_DEG
+    ARCTAN_RAD = ATAN_RAD
+    ARCTAN2_DEG = ATAN2_DEG
+    ARCTAN2_RAD = ATAN2_RAD
 
 
 TEXT = 'Text'

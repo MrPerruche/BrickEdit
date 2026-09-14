@@ -190,21 +190,23 @@ class InputAxisMeta(EnumMeta):
 
     BRAKE_LIGHT: Final[str] = 'BrakeLight'
     REVERSING_LIGHT: Final[str] = 'ReversingLight'
-    FIRE_ACTION_1: Final[str] = 'Action1'
 
+    FIRE_ACTION_1: Final[str] = 'Action1'
     FIRE_ACTION_2: Final[str] = 'Action2'
     FIRE_ACTION_3: Final[str] = 'Action3'
-    FIRE_ACTION_4: Final[str] = 'Action4'
 
+    FIRE_ACTION_4: Final[str] = 'Action4'
     FIRE_ACTION_5: Final[str] = 'Action5'
     FIRE_ACTION_6: Final[str] = 'Action6'
-    FIRE_ACTION_7: Final[str] = 'Action7'
 
+    FIRE_ACTION_7: Final[str] = 'Action7'
     FIRE_ACTION_8: Final[str] = 'Action8'
 
     # aliases
     AUXILIARY = PITCH
     AUXILIARTY_ALT = PITCH_ALT
+    CONSTANT_VALUE = CONSTANT = CONST = ALWAYS_ON
+    OUTPUT_CHANNEL = CUSTOM
 
 
 

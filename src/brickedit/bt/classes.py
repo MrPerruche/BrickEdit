@@ -43,26 +43,26 @@ class ActuatorBrickBaseMeta(_b.BrickMeta):
     def base_properties(self, *args, **kwargs) -> dict[str, Hashable]:
         return _base_properties.copy()
 
-ACTUATOR_1SX1SX1S_02_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_02_Top', 0, 0)
-ACTUATOR_1SX1SX1S_MALE: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_Male', -10, 0)
-ACTUATOR_1SX1SX1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_Top', 0, 0)
-ACTUATOR_1SX1SX2S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx2s_Top', -19, 0)
-ACTUATOR_1X1X1_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x1_Top', 0, 0)
-ACTUATOR_1X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x1s_Top', 0, 0)
-ACTUATOR_1X1X3_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x3_Top', -70, 0)
-ACTUATOR_1X1X6_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x6_Top', -160, 0)
-ACTUATOR_20X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_20x2x1s_Top', -285, 570)
-ACTUATOR_2X1X1S_02_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_02_Top', -30, 0)
-ACTUATOR_2X1X1S_MALE: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_Male', -45, 0)
-ACTUATOR_2X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_Top', 45, 0)
-ACTUATOR_2X2X15_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x15_Top', -410, 0)
-ACTUATOR_2X2X1S_ANGULAR_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x1s_Angular_Top', 0, 0)
-ACTUATOR_2X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x1s_Top', 45, 0)
-ACTUATOR_2X2X2_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x2_Top', 0, 0)
-ACTUATOR_4X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_4x1x1s_Top', -45, 90)
-ACTUATOR_4X4X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_4x4x1s_Top', 0, 0)
-ACTUATOR_6X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_6x2x1s_Top', 5, 0)
-ACTUATOR_8X8X1_TOP: Final = ActuatorBrickBaseMeta('Actuator_8x8x1_Top', 0, 0)
+ACTUATOR_1SX1SX1S_02_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_02_Top', 0.0, 0.0)
+ACTUATOR_1SX1SX1S_MALE: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_Male', -10.0, 0.0)
+ACTUATOR_1SX1SX1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx1s_Top', 0.0, 0.0)
+ACTUATOR_1SX1SX2S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1sx1sx2s_Top', -19.0, 0.0)
+ACTUATOR_1X1X1_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x1_Top', 0.0, 0.0)
+ACTUATOR_1X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x1s_Top', 0.0, 0.0)
+ACTUATOR_1X1X3_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x3_Top', -70.0, 0.0)
+ACTUATOR_1X1X6_TOP: Final = ActuatorBrickBaseMeta('Actuator_1x1x6_Top', -160.0, 0.0)
+ACTUATOR_20X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_20x2x1s_Top', -285.0, 570.0)
+ACTUATOR_2X1X1S_02_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_02_Top', -30.0, 0.0)
+ACTUATOR_2X1X1S_MALE: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_Male', -45.0, 0.0)
+ACTUATOR_2X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x1x1s_Top', 45.0, 0.0)
+ACTUATOR_2X2X15_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x15_Top', -410.0, 0.0)
+ACTUATOR_2X2X1S_ANGULAR_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x1s_Angular_Top', 0.0, 0.0)
+ACTUATOR_2X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x1s_Top', 45.0, 0.0)
+ACTUATOR_2X2X2_TOP: Final = ActuatorBrickBaseMeta('Actuator_2x2x2_Top', 0.0, 0.0)
+ACTUATOR_4X1X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_4x1x1s_Top', -45.0, 90.0)
+ACTUATOR_4X4X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_4x4x1s_Top', 0.0, 0.0)
+ACTUATOR_6X2X1S_TOP: Final = ActuatorBrickBaseMeta('Actuator_6x2x1s_Top', 5.0, 0.0)
+ACTUATOR_8X8X1_TOP: Final = ActuatorBrickBaseMeta('Actuator_8x8x1_Top', 0.0, 0.0)
 
 
 class ActuatorBrickMeta(_b.BrickMeta):
@@ -71,14 +71,14 @@ class ActuatorBrickMeta(_b.BrickMeta):
         self,
         name: str,
         actuation_speed: float,
-        is_anglar_actuator: bool,
+        is_angular_actuator: bool,
         linear_actuation_offset: float,
         linear_actuation_range: float,
         *args, **kwargs
     ):
         super().__init__(name, *args, **kwargs)
         self._actuation_speed = actuation_speed
-        self._is_anglar_actuator = is_anglar_actuator
+        self._is_angular_actuator = is_angular_actuator
         self._linear_actuation_offset = linear_actuation_offset
         self._linear_actuation_range = linear_actuation_range
 
@@ -93,43 +93,43 @@ class ActuatorBrickMeta(_b.BrickMeta):
             _p.MAX_LIMIT: 0.0
         }
 
-    def actuation_speed(self):
+    def actuation_speed(self) -> float:
         """Returns the speed of the actuator in degrees or cm per second"""
         return self._actuation_speed
 
-    def is_anglar_actuator(self):
-        """Returns whether or not it is an anglair actuator (spins or push)"""
-        return self._is_anglar_actuator
+    def is_angular_actuator(self) -> bool:
+        """Returns whether or not it is an angular actuator (spins or push)"""
+        return self._is_angular_actuator
 
-    def linear_actuation_offset(self):
+    def linear_actuation_offset(self) -> float:
         """Returns the range of the actuator in centimeters"""
         return self._linear_actuation_offset
 
-    def linear_actuation_range(self):
+    def linear_actuation_range(self) -> float:
         """Returns linear actuation range (centimeters)"""
         return self._linear_actuation_range
 
-ACTUATOR_1SX1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1sx1sx1s_Bottom', 90, True, 5, 0)
-ACTUATOR_1SX1SX1S_FEMALE: Final = ActuatorBrickMeta('Actuator_1sx1sx1s_Female', 90, True, 0, 0)
-ACTUATOR_1SX1SX2S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1sx1sx2s_Bottom', 50, True, 1e-6, 20)
-ACTUATOR_1X1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1sx1s_Bottom', 50, False, -10, -20)
-ACTUATOR_1X1X1_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x1_Bottom', 90, True, 0, 0)
-ACTUATOR_1X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x1s_Bottom', 120, True, 10, 0)
-ACTUATOR_1X1X3_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x3_Bottom', 50, False, 10+4e-6, 70)
-ACTUATOR_1X1X6_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x6_Bottom', 100, False, 10+8e-6, 160)
-ACTUATOR_20X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_20x2x1s_Bottom', 60, False, -285, 570)
-ACTUATOR_2X1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1sx1s_Bottom', 50, False, -25, 50)
-ACTUATOR_2X1X1S_02_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1x1s_02_Bottom', 60, False, 5, 0)
-ACTUATOR_2X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1x1s_Bottom', 60, True, 0, 0)
-ACTUATOR_2X1X1S_FEMALE: Final = ActuatorBrickMeta('Actuator_2x1x1s_Female', 60, False, 0, 0)
-ACTUATOR_2X2X15_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x15_Bottom', 200,False,10+15e-6, 410)
-ACTUATOR_2X2X1S_ANGULAR_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x1s_Angular_Bottom', 75, True, 10, 0)
-ACTUATOR_2X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x1s_Bottom', 40, True, 0, 0)
-ACTUATOR_2X2X2_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x2_Bottom', 40, True, 0, 0)
-ACTUATOR_4X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_4x1x1s_Bottom', 50, False, -45, 90)
-ACTUATOR_4X4X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_4x4x1s_Bottom', 50, False, 10, 0)
-ACTUATOR_6X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_6x2x1s_Bottom', 30, True, 0, 0)
-ACTUATOR_8X8X1_BOTTOM: Final = ActuatorBrickMeta('Actuator_8x8x1_Bottom', 40, True, 20, 0)
+ACTUATOR_1SX1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1sx1sx1s_Bottom', 90.0, True, 5.0, 0.0)
+ACTUATOR_1SX1SX1S_FEMALE: Final = ActuatorBrickMeta('Actuator_1sx1sx1s_Female', 90.0, True, 0.0, 0.0)
+ACTUATOR_1SX1SX2S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1sx1sx2s_Bottom', 50.0, True, 1e-6, 20.0)
+ACTUATOR_1X1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1sx1s_Bottom', 50.0, False, -10.0, -20.0)
+ACTUATOR_1X1X1_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x1_Bottom', 90.0, True, 0.0, 0.0)
+ACTUATOR_1X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x1s_Bottom', 120.0, True, 10.0, 0.0)
+ACTUATOR_1X1X3_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x3_Bottom', 50.0, False, 10+4e-6, 70.0)
+ACTUATOR_1X1X6_BOTTOM: Final = ActuatorBrickMeta('Actuator_1x1x6_Bottom', 100.0, False, 10+8e-6, 160.0)
+ACTUATOR_20X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_20x2x1s_Bottom', 60.0, False, -285.0, 570.0)
+ACTUATOR_2X1SX1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1sx1s_Bottom', 50.0, False, -25.0, 50.0)
+ACTUATOR_2X1X1S_02_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1x1s_02_Bottom', 60.0, False, 5.0, 0.0)
+ACTUATOR_2X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x1x1s_Bottom', 60.0, True, 0.0, 0.0)
+ACTUATOR_2X1X1S_FEMALE: Final = ActuatorBrickMeta('Actuator_2x1x1s_Female', 60.0, False, 0.0, 0.0)
+ACTUATOR_2X2X15_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x15_Bottom', 200.0, False,10+15e-6, 410.0)
+ACTUATOR_2X2X1S_ANGULAR_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x1s_Angular_Bottom', 75.0, True, 10.0, 0.0)
+ACTUATOR_2X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x1s_Bottom', 40.0, True, 0.0, 0.0)
+ACTUATOR_2X2X2_BOTTOM: Final = ActuatorBrickMeta('Actuator_2x2x2_Bottom', 40.0, True, 0.0, 0.0)
+ACTUATOR_4X1X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_4x1x1s_Bottom', 50.0, False, -45.0, 90.0)
+ACTUATOR_4X4X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_4x4x1s_Bottom', 50.0, False, 10.0, 0.0)
+ACTUATOR_6X2X1S_BOTTOM: Final = ActuatorBrickMeta('Actuator_6x2x1s_Bottom', 30.0, True, 0.0, 0.0)
+ACTUATOR_8X8X1_BOTTOM: Final = ActuatorBrickMeta('Actuator_8x8x1_Bottom', 40.0, True, 20.0, 0.0)
 
 
 
@@ -170,11 +170,11 @@ class AxleBrickMeta(_b.BrickMeta):
         self._suspension_stiffness = suspension_stiffness
         self._suspension_damping = suspension_damping
 
-    def suspension_stiffness(self):
+    def suspension_stiffness(self) -> float:
         """Suspension stiffness multiplier"""
         return self._suspension_stiffness
 
-    def suspension_damping(self):
+    def suspension_damping(self) -> float:
         """Suspension damping multiplier"""
         return self._suspension_damping
 
@@ -182,9 +182,9 @@ class AxleBrickMeta(_b.BrickMeta):
         return _base_properties | {
             _p.STEERING_ANGLE: 0.0,
             _p.STEERING_SPEED: 1.0,
-            _p.SUSPENSION_LENGTH: 0,
-            _p.SUSPENSION_STIFFNESS: 2,
-            _p.SUSPENSION_DAMPING: 1,
+            _p.SUSPENSION_LENGTH: 0.0,
+            _p.SUSPENSION_STIFFNESS: 2.0,
+            _p.SUSPENSION_DAMPING: 1.0,
             _p.B_DRIVEN: True,
             _p.B_INVERT_DRIVE: False,
             _p.B_HAS_BRAKE: True,
@@ -201,16 +201,16 @@ class AxleBrickMeta(_b.BrickMeta):
         }
 
 
-AXLE_1SX1SX1S: Final = AxleBrickMeta('Axle_1sx1sx1s', 1000, 50)
-AXLE_1X1X1S: Final = AxleBrickMeta('Axle_1x1x1s', 1000, 50)
-AXLE_1X1X1S_02: Final = AxleBrickMeta('Axle_1x1x1s_02', 1000, 50)
-AXLE_1X2X1S: Final = AxleBrickMeta('Axle_1x2x1s', 1000, 50)
-AXLE_2X2X1: Final = AxleBrickMeta('Axle_2x2x1', 5000, 250)
-AXLE_2X2X1S: Final = AxleBrickMeta('Axle_2x2x1s', 1000, 50)
-AXLE_2X4X1S: Final = AxleBrickMeta('Axle_2x4x1s', 3000, 150)
-AXLE_2X6X1S: Final = AxleBrickMeta('Axle_2x6x1s', 4000, 200)
+AXLE_1SX1SX1S: Final = AxleBrickMeta('Axle_1sx1sx1s', 1000.0, 50.0)
+AXLE_1X1X1S: Final = AxleBrickMeta('Axle_1x1x1s', 1000.0, 50.0)
+AXLE_1X1X1S_02: Final = AxleBrickMeta('Axle_1x1x1s_02', 1000.0, 50.0)
+AXLE_1X2X1S: Final = AxleBrickMeta('Axle_1x2x1s', 1000.0, 50.0)
+AXLE_2X2X1: Final = AxleBrickMeta('Axle_2x2x1', 5000.0, 250.0)
+AXLE_2X2X1S: Final = AxleBrickMeta('Axle_2x2x1s', 1000.0, 50.0)
+AXLE_2X4X1S: Final = AxleBrickMeta('Axle_2x4x1s', 3000.0, 150.0)
+AXLE_2X6X1S: Final = AxleBrickMeta('Axle_2x6x1s', 4000.0, 200.0)
 
-LANDING_GEAR_2X2X2: Final = AxleBrickMeta('LandingGear_2x2x2', 7000, 5000)
+LANDING_GEAR_2X2X2: Final = AxleBrickMeta('LandingGear_2x2x2', 7000.0, 5000.0)
 
 
 
@@ -270,35 +270,35 @@ class CarWheelBrickMeta(_b.BrickMeta):
         self._min_wheel_width = min_wheel_width
         self._max_wheel_width_scale = max_wheel_width_scale
 
-    def rim_radius(self):
+    def rim_radius(self) -> float:
         """Radius of the rim only"""
         return self._rim_radius
 
-    def min_tire_thickness(self):
+    def min_tire_thickness(self) -> float:
         """Minimum thickness the tire is allowed to be scaled to"""
         return self._min_tire_thickness
 
-    def min_tire_pop_damage(self):
+    def min_tire_pop_damage(self) -> float:
         """Min damage needed to pop the tire"""
         return self._min_tire_pop_damage
 
-    def wheel_radius(self):
+    def wheel_radius(self) -> float:
         """Radius of the wheel"""
         return self._wheel_radius
 
-    def min_wheel_radius(self):
+    def min_wheel_radius(self) -> float:
         """Minimum wheel radius"""
         return self._min_wheel_radius
 
-    def max_wheel_radius_scale(self):
+    def max_wheel_radius_scale(self) -> float:
         """Max wheel radius scale"""
         return self._max_wheel_radius_scale
 
-    def min_wheel_width(self):
+    def min_wheel_width(self) -> float:
         """Min wheel width"""
         return self._min_wheel_width
 
-    def max_wheel_width_scale(self):
+    def max_wheel_width_scale(self) -> float:
         """Max wheel width scale"""
         return self._max_wheel_width_scale
 
@@ -319,33 +319,33 @@ class CarWheelBrickMeta(_b.BrickMeta):
             _p.TIRE_PRESSURE: _p.TirePressure.DEFAULT_VALUE
         }
 
-DRAG_WHEEL_4X2: Final = CarWheelBrickMeta('DragWheel_4x2', 30, 10, 0.1, 60, 37.5, 2, 55, 4,
-                                          wd=120, ww=70, tw=30)
-OFFROAD_WHEEL_3X4S: Final = CarWheelBrickMeta('OffroadWheel_3x4s', 22.5, 5, 0.1, 41, 22.5, 2, 20, 4,
-                                       wd=82, ww=40, tw=18.5)
-OFFROAD_WHEEL_5X2: Final = CarWheelBrickMeta('OffroadWheel_5x2', 35, 10, 4_000_000, 80, 32.5, 2, 35, 4,
-                                      wd=160, ww=60, tw=45)
-RACING_WHEEL_3X4S: Final = CarWheelBrickMeta('RacingWheel_3x4s', 35, 5, .1, 45, 25, 2, 20, 4,
-                                      wd=90, ww=40, tw=10)
-RACING_WHEEL_4X2S: Final = CarWheelBrickMeta('RacingWheel_4x2s', 35, 5, .1, 45, 25, 2, 20, 4,
-                                      wd=90, ww=20, tw=10)
-WHEEL_10SX1: Final = CarWheelBrickMeta('Wheel_10sx1', 28, 5, 1, 50, 25, 2, 20, 4,
-                                       wd=100, ww=30, tw=22)
-WHEEL_10X4: Final = CarWheelBrickMeta('Wheel_10x4', 60, 30, 50_000_000, 150, 70, 2, 60, 4,
-                                      wd=300, ww=120, tw=90)
-WHEEL_2X2S: Final = CarWheelBrickMeta('Wheel_2x2s', 15, 5, .1, 27, 15.5, 2, 10, 4,
-                                      wd=54, ww=2, tw=12)
-WHEEL_3X4S: Final = CarWheelBrickMeta('Wheel_3x4s', 22.5, 5, .1, 40.5, 20, 2, 30, 4,
-                                      wd=81, ww=4, tw=.18)
-WHEEL_4X2: Final = CarWheelBrickMeta('Wheel_4x2', 33.5, 10, 0.1, 60, 27.5, 2, 35, 4,
-                                     wd=120, ww=60, tw=26.5)
-WHEEL_7SX2: Final = CarWheelBrickMeta('Wheel_7sx2', 22.5, 5, .1, 35, 20, 2, 20, 4,
-                                      wd=70, ww=30, tw=12.5)
+DRAG_WHEEL_4X2: Final = CarWheelBrickMeta('DragWheel_4x2', 30.0, 10.0, 0.1, 60.0, 37.5, 2.0, 55.0, 4.0,
+                                          wd=120.0, ww=70.0, tw=30.0)
+OFFROAD_WHEEL_3X4S: Final = CarWheelBrickMeta('OffroadWheel_3x4s', 22.5, 5.0, 0.1, 41.0, 22.5, 2.0, 20.0, 4.0,
+                                       wd=82.0, ww=40.0, tw=18.5)
+OFFROAD_WHEEL_5X2: Final = CarWheelBrickMeta('OffroadWheel_5x2', 35.0, 10.0, 4_000_000.0, 80.0, 32.5, 2.0, 35.0, 4.0,
+                                      wd=160.0, ww=60.0, tw=45.0)
+RACING_WHEEL_3X4S: Final = CarWheelBrickMeta('RacingWheel_3x4s', 35.0, 5.0, 0.1, 45.0, 25.0, 2.0, 20.0, 4.0,
+                                      wd=90.0, ww=40.0, tw=10.0)
+RACING_WHEEL_4X2S: Final = CarWheelBrickMeta('RacingWheel_4x2s', 35.0, 5.0, 0.1, 45.0, 25.0, 2.0, 20.0, 4.0,
+                                      wd=90.0, ww=20.0, tw=10.0)
+WHEEL_10SX1: Final = CarWheelBrickMeta('Wheel_10sx1', 28.0, 5.0, 1.0, 50.0, 25.0, 2.0, 20.0, 4.0,
+                                       wd=100.0, ww=30.0, tw=22.0)
+WHEEL_10X4: Final = CarWheelBrickMeta('Wheel_10x4', 60.0, 30.0, 50_000_000.0, 150.0, 70.0, 2.0, 60.0, 4.0,
+                                      wd=300.0, ww=120.0, tw=90.0)
+WHEEL_2X2S: Final = CarWheelBrickMeta('Wheel_2x2s', 15.0, 5.0, 0.1, 27.0, 15.5, 2.0, 10.0, 4.0,
+                                      wd=54.0, ww=2.0, tw=12.0)
+WHEEL_3X4S: Final = CarWheelBrickMeta('Wheel_3x4s', 22.5, 5.0, 0.1, 40.5, 20.0, 20.0, 30.0, 4.0,
+                                      wd=81.0, ww=4.0, tw=0.18)
+WHEEL_4X2: Final = CarWheelBrickMeta('Wheel_4x2', 33.5, 10.0, 0.1, 60.0, 27.5, 2.0, 35.0, 4.0,
+                                     wd=120.0, ww=60.0, tw=26.5)
+WHEEL_7SX2: Final = CarWheelBrickMeta('Wheel_7sx2', 22.5, 5.0, 0.1, 35.0, 20.0, 2.0, 20.0, 4.0,
+                                      wd=70.0, ww=30.0, tw=12.5)
 
 
 
 class CylinderBrickMeta(_b.BrickMeta):
-    
+
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: False
@@ -367,13 +367,13 @@ class ExhaustBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
-            _p.SPAWN_SCALE: 1,
-            _p.SIZE_SCALE: 1,
+            _p.SPAWN_SCALE: 1.0,
+            _p.SIZE_SCALE: 1.0,
             _p.EXHAUST_EFFECT: _p.ExhaustEffect.SMOKE,
             _p.SMOKE_COLOR: 0xffffffff
         }
@@ -559,14 +559,14 @@ class CouplingBrickMeta(_b.BrickMeta):
         }
 
 COUPLING_1SX1SX1S_FRONT_MALE: Final = CouplingBrickMeta('Coupling_1sx1sx1s_Front_Male',
-                                                        _v.Vec3(0, 15, 15))
+                                                        _v.Vec3(0.0, 15.0, 15.0))
 COUPLING_1X1X1S_FRONT_MALE: Final = CouplingBrickMeta('Coupling_1x1x1s_Front_Male',
-                                                      _v.Vec3(0, 15, 15))
+                                                      _v.Vec3(0.0, 15.0, 15.0))
 COUPLING_2X2X1S_FRONT_MALE: Final = CouplingBrickMeta('Coupling_2x2x1s_Front_Male',
-                                                      _v.Vec3(0, 15, 15))
-COUPLING_2X2X1S_MALE: Final = CouplingBrickMeta('Coupling_2x2x1s_Male', _v.Vec3(15, 0, 15))
-COUPLING_4X1X2S_BOTTOM: Final = CouplingBrickMeta('Coupling_4x1x2s_Bottom', _v.Vec3(0, 0, 0))
-COUPLING_6X2X1S_MALE: Final = CouplingBrickMeta('Coupling_6x2x1s_Male', _v.Vec3(0, 15, 15))
+                                                      _v.Vec3(0.0, 15.0, 15.0))
+COUPLING_2X2X1S_MALE: Final = CouplingBrickMeta('Coupling_2x2x1s_Male', _v.Vec3(15.0, 0.0, 15.0))
+COUPLING_4X1X2S_BOTTOM: Final = CouplingBrickMeta('Coupling_4x1x2s_Bottom', _v.Vec3(0.0, 0.0, 0.0))
+COUPLING_6X2X1S_MALE: Final = CouplingBrickMeta('Coupling_6x2x1s_Male', _v.Vec3(0.0, 15.0, 15.0))
 
 
 
@@ -595,7 +595,7 @@ class DetonatorBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS
         }
 
@@ -608,7 +608,7 @@ class DisplayBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(60, 30, 10),
+            _p.BRICK_SIZE: _v.Vec3(60.0, 30.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.CUSTOM,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
@@ -707,7 +707,7 @@ class FlapBrickMeta(_b.BrickMeta):
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_FLUID_DYNAMIC: True,
-            _p.BRICK_SIZE: _v.Vec3(60, 120, 10),
+            _p.BRICK_SIZE: _v.Vec3(60.0, 120.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.NONE,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
@@ -727,8 +727,8 @@ class FlareBrickMeta(_m.BaseGunBrickMeta):
     pass
 
 FLARE_GUN_1X1X1: Final = FlareBrickMeta('FlareGun_1x1x1', _ip.FirearmProperties(
-    9, _p.AmmoType.FLARE, _ip.ProjectileParams(5e3, .1, .05, 1e3, 1e4, 1e4), 1, 500, .25, True,
-    False, 0), 15, 1e3, 240, .1, .35, .5, at=_p.AmmoType.FLARE)
+    9, _ip.ProjectileParams(5e3, 0.1, 0.05, 1e3, 1e4, 1e4), 1, 500.0, 0.25, True,
+    False, 0), 15.0, 1e3, 240.0, 0.1, 0.35, 0.5, at=_p.AmmoType.FLARE)
 
 
 
@@ -736,7 +736,7 @@ class FloatBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS
         }
 
@@ -760,18 +760,18 @@ GRID_CYLINDER_2X1X1S: Final = GrilleBrickMeta('GridZylinder_2x1x1s')
 class GunBrickMeta(_m.BaseGunBrickMeta):
     pass
 
-GUN_2X1X1: Final = GunBrickMeta('Gun_2x1x1', _ip.FirearmProperties(100, _p.AmmoType.DEFAULT,
-    _ip.ProjectileParams(74000, 0.3, 0.15, 2e3, 5e4, 5e5), 1, 40, 0.1, False, True, 0), 2, 2500, 90,
+GUN_2X1X1: Final = GunBrickMeta('Gun_2x1x1', _ip.FirearmProperties(100, _ip.ProjectileParams(
+    74000.0, 0.3, 0.15, 2e3, 5e4, 5e5), 1, 40.0, 0.1, False, True, 0), 2.0, 2500.0, 90.0,
     0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
-GUN_2X2X2: Final = GunBrickMeta('Gun_2x2x2', _ip.FirearmProperties(1, _p.AmmoType.HIGH_EXPLOSIVE,
-    _ip.ProjectileParams(5e5, 10, 1, 5e4, 1e6, 1e6), 1, 10, 0.5, True, False, 0), 1.5, 1e5, 240,
+GUN_2X2X2: Final = GunBrickMeta('Gun_2x2x2', _ip.FirearmProperties(1, _ip.ProjectileParams(
+    5e5, 10.0, 1.0, 5e4, 1e6, 1e6), 1, 10.0, 0.5, True, False, 0), 1.5, 1e5, 240.0,
     0.1, 0.35, 0.5, at=_p.AmmoType.HIGH_EXPLOSIVE)
 # Parent class of GUN_2X2X2_BALLISTIC is actually GUN_2X2X2... But you didn't see anything. Did you?
 GUN_2X2X2_BALLISTIC: Final = GunBrickMeta('Gun_2x2x2_Ballistic', _ip.FirearmProperties(1,
-    _p.AmmoType.DEFAULT, _ip.ProjectileParams(65000, 15, 15, 2e4, 8e5, 1e6), 1, 10, 0.5, True,
-    False, 0), 1.5, 1e5, 240, 0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
-GUN_4X2X2: Final = GunBrickMeta('Gun_4x2x2', _ip.FirearmProperties(100, _p.AmmoType.DEFAULT,
-    _ip.ProjectileParams(88000, 2, 1, 2500, 5e4, 5e5), 1, 20, 0.15, False, True, 0), 2, 5e3, 180,
+    _ip.ProjectileParams(65000.0, 15.0, 15.0, 2e4, 8e5, 1e6), 1, 10.0, 0.5, True,
+    False, 0), 1.5, 1e5, 240.0, 0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
+GUN_4X2X2: Final = GunBrickMeta('Gun_4x2x2', _ip.FirearmProperties(100,
+    _ip.ProjectileParams(88000.0, 2.0, 1.0, 2500.0, 5e4, 5e5), 1, 20.0, 0.15, False, True, 0), 2.0, 5e3, 180.0,
     0.1, 0.35, 0.5, at=_p.AmmoType.DEFAULT)
 
 
@@ -805,34 +805,34 @@ class IdlerWheelMeta(_b.BrickMeta):
         self._min_wheel_width = min_wheel_width
         self._max_wheel_width_scale = max_wheel_width_scale
 
-    def wheel_radius(self):
+    def wheel_radius(self) -> float:
         """Radius of the idler wheel"""
         return self._wheel_radius
 
-    def min_wheel_radius(self):
+    def min_wheel_radius(self) -> float:
         """Min Wheel Radius"""
         return self._min_wheel_radius
 
-    def max_wheel_radius_scale(self):
+    def max_wheel_radius_scale(self) -> float:
         """Max Wheel Radius"""
         return self._max_wheel_radius_scale
 
-    def min_wheel_width(self):
+    def min_wheel_width(self) -> float:
         """Min Wheel Width"""
         return self._min_wheel_width
 
-    def max_wheel_width_scale(self):
+    def max_wheel_width_scale(self) -> float:
         """Max Wheel Width Scale"""
         return self._max_wheel_width_scale
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_INVERT_TANK_STEERING: False,
-            _p.WHEEL_DIAMETER: 90,
-            _p.WHEEL_WIDTH: 30
+            _p.WHEEL_DIAMETER: 90.0,
+            _p.WHEEL_WIDTH: 30.0
         }
 
-IDLER_WHEEL: Final = IdlerWheelMeta('IdlerWheel', 45, 20, 2, 25, 4)
+IDLER_WHEEL: Final = IdlerWheelMeta('IdlerWheel', 45.0, 20.0, 2.0, 25.0, 4.0)
 
 
 
@@ -864,9 +864,9 @@ class ImageBrickMeta(_b.BrickMeta):
             _p.IMAGE_COLOR: _p.ImageColor.DEFAULT_COLOR,
         }
 
-IMAGE_BRICK: Final = ImageBrickMeta('ImageBrick', 0.5, size=_v.Vec3(60, 60, 10), spacing=_p.ConnectorSpacing.NO_TOP)
-IMAGE_CYLINDER: Final = ImageBrickMeta('ImageCylinder', 0.5, size=_v.Vec3(60, 60, 10), spacing=_p.ConnectorSpacing.NO_TOP)
-FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5, size=_v.Vec3(60, 10, 60), spacing=_p.ConnectorSpacing.ALL_CONNECTIONS)
+IMAGE_BRICK: Final = ImageBrickMeta('ImageBrick', 0.5, size=_v.Vec3(60.0, 60.0, 10.0), spacing=_p.ConnectorSpacing.NO_TOP)
+IMAGE_CYLINDER: Final = ImageBrickMeta('ImageCylinder', 0.5, size=_v.Vec3(60.0, 60.0, 10.0), spacing=_p.ConnectorSpacing.NO_TOP)
+FLAG_3X1X2: Final = ImageBrickMeta('Flag_3x1x2', 0.5, size=_v.Vec3(60.0, 10.0, 60.0), spacing=_p.ConnectorSpacing.ALL_CONNECTIONS)
 
 
 
@@ -874,13 +874,13 @@ class LauncherBrickMeta(_m.BaseGunBrickMeta):
     pass
 
 LAUNCHER_2X1SX1S: Final = LauncherBrickMeta('Launcher_2x1sx1s', _ip.FirearmProperties(
-    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    19, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
     False, 0), 2, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
 LAUNCHER_4X2SX2S: Final = LauncherBrickMeta('Launcher_4x2sx2s', _ip.FirearmProperties(
-    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    19, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
     False, 0), 3, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
 LAUNCHER_6X1X1: Final = LauncherBrickMeta('Launcher_6x1x1', _ip.FirearmProperties(
-    19, _p.AmmoType.HIGH_EXPLOSIVE, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
+    19, _ip.ProjectileParams(1e4, 5, 4, 5e4, 1e5, 2e5), 1, 100, .1, True,
     False, 0), 4, 1e3, 0, 1, 1, 1, at=_p.AmmoType.HIGH_EXPLOSIVE)
 
 
@@ -903,7 +903,7 @@ class LightBrick(_b.BrickMeta):
 
     def __init__(
         self,
-        name,
+        name: str,
         intensity: float,
         *args,
         **kwargs
@@ -911,13 +911,13 @@ class LightBrick(_b.BrickMeta):
         super().__init__(name, *args, **kwargs)
         self._intensity = intensity
 
-    def intensity(self):
+    def intensity(self) -> float:
         """Default intensity of the light"""
         return self._intensity
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.BRICK_MATERIAL: _p.BrickMaterial.GLASS,
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.HEADLIGHT,
@@ -929,14 +929,14 @@ class LightBrick(_b.BrickMeta):
             _p.CONE_ANGLE: _p.ConeAngle.DEFAULT
         }
 
-LIGHT_BRICK: Final = LightBrick('LightBrick', 5)
-LIGHT_CONE: Final = LightBrick('LightCone', 5)
-LIGHT_CONE_FLAT: Final = LightBrick('LightConeFlat', 5)
-LIGHT_CYLINDER: Final = LightBrick('LightCylinder', 5)
-LIGHT_HEMISPHERE: Final = LightBrick('LightHemisphere', 5)
-LIGHT_RAMP: Final = LightBrick('LightRamp', 5)
-LIGHT_RAMP_ROUNDED: Final = LightBrick('LightRampRounded', 5)
-LIGHT_RAMP_ROUNDED_N: Final = LightBrick('LightRampRoundedN', 5)
+LIGHT_BRICK: Final = LightBrick('LightBrick', 5.0)
+LIGHT_CONE: Final = LightBrick('LightCone', 5.0)
+LIGHT_CONE_FLAT: Final = LightBrick('LightConeFlat', 5.0)
+LIGHT_CYLINDER: Final = LightBrick('LightCylinder', 5.0)
+LIGHT_HEMISPHERE: Final = LightBrick('LightHemisphere', 5.0)
+LIGHT_RAMP: Final = LightBrick('LightRamp', 5.0)
+LIGHT_RAMP_ROUNDED: Final = LightBrick('LightRampRounded', 5.0)
+LIGHT_RAMP_ROUNDED_N: Final = LightBrick('LightRampRoundedN', 5.0)
 
 
 
@@ -944,15 +944,29 @@ class MathBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.BRICK_SIZE: _v.Vec3(10.0, 10.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.OPERATION: _p.Operation.ADD,
-            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.NONE,
+
+            _p.INPUT_CNL_A_INPUT_AXIS: _p.InputCnl_A_InputAxis.CUSTOM,
             _p.INPUT_CNL_A_SOURCE_BRICKS: _p.InputCnl_A_SourceBricks.EMPTY,
             _p.INPUT_CNL_A_VALUE: _p.InputCnl_A_Value.DEFAULT_VALUE,
-            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.NONE,
+
+            _p.INPUT_CNL_B_INPUT_AXIS: _p.InputCnl_B_InputAxis.CONSTANT_VALUE,
             _p.INPUT_CNL_B_SOURCE_BRICKS: _p.InputCnl_B_SourceBricks.EMPTY,
-            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE
+            _p.INPUT_CNL_B_VALUE: _p.InputCnl_B_Value.DEFAULT_VALUE,
+
+            _p.INPUT_CNL_C_INPUT_AXIS: _p.InputCnl_C_InputAxis.CONSTANT_VALUE,
+            _p.INPUT_CNL_C_SOURCE_BRICKS: _p.InputCnl_C_SourceBricks.EMPTY,
+            _p.INPUT_CNL_C_VALUE: _p.InputCnl_C_Value.DEFAULT_VALUE,
+
+            _p.INPUT_CNL_D_INPUT_AXIS: _p.InputCnl_D_InputAxis.CONSTANT_VALUE,
+            _p.INPUT_CNL_D_SOURCE_BRICKS: _p.InputCnl_D_SourceBricks.EMPTY,
+            _p.INPUT_CNL_D_VALUE: _p.InputCnl_D_Value.DEFAULT_VALUE,
+
+            _p.INPUT_CNL_E_INPUT_AXIS: _p.InputCnl_E_InputAxis.CONSTANT_VALUE,
+            _p.INPUT_CNL_E_SOURCE_BRICKS: _p.InputCnl_E_SourceBricks.EMPTY,
+            _p.INPUT_CNL_E_VALUE: _p.InputCnl_E_Value.DEFAULT_VALUE
         }
 
 MATH_BRICK: Final = MathBrickMeta('MathBrick')
@@ -967,10 +981,10 @@ class MotorBrickMeta(_b.BrickMeta):
 
         startup_time: float,
         acceleration: float,
-        rpm_range: tuple[float, float],
-        clutch_rpm_range: tuple[float, float],
-        shiftup_rpm_range: tuple[float, float],
-        shiftdown_rpm_range: tuple[float, float],
+        rpm_range: _v.Vec2,
+        clutch_rpm_range: _v.Vec2,
+        shiftup_rpm_range: _v.Vec2,
+        shiftdown_rpm_range: _v.Vec2,
         backfire_rpm: float,
 
         shift_delay: float,
@@ -1004,59 +1018,59 @@ class MotorBrickMeta(_b.BrickMeta):
         self._fuel_capacity = fuel_capacity
         self._fuel_consumption = fuel_consumption
 
-    def startup_time(self):
+    def startup_time(self) -> float:
         """Time it takes until the motor is started"""
         return self._startup_time
 
-    def acceleration(self):
+    def acceleration(self) -> float:
         """Angular acceleration in the first gear"""
         return self._acceleration
 
-    def rpm_range(self):
+    def rpm_range(self) -> _v.Vec2:
         """Min (idle) and max RPM"""
         return self._rpm_range
 
-    def clutch_rpm_range(self):
+    def clutch_rpm_range(self) -> _v.Vec2:
         """Relative RPM at which the clutch starts to grip and is fully engaged"""
         return self._clutch_rpm_range
 
-    def shiftup_rpm_range(self):
+    def shiftup_rpm_range(self) -> _v.Vec2:
         """RPM ratio to shift up at 0 and 100% throttle"""
         return self._shiftup_rpm_range
 
-    def shiftdown_rpm_range(self):
+    def shiftdown_rpm_range(self) -> _v.Vec2:
         """RPM ratio to shift down at 0 and 100% throttle"""
         return self._shiftdown_rpm_range
 
-    def backfire_rpm(self):
+    def backfire_rpm(self) -> float:
         """RPM at which the backfire effect is spawned"""
         return self._backfire_rpm
 
-    def shift_delay(self):
+    def shift_delay(self) -> float:
         """Time a gear shift takes"""
         return self._shift_delay
 
-    def min_auto_shift_delay(self):
+    def min_auto_shift_delay(self) -> float:
         """Minimum time to wait between automatic shifts"""
         return self._min_auto_shift_delay
 
-    def num_forward_gears(self):
+    def num_forward_gears(self) -> int:
         """Num Forward Gears"""
         return self._num_forward_gears
 
-    def num_reverse_gears(self):
+    def num_reverse_gears(self) -> int:
         """Num Reverse Gears"""
         return self._num_reverse_gears
 
-    def last_gear_speed(self):
+    def last_gear_speed(self) -> int:
         """Last Gear Speed (cm/s)"""
         return self._last_gear_speed
 
-    def fuel_capacity(self):
+    def fuel_capacity(self) -> float:
         """Fuel capacity"""
         return self._fuel_capacity
 
-    def fuel_consumption(self):
+    def fuel_consumption(self) -> float:
         """Amount of fuel in liters to consume per second"""
         return self._fuel_consumption
 
@@ -1070,20 +1084,20 @@ class MotorBrickMeta(_b.BrickMeta):
             _p.B_TANK_DRIVE: False,
         }
 
-AIRCRAFTR4: Final = MotorBrickMeta('AircraftR4', 0.5, 3, (1000, 10000), (0, 0.05), (0.65, 0.95),
-                                   (0.1, 0.3), 0.85, .5, 2, 1, 1, 5500,  10, 1e-3)
-DIESELV12: Final = MotorBrickMeta('DieselV12', 2, 1.2, (200, 2000), (0, 0.05), (0.65, 0.95),
-                                  (0.1, 0.3), 0.85, 0.5, 2, 5, 3, 2500, 40, 0.05)
-DRAGV8: Final = MotorBrickMeta('DragV8', 1, 4, (1000, 10000), (0, 0.05), (0.65, 0.95), (0.1, 0.3),
-                               0.85, 0.1, 2, 5, 1, 14000, 20, 0.5)
-EMOTOR_2X2X2: Final = MotorBrickMeta('EMotor_2x2x2', 0, 5, (0, 10000), (0, 0.05), (0.65, 0.95),
-                                     (0.1, 0.3), 0.85, 0.2, 2, 3, 1, 8300, 10, 0.001)
-MOTOR_1X2X5S: Final = MotorBrickMeta('Motor_1x2x5s', 0.5, 1.6, (400, 4000), (0, .05), (.65, .95),
-                                     (.1, .3), .85, .5, 2, 5, 1, 5550, 10, 0.001)
-MOTOR_3X2X5S: Final = MotorBrickMeta('Motor_3x2x5s', .3, 2, (800, 4000), (0, .05), (.65, .95),
-                                     (.1, .3), .85, .5, 2, 8, 2, 3300, 10, .002)
-MOTOR_4X2X5S: Final = MotorBrickMeta('Motor_4x2x5s', .3, 3, (1000, 1e4), (0, .05), (.65, .95),
-                                     (.1, .3), .85, .3, 2, 4, 1, 8300, 10, .005)
+AIRCRAFTR4: Final = MotorBrickMeta('AircraftR4', 0.5, 3.0, _v.Vec2(1000.0, 10000.0), _v.Vec2(0.0, 0.05), _v.Vec2(0.65, 0.95),
+                                   _v.Vec2(0.1, 0.3), 0.85, 0.5, 2.0, 1, 1, 5500,  10.0, 1e-3)
+DIESELV12: Final = MotorBrickMeta('DieselV12', 2.0, 1.2, _v.Vec2(200.0, 2000.0), _v.Vec2(0.0, 0.05), _v.Vec2(0.65, 0.95),
+                                  _v.Vec2(0.1, 0.3), 0.85, 0.5, 2.0, 4, 2, 2500, 40.0, 0.05)
+DRAGV8: Final = MotorBrickMeta('DragV8', 1.0, 4.0, _v.Vec2(1000.0, 10000.0), _v.Vec2(0.0, 0.05), _v.Vec2(0.65, 0.95), _v.Vec2(0.1, 0.3),
+                               0.85, 0.1, 2.0, 5, 1, 14000, 20.0, 0.5)
+EMOTOR_2X2X2: Final = MotorBrickMeta('EMotor_2x2x2', 0.0, 5.0, _v.Vec2(0, 10000), _v.Vec2(0, 0.05), _v.Vec2(0.65, 0.95),
+                                     _v.Vec2(0.1, 0.3), 0.85, 0.2, 2.0, 3, 1, 8300, 10.0, 0.001)
+MOTOR_1X2X5S: Final = MotorBrickMeta('Motor_1x2x5s', 0.5, 1.6, _v.Vec2(400.0, 4000.0), _v.Vec2(0.0, 0.05), _v.Vec2(0.65, 0.95),
+                                     _v.Vec2(0.1, 0.3), 0.85, 0.5, 2.0, 5, 1, 5550, 10.0, 0.001)
+MOTOR_3X2X5S: Final = MotorBrickMeta('Motor_3x2x5s', 0.3, 2.0, _v.Vec2(800, 4000), _v.Vec2(0, .05), _v.Vec2(.65, .95),
+                                     _v.Vec2(.1, .3), 0.85, 0.5, 2.0, 8, 2, 3300, 10.0, 0.002)
+MOTOR_4X2X5S: Final = MotorBrickMeta('Motor_4x2x5s', 0.3, 3.0, _v.Vec2(1000.0, 1e4), _v.Vec2(0.0, 0.05), _v.Vec2(0.65, 0.95),
+                                     _v.Vec2(.1, .3), 0.85, 0.3, 2.0, 4, 1, 8300, 10.0, .005)
 
 
 
@@ -1105,7 +1119,7 @@ class PropellerBrickMeta(_b.BrickMeta):
 
     def __init__(
         self,
-        name,
+        name: str,
         propeller_radius: float,
         thrust: float,
         *args, **kwargs
@@ -1114,17 +1128,17 @@ class PropellerBrickMeta(_b.BrickMeta):
         self._propeller_radius = propeller_radius
         self._thrust = thrust
 
-    def propeller_radius(self):
+    def propeller_radius(self) -> float:
         return self._propeller_radius
 
-    def thrust(self):
+    def thrust(self) -> float:
         return self._thrust
 
     def base_properties(self, *args, **kwargs):
         return _base_properties.copy()
 
-PROP_10X1 = PropellerBrickMeta('Prop_10x1', 150, 12000)
-PROP_5X1 = PropellerBrickMeta('Prop_5x1', 75, 6000)
+PROP_10X1 = PropellerBrickMeta('Prop_10x1', 150.0, 12000.0)
+PROP_5X1 = PropellerBrickMeta('Prop_5x1', 75.0, 6000.0)
 
 
 
@@ -1132,7 +1146,7 @@ class PumpBrickMeta(_b.BrickMeta):
 
     def __init__(
         self,
-        name,
+        name: str,
         extinguish_radius: float,
         extinguish_distance: float,
         extinguish_probability: float,
@@ -1143,13 +1157,13 @@ class PumpBrickMeta(_b.BrickMeta):
         self._extinguish_distance = extinguish_distance
         self._extinguish_probability = extinguish_probability
 
-    def extinguish_radius(self):
+    def extinguish_radius(self) -> float:
         return self._extinguish_radius
 
-    def extinguish_distance(self):
+    def extinguish_distance(self) -> float:
         return self._extinguish_distance
 
-    def extinguish_probability(self):
+    def extinguish_probability(self) -> float:
         return self._extinguish_probability
 
     def base_properties(self, *args, **kwargs):
@@ -1159,7 +1173,7 @@ class PumpBrickMeta(_b.BrickMeta):
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE
         }
 
-PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75, 300, 0.5)
+PUMP_ZYLINDER_2X2X2: Final = PumpBrickMeta('PumpZylinder_2x2x2', 75.0, 300.0, 0.5)
 
 
 
@@ -1232,7 +1246,7 @@ class RCBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.BRICK_SIZE: _v.Vec3(10.0, 10.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS
         }
 
@@ -1347,7 +1361,7 @@ class ScalableBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.B_FLUID_DYNAMIC: False
         }
@@ -1385,11 +1399,11 @@ class SeatBrickMeta(_b.BrickMeta):
 
     def __init__(
         self,
-        name,
-        view_pitch_range: tuple[float, float],
-        view_pitch_range_item: tuple[float, float],
-        view_yaw_range: tuple[float, float],
-        view_yaw_range_item: tuple[float, float],
+        name: str,
+        view_pitch_range: _v.Vec2,
+        view_pitch_range_item: _v.Vec2,
+        view_yaw_range: _v.Vec2,
+        view_yaw_range_item: _v.Vec2,
         character_damage_scale: float,
         min_character_damage: float,
         character_capsule_half_height: float,
@@ -1406,28 +1420,28 @@ class SeatBrickMeta(_b.BrickMeta):
         self._character_capsule_half_height = character_capsule_half_height
         self._num_inventory_slots = num_inventory_slots
 
-    def view_pitch_range(self):
+    def view_pitch_range(self) -> _v.Vec2:
         return self._view_pitch_range
 
-    def view_pitch_range_item(self):
+    def view_pitch_range_item(self) -> _v.Vec2:
         return self._view_pitch_range_item
 
-    def view_yaw_range(self):
+    def view_yaw_range(self) -> _v.Vec2:
         return self._view_yaw_range
 
-    def view_yaw_range_item(self):
+    def view_yaw_range_item(self) -> _v.Vec2:
         return self._view_yaw_range_item
 
-    def character_damage_scale(self):
+    def character_damage_scale(self) -> float:
         return self._character_damage_scale
 
-    def min_character_damage(self):
+    def min_character_damage(self) -> float:
         return self._min_character_damage
 
-    def character_capsule_half_height(self):
+    def character_capsule_half_height(self) -> float:
         return self._character_capsule_half_height
 
-    def num_inventory_slots(self):
+    def num_inventory_slots(self) -> int:
         return self._num_inventory_slots
 
     def base_properties(self, *args, **kwargs):
@@ -1436,9 +1450,9 @@ class SeatBrickMeta(_b.BrickMeta):
             _p.EXIT_LOCATION: None
         }
 
-SEAT_2X2X7S: Final = SeatBrickMeta('Seat_2x2x7s', (-75, 75), (-45, 45), (-90, 90), (-60, 60), 3, .25, 60, 1)
-SEAT_3X2X2: Final = SeatBrickMeta('Seat_3x2x2', (-30, 30), (-30, 45), (-45, 45), (-45, 45), 3, .25, 40, 1)
-SEAT_5X2X1S: Final = SeatBrickMeta('Seat_5x2x1s', (-20, 20), (-60, 30), (-20, 20), (-45, 45), 3, .25, 80, 1)
+SEAT_2X2X7S: Final = SeatBrickMeta('Seat_2x2x7s', _v.Vec2(-75.0, 75.0), _v.Vec2(-45.0, 45.0), _v.Vec2(-90.0, 90.0), _v.Vec2(-60.0, 60.0), 3.0, 0.25, 60.0, 1)
+SEAT_3X2X2: Final = SeatBrickMeta('Seat_3x2x2', _v.Vec2(-30.0, 30.0), _v.Vec2(-30.0, 45.0), _v.Vec2(-45.0, 45.0), _v.Vec2(-45.0, 45.0), 3.0, 0.25, 40.0, 1)
+SEAT_5X2X1S: Final = SeatBrickMeta('Seat_5x2x1s', _v.Vec2(-20.0, 20.0), _v.Vec2(-60.0, 30.0), _v.Vec2(-20.0, 20.0), _v.Vec2(-45.0, 45.0), 3.0, 0.25, 80, 1)
 
 
 
@@ -1449,7 +1463,7 @@ class SensorBrickMeta(_b.BrickMeta):
             _p.ENABLED_INPUT_CNL_INPUT_AXIS: _p.EnabledInputCnl_InputAxis.ALWAYS_ON,
             _p.ENABLED_INPUT_CNL_SOURCE_BRICKS: _p.EnabledInputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.BRICK_SIZE: _v.Vec3(10.0, 10.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
             _p.B_RETURN_TO_ZERO: False,
             _p.SENSOR_TYPE: _p.SensorType.SPEED,
@@ -1470,9 +1484,9 @@ class SpinnerBrickMeta(_b.BrickMeta):
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.SPINNER_SHAPE: _p.SpinnerShape.SQUARE,
-            _p.SPINNER_RADIUS: _v.Vec2(30, 30),
-            _p.SPINNER_SIZE: _v.Vec2(30, 30),
-            _p.SPINNER_ANGLE: 90,
+            _p.SPINNER_RADIUS: _v.Vec2(30.0, 30.0),
+            _p.SPINNER_SIZE: _v.Vec2(30.0, 30.0),
+            _p.SPINNER_ANGLE: 90.0,
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.SPINNER_CONNECTIONS
         }
 
@@ -1484,8 +1498,8 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
 
     def __init__(
         self,
-        name,
-        track_mesh_size: tuple[float, float],
+        name: str,
+        track_mesh_size: _v.Vec2,
         track_spacing: float,
         track_thickness: float,
         max_num_track_instances: int,
@@ -1514,60 +1528,60 @@ class SprocketWheelBrickMeta(_b.BrickMeta):
         self._min_wheel_width = min_wheel_width
         self._max_wheel_width_scale = max_wheel_width_scale
 
-    def track_mesh_size(self):
+    def track_mesh_size(self) -> _v.Vec2:
         """Rest size of the track mesh"""
         return self._track_mesh_size
 
-    def track_spacing(self):
+    def track_spacing(self) -> float:
         """Desired distance between individual links"""
         return self._track_spacing
 
-    def track_thickness(self):
+    def track_thickness(self) -> float:
         """Track Thickness"""
         return self._track_thickness
 
-    def max_num_track_instances(self):
+    def max_num_track_instances(self) -> int:
         """Max Num Track Instances"""
         return self._max_num_track_instances
 
-    def max_num_idler_wheels(self):
+    def max_num_idler_wheels(self) -> int:
         """Max Num Idler Wheels"""
         return self._max_num_idler_wheels
 
-    def track_break_particle_ratio(self):
+    def track_break_particle_ratio(self) -> float:
         """How many of the track instances should be spawned as particles"""
         return self._track_break_particle_ratio
 
-    def wheel_radius(self):
+    def wheel_radius(self) -> float:
         """Radius of the wheel"""
         return self._wheel_radius
 
-    def min_wheel_radius(self):
+    def min_wheel_radius(self) -> float:
         """Min Radius of the wheel"""
         return self._min_wheel_radius
 
-    def max_wheel_radius_scale(self):
+    def max_wheel_radius_scale(self) -> float:
         """Max Radius Scale of the wheel"""
         return self._max_wheel_radius_scale
 
-    def min_wheel_width(self):
+    def min_wheel_width(self) -> float:
         """Min Width of the wheel"""
         return self._min_wheel_width
 
-    def max_wheel_width_scale(self):
+    def max_wheel_width_scale(self) -> float:
         """Max Width Scale of the wheel"""
         return self._max_wheel_width_scale
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
             _p.B_INVERT_TANK_STEERING: False,
-            _p.WHEEL_DIAMETER: 90,
-            _p.WHEEL_WIDTH: 30,
+            _p.WHEEL_DIAMETER: 90.0,
+            _p.WHEEL_WIDTH: 30.0,
             _p.IDLER_WHEELS: _p.IdlerWheels.EMPTY,
             _p.TRACK_COLOR: _p.TrackColor.DEFAULT
         }
 
-SPROCKET_WHEEL: Final = SprocketWheelBrickMeta('SprocketWheel', (30, 60), 5, 6, 50, 20, 0.25, 45, 20, 2, 25, 4)
+SPROCKET_WHEEL: Final = SprocketWheelBrickMeta('SprocketWheel', _v.Vec2(30, 60), 5, 6, 50, 20, 0.25, 45, 20, 2, 25, 4)
 
 
 
@@ -1606,7 +1620,7 @@ class SwitchBrickMeta(_b.BrickMeta):
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
             _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
             _p.SWITCH_NAME: _p.SwitchName.EMPTY,
-            _p.BRICK_SIZE: _v.Vec3(10, 10, 10),
+            _p.BRICK_SIZE: _v.Vec3(10.0, 10.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
             _p.B_RETURN_TO_ZERO: True,
             _p.OUTPUT_CNL_MIN_IN: -1.0,
@@ -1624,22 +1638,22 @@ SWITCH_CYLINDER: Final = SwitchBrickMeta('SwitchCylinder')
 
 class TankBrickMeta(_b.BrickMeta):
 
-    def __init__(self, name, fuel_capacity: float, *args, **kwargs):
+    def __init__(self, name: str, fuel_capacity: float, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
         self._fuel_capacity = fuel_capacity
 
-    def fuel_capacity(self):
+    def fuel_capacity(self) -> float:
         return self._fuel_capacity
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.FUEL_TYPE: _p.FuelType.PETROL,
             _p.B_FLUID_DYNAMIC: False
         }
 
-TANK_BRICK: Final = TankBrickMeta('TankBrick', 27)
+TANK_BRICK: Final = TankBrickMeta('TankBrick', 27.0)
 TANK_CYLINDER: Final = TankBrickMeta('TankCylinder', 21.200001)
 TANK_CYLINDER_02: Final = TankBrickMeta('TankCylinder_02', 21.200001)
 
@@ -1648,21 +1662,22 @@ TANK_CYLINDER_02: Final = TankBrickMeta('TankCylinder_02', 21.200001)
 class TargetMarkerBrickMeta(_b.BrickMeta):
 
     def __init__(
-        self, name,
+        self,
+        name: str,
         num_trajectory_iterations_per_gun: int,
         trajectory_distribution_exponent: float,
         max_guns_iterations_per_frame: int,
 
         lense_offset: _v.Vec3,
-        zoom_zoom_range: tuple[float, float],
+        zoom_zoom_range: _v.Vec2,
         zoom_input_rate: float,
         zoom_step: float,
         zoom_exponent: float,
         zoom_interp_speed: float,
 
         max_target_range: float,
-        view_pitch_range: tuple[float, float],
-        view_yaw_range: tuple[float, float],
+        view_pitch_range: _v.Vec2,
+        view_yaw_range: _v.Vec2,
         *args, **kwargs
     ):
         super().__init__(name, *args, **kwargs)
@@ -1679,52 +1694,52 @@ class TargetMarkerBrickMeta(_b.BrickMeta):
         self._view_pitch_range = view_pitch_range
         self._view_yaw_range = view_yaw_range
 
-    def num_trajectory_iterations_per_gun(self):
+    def num_trajectory_iterations_per_gun(self) -> int:
         """Number of iterations to go through per gun"""
         return self._num_trajectory_iterations_per_gun
 
-    def trajectory_distribution_exponent(self):
+    def trajectory_distribution_exponent(self) -> float:
         """Determines how traces are distributed along the trajectory,
         higher values mean more precision closer to the gun"""
         return self._trajectory_distribution_exponent
 
-    def max_guns_iterations_per_frame(self):
+    def max_guns_iterations_per_frame(self) -> int:
         """Maximum number of guns to update per frame"""
         return self._max_guns_iterations_per_frame
 
-    def lense_offset(self):
+    def lense_offset(self) -> _v.Vec3:
         """Local space view location offset"""
         return self._lense_offset
 
-    def zoom_zoom_range(self):
+    def zoom_zoom_range(self) -> _v.Vec2:
         """The min and max room ratio"""
         return self._zoom_zoom_range
 
-    def zoom_input_rate(self):
+    def zoom_input_rate(self) -> float:
         """Speed at which the camera is zoombed in through the rate input (e.g. a key)"""
         return self._zoom_input_rate
 
-    def zoom_step(self):
+    def zoom_step(self) -> float:
         """Step at which the camera is zoomed in (e.g. with the mouse wheel)"""
         return self._zoom_step
 
-    def zoom_exponent(self):
+    def zoom_exponent(self) -> float:
         """The exponent of the zoom in curve"""
         return self._zoom_exponent
 
-    def zoom_interp_speed(self):
+    def zoom_interp_speed(self) -> float:
         """Speed at which the camera zoom is interpolated"""
         return self._zoom_interp_speed
 
-    def max_target_range(self):
+    def max_target_range(self) -> float:
         """The maximum range that can be measured/displayed/hit"""
         return self._max_target_range
 
-    def view_pitch_range(self):
+    def view_pitch_range(self) -> _v.Vec2:
         """Min and max pitch view rotation"""
         return self._view_pitch_range
 
-    def view_yaw_range(self):
+    def view_yaw_range(self) -> _v.Vec2:
         """Min and max yaw view rotation"""
         return self._view_yaw_range
 
@@ -1734,8 +1749,8 @@ class TargetMarkerBrickMeta(_b.BrickMeta):
             _p.OWNING_SEAT: _p.OwningSeat.EMPTY
         }
 
-TARGET_MARKER_1X1X1: Final = TargetMarkerBrickMeta('TargetMarker_1x1x1', 10, 2, 2, (0, 0, 0),
-    (2, 45), 1, .05, .75, 8, 5e5, (-90, 90), (-180, 180))
+TARGET_MARKER_1X1X1: Final = TargetMarkerBrickMeta('TargetMarker_1x1x1', 10, 2.0, 2, _v.Vec3(0.0, 0.0, 0.0),
+    _v.Vec2(2.0, 45.0), 1.0, 0.05, 0.75, 8.0, 5e5, _v.Vec2(-90.0, 90.0), _v.Vec2(-180.0, 180.0))
 
 
 
@@ -1743,7 +1758,7 @@ class TextBrickMeta(_b.BrickMeta):
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(60, 60, 10),
+            _p.BRICK_SIZE: _v.Vec3(60.0, 60.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.B_FLUID_DYNAMIC: False,
             _p.TEXT: _p.Text.DEFAULT,
@@ -1761,7 +1776,8 @@ TEXT_CYLINDER: Final = TextBrickMeta('TextCylinder')
 class ThrusterBrickMeta(_b.BrickMeta):
 
     def __init__(
-        self, name,
+        self,
+        name: str,
         fuel_capacity: float,
         fuel_consumption: float,
         thrust: float,
@@ -1770,8 +1786,8 @@ class ThrusterBrickMeta(_b.BrickMeta):
         glow_interp_speed: float,
         afterglow_interp_speed_up: float,
         afterglow_interp_speed_down: float,
-        glow_color: tuple[float, float, float, float],
-        afterglow_color: tuple[float, float, float, float],
+        glow_color: _v.Vec4,
+        afterglow_color: _v.Vec4,
         *args, **kwargs
     ):
         super().__init__(name, *args, **kwargs)
@@ -1786,50 +1802,50 @@ class ThrusterBrickMeta(_b.BrickMeta):
         self._glow_color = glow_color
         self._afterglow_color = afterglow_color
 
-    def fuel_capacity(self):
+    def fuel_capacity(self) -> float:
         """Fuel Capacity"""
         return self._fuel_capacity
 
-    def fuel_consumption(self):
+    def fuel_consumption(self) -> float:
         """Amount of fuel in liters to consume per second at full throttle at nozzle size of 1x1 brick units"""
         return self._fuel_consumption
 
-    def thrust(self):
+    def thrust(self) -> float:
         """Thrust produced at a nozzle size of 1x1 brick units"""
         return self._thrust
 
-    def max_input_scale(self):
+    def max_input_scale(self) -> float:
         """Min and max value for the input scale"""
         return self._max_input_scale
 
-    def throttle_input_rate(self):
+    def throttle_input_rate(self) -> float:
         """Speed at which accumulated input is added"""
         return self._throttle_input_rate
 
-    def glow_interp_speed(self):
+    def glow_interp_speed(self) -> float:
         """Glow Intepr Speed"""
         return self._glow_interp_speed
 
-    def afterglow_interp_speed_up(self):
+    def afterglow_interp_speed_up(self) -> float:
         """Afterglow Interp Speed Up"""
         return self._afterglow_interp_speed_up
 
-    def afterglow_interp_speed_down(self):
+    def afterglow_interp_speed_down(self) -> float:
         """Afterglow Interp Speed Down"""
         return self._afterglow_interp_speed_down
 
-    def glow_color(self):
+    def glow_color(self) -> _v.Vec4:
         """Glow Color"""
         return self._glow_color
 
-    def afterglow_color(self):
+    def afterglow_color(self) -> _v.Vec4:
         """Afterglow Color"""
         return self._afterglow_color
 
 
     def base_properties(self, *args, **kwargs):
         return _base_properties | {
-            _p.BRICK_SIZE: _v.Vec3(30, 30, 30),
+            _p.BRICK_SIZE: _v.Vec3(30.0, 30.0, 30.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.ALL_CONNECTIONS,
             _p.INPUT_CNL_INPUT_AXIS: _p.InputCnl_InputAxis.THROTTLE,
             _p.INPUT_CNL_SOURCE_BRICKS: _p.InputCnl_SourceBricks.EMPTY,
@@ -1839,19 +1855,20 @@ class ThrusterBrickMeta(_b.BrickMeta):
         }
 
 
-THRUSTER_BRICK: Final = ThrusterBrickMeta('ThrusterBrick', 27, .5, 2e5, 25, 1, 4, .2, .1,
-                                          (2, .1, 0, 1), (1, .02, .01, 1))
-THRUSTER_CYLINDER: Final = ThrusterBrickMeta('ThrusterCylinder', 21.200001, .5, 2e5, 25, 1, 4, .2, .1,
-                                          (2, .1, 0, 1), (1, .02, .01, 1))
-THRUSTER_CYLINDER_02: Final = ThrusterBrickMeta('ThrusterCylinder_02', 21.200001, .5, 2e5, 25, 1, 4, .2, .1,
-                                          (2, .1, 0, 1), (1, .02, .01, 1))
+THRUSTER_BRICK: Final = ThrusterBrickMeta('ThrusterBrick', 27.0, 0.5, 2e5, 25.0, 1.0, 4.0, 0.2, 0.1,
+                                          _v.Vec4(2.0, 0.1, 0.0, 1.0), _v.Vec4(1.0, 0.02, 0.01, 1.0))
+THRUSTER_CYLINDER: Final = ThrusterBrickMeta('ThrusterCylinder', 21.200001, 0.5, 2e5, 25.0, 1.0, 4.0, 0.2, 0.1,
+                                          _v.Vec4(2.0, 0.1, 0.0, 1.0), _v.Vec4(1.0, 0.02, 0.01, 1.0))
+THRUSTER_CYLINDER_02: Final = ThrusterBrickMeta('ThrusterCylinder_02', 21.200001, 0.5, 2e5, 25.0, 1.0, 4.0, 0.2, 0.1,
+                                          _v.Vec4(2.0, 0.1, 0.0, 1.0), _v.Vec4(1.0, 0.02, 0.01, 1.0))
 
 
 
 class TrainWheelBrickMeta(_b.BrickMeta):
 
     def __init__(
-        self, name,
+        self,
+        name: str,
         wheel_radius: float,
         min_wheel_radius: float,
         max_wheel_radius_scale: float,
@@ -1866,23 +1883,23 @@ class TrainWheelBrickMeta(_b.BrickMeta):
         self._min_wheel_width = min_wheel_width
         self._max_wheel_width_scale = max_wheel_width_scale
 
-    def wheel_radius(self):
+    def wheel_radius(self) -> float:
         """Radius of the wheel"""
         return self._wheel_radius
 
-    def min_wheel_radius(self):
+    def min_wheel_radius(self) -> float:
         """Minimum wheel radius"""
         return self._min_wheel_radius
 
-    def max_wheel_radius_scale(self):
+    def max_wheel_radius_scale(self) -> float:
         """Maximum wheel radius scale"""
         return self._max_wheel_radius_scale
 
-    def min_wheel_width(self):
+    def min_wheel_width(self) -> float:
         """Minimum wheel width"""
         return self._min_wheel_width
 
-    def max_wheel_width_scale(self):
+    def max_wheel_width_scale(self) -> float:
         """Maximum wheel width scale"""
         return self._max_wheel_width_scale
 
@@ -1899,24 +1916,25 @@ class TrainWheelBrickMeta(_b.BrickMeta):
             _p.WHEEL_WIDTH: ww
         }
 
-TRAIN_WHEEL_2X2S: Final = TrainWheelBrickMeta('TrainWheel_2x2s', 25, 10.5, 2, 10, 4, wd=50, ww=20)
-TRAIN_WHEEL_3X2S: Final = TrainWheelBrickMeta('TrainWheel_3x2s', 37.5, 10.5, 2, 10, 4, wd=75, ww=20)
-TRAIN_WHEEL_4X2S: Final = TrainWheelBrickMeta('TrainWheel_4x2s', 50, 10.5, 2, 10, 4, wd=100, ww=20)
+TRAIN_WHEEL_2X2S: Final = TrainWheelBrickMeta('TrainWheel_2x2s', 25.0, 10.5, 2.0, 10.0, 4.0, wd=50.0, ww=20.0)
+TRAIN_WHEEL_3X2S: Final = TrainWheelBrickMeta('TrainWheel_3x2s', 37.5, 10.5, 2.0, 10.0, 4.0, wd=75.0, ww=20.0)
+TRAIN_WHEEL_4X2S: Final = TrainWheelBrickMeta('TrainWheel_4x2s', 50.0, 10.5, 2.0, 10.0, 4.0, wd=100.0, ww=20.0)
 
 
 
 class TurbineBrickMeta(_b.BrickMeta):
 
     def __init__(
-        self, name,
+        self,
+        name: str,
         max_rpm: float,
         acceleration: float,
         max_vertical_speed: float,
         vertical_acceleration: float,
-        max_angular_velocity: tuple[float, float, float],
-        angular_acceleration: tuple[float, float, float],
+        max_angular_velocity: _v.Vec3,
+        angular_acceleration: _v.Vec3,
         throttle_input_interp_rate: float,
-        rotation_input_interp_rate: tuple[float, float, float],
+        rotation_input_interp_rate: _v.Vec3,
         max_bank_angle: float,
         auto_hover_max_bank_angle_speed: float,
         fuel_capacity: float,
@@ -1937,51 +1955,51 @@ class TurbineBrickMeta(_b.BrickMeta):
         self._fuel_capacity = fuel_capacity
         self._fuel_consumption = fuel_consumption
 
-    def max_rpm(self):
+    def max_rpm(self) -> float:
         """Maximum rpm"""
         return self._max_rpm
 
-    def acceleration(self):
+    def acceleration(self) -> float:
         """Determines how fast the rotor accelerates"""
         return self._acceleration
 
-    def max_vertical_speed(self):
+    def max_vertical_speed(self) -> float:
         """Maximum speed the turbine car reach along the thrust axis"""
         return self._max_vertical_speed
 
-    def vertical_acceleration(self):
+    def vertical_acceleration(self) -> float:
         """Acceleration along the vertical axis"""
         return self._vertical_acceleration
 
-    def max_angular_velocity(self):
+    def max_angular_velocity(self) -> _v.Vec3:
         """Roll, pitch and yaw rotation speeds at full input values"""
         return self._max_angular_velocity
 
-    def angular_acceleration(self):
+    def angular_acceleration(self) -> _v.Vec3:
         """How fast the angular velocity can be adjusted"""
         return self._angular_acceleration
 
-    def throttle_input_interp_rate(self):
+    def throttle_input_interp_rate(self) -> float:
         """Throttle Input Interp Rate"""
         return self._throttle_input_interp_rate
 
-    def rotation_input_interp_rate(self):
+    def rotation_input_interp_rate(self) -> _v.Vec3:
         """Rotation Input Interp Rate"""
         return self._rotation_input_interp_rate
 
-    def max_bank_angle(self):
+    def max_bank_angle(self) -> float:
         """Max angle used when auto hover is enabled"""
         return self._max_bank_angle
 
-    def auto_hover_max_bank_angle_speed(self):
+    def auto_hover_max_bank_angle_speed(self) -> float:
         """Relative speed at which the full bank angle should be used"""
         return self._auto_hover_max_bank_angle_speed
 
-    def fuel_capacity(self):
+    def fuel_capacity(self) -> float:
         """Fuel Capacity"""
         return self._fuel_capacity
 
-    def fuel_consumption(self):
+    def fuel_consumption(self) -> float:
         """Amount of fuel in liters to consume per second"""
         return self._fuel_consumption
 
@@ -1990,29 +2008,34 @@ class TurbineBrickMeta(_b.BrickMeta):
             _p.POWER_INPUT_CNL_INPUT_AXIS: _p.PowerInputCnl_InputAxis.OPERATION_MODE,
             _p.POWER_INPUT_CNL_SOURCE_BRICKS: _p.PowerInputCnl_SourceBricks.EMPTY,
             _p.POWER_INPUT_CNL_VALUE: _p.PowerInputCnl_Value.DEFAULT_VALUE,
+
             _p.AUTO_HOVER_INPUT_CNL_INPUT_AXIS: _p.AutoHoverInputCnl_InputAxis.DISABLE_STEERING,
             _p.AUTO_HOVER_INPUT_CNL_SOURCE_BRICKS: _p.AutoHoverInputCnl_SourceBricks.EMPTY,
             _p.AUTO_HOVER_INPUT_CNL_VALUE: _p.AutoHoverInputCnl_Value.DEFAULT_VALUE,
+
             _p.THROTTLE_INPUT_CNL_INPUT_AXIS: _p.ThrottleInputCnl_InputAxis.THROTTLE_ALT,
             _p.THROTTLE_INPUT_CNL_SOURCE_BRICKS: _p.ThrottleInputCnl_SourceBricks.EMPTY,
             _p.THROTTLE_INPUT_CNL_VALUE: _p.ThrottleInputCnl_Value.DEFAULT_VALUE,
+
             _p.PITCH_INPUT_CNL_INPUT_AXIS: _p.PitchInputCnl_InputAxis.PITCH_ALT,
             _p.PITCH_INPUT_CNL_SOURCE_BRICKS: _p.PitchInputCnl_SourceBricks.EMPTY,
             _p.PITCH_INPUT_CNL_VALUE: _p.PitchInputCnl_Value.DEFAULT_VALUE,
+
             _p.YAW_INPUT_CNL_INPUT_AXIS: _p.YawInputCnl_InputAxis.STEERING_ALT,
             _p.YAW_INPUT_CNL_SOURCE_BRICKS: _p.YawInputCnl_SourceBricks.EMPTY,
             _p.YAW_INPUT_CNL_VALUE: _p.YawInputCnl_Value.DEFAULT_VALUE,
+
             _p.ROLL_INPUT_CNL_INPUT_AXIS: _p.RollInputCnl_InputAxis.VIEW_YAW_ALT,
             _p.ROLL_INPUT_CNL_SOURCE_BRICKS: _p.RollInputCnl_SourceBricks.EMPTY,
             _p.ROLL_INPUT_CNL_VALUE: _p.RollInputCnl_Value.DEFAULT_VALUE
         }
 
-TURBINE_12X8X5: Final = TurbineBrickMeta('Turbine_12x8x5', 240, 3, 1200, 2000, (1, 1, 0.785398),
-    (.75, .75, .5), .5, (1, 1, 1), 30, 600, 100, .1)
-TURBINE_6X2X2: Final = TurbineBrickMeta('Turbine_6x2x2', 240, 3, 1200, 2000, (1, 1, 0.785398),
-    (.75, .75, .5), .5, (1, 1, 1), 30, 600, 50, .05)
-TURBINE_8X4X2: Final = TurbineBrickMeta('Turbine_8x4x2', 240, 3, 1200, 2000, (1, 1, 0.785398),
-    (.75, .75, .5), .5, (1, 1, 1), 30, 60, 75, .075)
+TURBINE_12X8X5: Final = TurbineBrickMeta('Turbine_12x8x5', 240.0, 3.0, 1200.0, 2000.0, _v.Vec3(1.0, 1.0, 0.785398),
+    _v.Vec3(0.75, 0.75, 0.5), 0.5, _v.Vec3(1.0, 1.0, 1.0), 30.0, 600.0, 100.0, 0.1)
+TURBINE_6X2X2: Final = TurbineBrickMeta('Turbine_6x2x2', 240.0, 3.0, 1200.0, 2000.0, _v.Vec3(1.0, 1.0, 0.785398),
+    _v.Vec3(0.75, 0.75, 0.5), 0.5, _v.Vec3(1.0, 1.0, 1.0), 30.0, 600.0, 50.0, 0.05)
+TURBINE_8X4X2: Final = TurbineBrickMeta('Turbine_8x4x2', 240.0, 3.0, 1200.0, 2000.0, _v.Vec3(1.0, 1.0, 0.785398),
+    _v.Vec3(0.75, 0.75, 0.5), 0.5, _v.Vec3(1.0, 1.0, 1.0), 30.0, 60.0, 75.0, 0.075)
 
 
 
@@ -2029,7 +2052,8 @@ WHEEL_1X1X1: Final = WheelHubBrickMeta('Wheel_1x1x1')
 class WinchBrickMeta(_b.BrickMeta):
 
     def __init__(
-        self, name,
+        self,
+        name: str,
         min_rope_length: float,
         max_rope_length: float,
         winch_speed: float,
@@ -2040,13 +2064,13 @@ class WinchBrickMeta(_b.BrickMeta):
         self._max_rope_length = max_rope_length
         self._winch_speed = winch_speed
 
-    def min_rope_length(self):
+    def min_rope_length(self) -> float:
         return self._min_rope_length
 
-    def max_rope_length(self):
+    def max_rope_length(self) -> float:
         return self._max_rope_length
 
-    def winch_speed(self):
+    def winch_speed(self) -> float:
         return self._winch_speed
 
     def base_properties(self, *args, **kwargs):
@@ -2057,7 +2081,7 @@ class WinchBrickMeta(_b.BrickMeta):
             _p.WINCH_SPEED: _p.WinchSpeed.DEFAULT_VALUE
         }
 
-WINCH_3X2X1: Final = WinchBrickMeta('Winch_3x2x1', 75, 5000, 100)
+WINCH_3X2X1: Final = WinchBrickMeta('Winch_3x2x1', 75.0, 5000.0, 100.0)
 
 
 

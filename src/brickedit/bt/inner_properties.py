@@ -14,7 +14,6 @@ class ProjectileParams:
 @dataclass(slots=True)
 class FirearmProperties:
     ammo_capacity: int
-    default_ammo_type: str
     projectile_params: ProjectileParams
     num_projectiles_per_shot: int
     spread_radius: float
