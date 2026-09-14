@@ -1081,7 +1081,7 @@ class Operation(_m.EnumMeta):
     # RANGES AND INTERPOLATION
     SATURATE: Final[str] = 'Saturate'
     CLAMP: Final[str] = 'Clamp'
-    SYMMETRIC_CLAMP: Final[str] = 'Symmetric Clamp' # Uses a space in the brv
+    SYMMETRIC_CLAMP: Final[str] = 'ClampSymmetric'
     LERP: Final[str] = 'Lerp'
     REMAP: Final[str] = 'Remap'
 
@@ -1111,7 +1111,6 @@ class Operation(_m.EnumMeta):
     ABSOLUTE = ABS
     CEILING = CEIL
     SQRT = SQUARE_ROOT
-    COPYSIGN = COPY_SIGN
     EXPONENT = EXPONENTS = EXP
     NATURAL_LOG = NATURAL_LOGARITHM = LN
     LOGARITHM10 = LOG10
