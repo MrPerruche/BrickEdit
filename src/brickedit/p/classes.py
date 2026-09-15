@@ -322,7 +322,7 @@ class ConnectorSpacing(_b.PropertyMeta[int]):
     # Format: zp_zn_yp_yn_xp_xn big endian / yp_yn_xp_xn_00_00_zp_zn little endian
     NO_CONNECTIONS: Final[int] = 0b00_00_00_00_00_00
     ALL_CONNECTIONS: Final[int] = 0b11_11_11_11_11_11
-    SPINNER_CONNECTIONS: Final[int]= 0b00_00_00_00_11_11
+    SPINNER_CONNECTIONS: Final[int] = 0b00_00_00_00_11_11
     NO_TOP: Final[int] = 0b00_11_11_11_11_11
 
     @staticmethod
@@ -1106,6 +1106,8 @@ class Operation(_m.EnumMeta):
     GE = GREATER_EQUAL
     LT = LESS
     LE = LESS_EQUAL
+    EQ = EQUAL
+    NEQ = NOT_EQUAL
     MINIMUM = MIN
     MAXIMUM = MAX
     ABSOLUTE = ABS
