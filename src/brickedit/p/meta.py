@@ -12,12 +12,15 @@ from .. import vec as _vec
 # - isascii() or try: ... except UnicodeEncodeError,
 # and a few other things. These implementations seem optimal
 
+_STRUCT_INT8 = struct.Struct('b')
 _STRUCT_UINT8 = struct.Struct('B')
 _STRUCT_UINT16 = struct.Struct('<H')
 _STRUCT_INT16 = struct.Struct('<h')
 # _STRUCT_UINT32 = struct.Struct('<I')
 _STRUCT_UINT32_BIGENDIAN = struct.Struct('>I')
 _STRUCT_SPFLOAT = struct.Struct('<f')
+_STRUCT_2SPFLOAT = struct.Struct('<2f')
+_STRUCT_3SPFLOAT = struct.Struct('<3f')
 
 
 
@@ -36,6 +39,7 @@ class BooleanMeta(_b.PropertyMeta[bool]):
     def deserialize(v: bytes, version: int) -> bool:
         return v == b'\x01'
 
+
 class EnumMeta(_b.PropertyMeta[str]):
     """Base class for enum properties."""
 
@@ -52,6 +56,21 @@ class EnumMeta(_b.PropertyMeta[str]):
     @staticmethod
     def deserialize(v: bytes, version: int) -> str:
         return v[1: ].decode('ascii')
+
+class Int8Meta(_b.PropertyMeta[int]):
+    """Base class for integer properties"""
+
+    @staticmethod
+    def serialize(
+        v: int,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes:
+        return _STRUCT_INT8.pack(v)
+
+    @staticmethod
+    def deserialize(v: bytes, version: int) -> int:
+        return _STRUCT_INT8.unpack(v)[0]
 
 
 class TextMeta(_b.PropertyMeta[str]):
@@ -94,10 +113,8 @@ class Float32Meta(_b.PropertyMeta[float]):
         return _STRUCT_SPFLOAT.unpack(v)[0]
 
 
-_STRUCT_2SPFLOAT = struct.Struct('<2f')
-
 class Vec2Meta(_b.PropertyMeta[_vec.Vec2]):
-    """Size of bricks"""
+    """Class for 2-component vectors"""
 
     @staticmethod
     def serialize(
@@ -111,28 +128,20 @@ class Vec2Meta(_b.PropertyMeta[_vec.Vec2]):
     def deserialize(v: bytes, version: int) -> _vec.Vec2:
         return _vec.Vec2(*_STRUCT_2SPFLOAT.unpack_from(v))
 
-
-class Color3ChannelsMeta(_b.PropertyMeta[int]):
-    """
-    Class for 3-channel colors.
-    All 3-channel color properties accepts a 4th channel since BRV15.
-    When deserializing in BRV15 and newer, the 4th channel is included.
-    By default, Brick Rigs set alpha to 0xff (255). To remove alpha, use value & 0x00ffffff
-    """
+class Vec3Meta(_b.PropertyMeta[_vec.Vec3]):
+    """Class for 3-component vectors"""
 
     @staticmethod
     def serialize(
-        v: int,
+        v: _vec.Vec3,
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytes:
-        # We use big-endian since brickedit represent colors as 0xrrggbbaa
-        return _STRUCT_UINT32_BIGENDIAN.pack(v)
+        return _STRUCT_3SPFLOAT.pack(*v.as_tuple())
 
     @staticmethod
-    def deserialize(v: bytes, version: int) -> float:
-        # We use big-endian since brickedit represent colors as 0xrrggbbaa
-        return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
+    def deserialize(v: bytes, version: int) -> _vec.Vec3:
+        return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
 
 
 class Color4ChannelsMeta(_b.PropertyMeta[int]):

@@ -9,11 +9,7 @@ from .. import var as _v
 from .. import vec as _vec
 
 
-_STRUCT_INT8 = struct.Struct('b')
 _STRUCT_UINT16 = struct.Struct('<H')
-_STRUCT_UINT32 = struct.Struct('<I')
-_STRUCT_UINT32_BIGENDIAN = struct.Struct('>I')
-_STRUCT_3SPFLOAT = struct.Struct('<3f')
 
 
 BRICK_COLOR: Final[str] = 'BrickColor'
@@ -23,24 +19,6 @@ class BrickColor(_m.Color4ChannelsMeta):
     """Brick's color"""
 
     DEFAULT_COLOR: Final[int] = 0xbcbcbcff
-
-    @staticmethod
-    def serialize(
-        v: int,
-        version: int,
-        ref_to_idx: dict[str, int]
-    ) -> bytes | _b.InvalidVersionType:
-
-        if version <= _v.FILE_LEGACY_VERSION:
-            return _b.InvalidVersion
-        return _STRUCT_UINT32_BIGENDIAN.pack(v)  # Technically it's little-endian but brickedit
-                                                 # represent colors the other way around so...
-
-    @staticmethod
-    def deserialize(v: bytes, version: int) -> int:
-        if version <= _v.FILE_LEGACY_VERSION:
-            return _b.InvalidVersion
-        return _STRUCT_UINT32_BIGENDIAN.unpack(v)[0]
 
 
 BRICK_MATERIAL = 'BrickMaterial'
@@ -126,22 +104,10 @@ class BrickPattern(_m.EnumMeta):
 
 
 BRICK_SIZE: Final[str] = 'BrickSize'
+
 @_b.register(BRICK_SIZE)
 class BrickSize(_b.PropertyMeta[_vec.Vec3]):
     """Size of bricks"""
-
-    @staticmethod
-    def serialize(
-        v: _vec.Vec3,
-        version: int,
-        ref_to_idx: dict[str, int]
-    ) -> bytes:
-        return _STRUCT_3SPFLOAT.pack(*v.as_tuple())
-
-    @staticmethod
-    def deserialize(v: bytes, version: int) -> _vec.Vec3:
-        return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
-
 
 
 ACTUATOR_MODE: Final[str] = 'ActuatorMode'
@@ -156,6 +122,7 @@ class ActuatorMode(_m.EnumMeta):
     CYCLE: Final[str] = 'Cycle'
     STATIC: Final[str] = 'Static'
     SPRING: Final[str] = 'Spring'
+
 
 AMMO_TYPE: Final[str] = 'AmmoType'
 
@@ -318,8 +285,8 @@ CONNECTOR_SPACING: Final[str] = 'ConnectorSpacing'
 
 @_b.register(CONNECTOR_SPACING)
 class ConnectorSpacing(_b.PropertyMeta[int]):
-
-    # Format: zp_zn_yp_yn_xp_xn big endian / yp_yn_xp_xn_00_00_zp_zn little endian
+    """Connector spacing of a brick
+    Format: zp_zn_yp_yn_xp_xn big endian / yp_yn_xp_xn_00_00_zp_zn little endian"""
     NO_CONNECTIONS: Final[int] = 0b00_00_00_00_00_00
     ALL_CONNECTIONS: Final[int] = 0b11_11_11_11_11_11
     SPINNER_CONNECTIONS: Final[int]= 0b00_00_00_00_11_11
@@ -363,22 +330,8 @@ class DisplayColor(_m.Color4ChannelsMeta):
 EXIT_LOCATION: Final[str] = 'ExitLocation'
 
 @_b.register(EXIT_LOCATION)
-class ExitLocation(_b.PropertyMeta[_vec.Vec3]):
+class ExitLocation(_m.Vec3Meta):
     """Exit location of a seat"""
-
-    @staticmethod
-    def serialize(
-        v: _vec.Vec3,
-        version: int,
-        ref_to_idx: dict[str, int]
-    ) -> bytes:
-        return _STRUCT_3SPFLOAT.pack(*v.as_tuple())
-
-    @staticmethod
-    def deserialize(v: bytes, version: int) -> _vec.Vec3:
-        return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
-
-
 
 EXHAUST_EFFECT: Final[str] = 'ExhaustEffect'
 
@@ -671,20 +624,8 @@ class MaxAngle(_m.Float32Meta):
 NUM_FRACTIONAL_DIGITS: Final[str] = 'NumFractionalDigits'
 
 @_b.register(NUM_FRACTIONAL_DIGITS)
-class NumFractionalDigits(_b.PropertyMeta[int]):
+class NumFractionalDigits(_m.Int8Meta):
     """Number of fractional digits displayed on the display"""
-
-    @staticmethod
-    def serialize(
-        v: int,
-        version: int,
-        ref_to_idx: dict[str, int]
-    ) -> bytes:
-        return _STRUCT_INT8.pack(v)
-
-    @staticmethod
-    def deserialize(v: bytes, version: int) -> int:
-        return _STRUCT_INT8.unpack(v)[0]
 
 
 OWNING_SEAT: Final[str] = 'OwningSeat'
