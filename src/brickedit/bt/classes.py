@@ -1461,7 +1461,7 @@ class SensorBrickMeta(_b.BrickMeta):
         return _base_properties | {
             _p.ENABLED_INPUT_CNL_INPUT_AXIS: _p.EnabledInputCnl_InputAxis.ALWAYS_ON,
             _p.ENABLED_INPUT_CNL_SOURCE_BRICKS: _p.EnabledInputCnl_SourceBricks.EMPTY,
-            _p.INPUT_CNL_VALUE: _p.InputCnl_Value.DEFAULT_VALUE,
+            _p.ENABLED_INPUT_CNL_VALUE: _p.EnabledInputCnl_Value.DEFAULT_VALUE,
             _p.BRICK_SIZE: _v.Vec3(10.0, 10.0, 10.0),
             _p.CONNECTOR_SPACING: _p.ConnectorSpacing.NO_TOP,
             _p.B_RETURN_TO_ZERO: False,
