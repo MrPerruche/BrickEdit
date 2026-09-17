@@ -143,6 +143,18 @@ class Vec3Meta(_b.PropertyMeta[_vec.Vec3]):
     def deserialize(v: bytes, version: int) -> _vec.Vec3:
         return _vec.Vec3(*_STRUCT_3SPFLOAT.unpack_from(v))
 
+class OptionalVec3Meta(Vec3Meta):
+
+    @staticmethod
+    def serialize(
+        v: _vec.Vec3 | None,
+        version: int,
+        ref_to_idx: dict[str, int]
+    ) -> bytes | _b.InvalidVersionType:
+        return _b.InvalidVersion if v is None else _STRUCT_3SPFLOAT.pack(*v.as_tuple())
+
+    # deserialize inherited
+
 
 class Color4ChannelsMeta(_b.PropertyMeta[int]):
     """Class for 4-channel colors"""

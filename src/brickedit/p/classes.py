@@ -106,7 +106,7 @@ class BrickPattern(_m.EnumMeta):
 BRICK_SIZE: Final[str] = 'BrickSize'
 
 @_b.register(BRICK_SIZE)
-class BrickSize(_b.PropertyMeta[_vec.Vec3]):
+class BrickSize(_m.Vec3Meta):
     """Size of bricks"""
 
 
@@ -330,7 +330,7 @@ class DisplayColor(_m.Color4ChannelsMeta):
 EXIT_LOCATION: Final[str] = 'ExitLocation'
 
 @_b.register(EXIT_LOCATION)
-class ExitLocation(_m.Vec3Meta):
+class ExitLocation(_m.OptionalVec3Meta):
     """Exit location of a seat"""
 
 EXHAUST_EFFECT: Final[str] = 'ExhaustEffect'

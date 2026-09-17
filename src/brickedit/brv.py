@@ -185,6 +185,11 @@ class BRVFile:
                 try:
                     # Serialize
                     binary = prop_serialization_class.serialize(value, self.version, reference_to_brick_index)
+                    if binary is None:
+                        raise BrickError(f"Property {prop!r} from brick {brick!r}'s serialized "
+                                         "form is None instead of a bytes object. Is this property"
+                                         " correctly defined?")
+
                     # print(f'{prop} > {value} : {binary=}')
                     # If version is invalid, skip
                     if binary is _p.InvalidVersion:
