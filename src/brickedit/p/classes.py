@@ -1010,7 +1010,6 @@ class Operation(_m.EnumMeta):
     LESS_EQUAL: Final[str] = 'LessEqual'
     EQUAL: Final[str] = 'Equal'
     NOT_EQUAL: Final[str] = 'NotEqual'
-    STEP: Final[str] = 'Step'
     APPROXIMATELY_EQUAL: Final[str] = 'ApproximatelyEqual'
 
     # LOGIC
