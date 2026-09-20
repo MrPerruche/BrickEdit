@@ -2,8 +2,8 @@ from typing import Final
 
 BRICKEDIT_VERSION_MAJOR: Final[int] = 5
 BRICKEDIT_VERSION_MINOR: Final[int] = 1
-BRICKEDIT_VERSION_PATCH: Final[int] = 4
-BRICKEDIT_IS_DEV_VERSION: Final[bool] = True
+BRICKEDIT_VERSION_PATCH: Final[int] = 3
+BRICKEDIT_IS_DEV_VERSION: Final[bool] = False
 BRICKEDIT_VERSION_FULL: Final[str] = (
     str(BRICKEDIT_VERSION_MAJOR) + '.' +
     str(BRICKEDIT_VERSION_MINOR) + '.' +
@@ -12,7 +12,7 @@ BRICKEDIT_VERSION_FULL: Final[str] = (
 )
 
 FILE_EXP_VERSION: Final[int] = 18
-FILE_MAIN_VERSION: Final[int] = 17
+FILE_MAIN_VERSION: Final[int] = 18
 FILE_LEGACY_VERSION: Final[int] = 6
 
 FILE_MAX_SUPPORTED_VERSION: Final[int] = 18
