@@ -15,7 +15,7 @@ _STRUCT_UINT16 = struct.Struct('<H')
 BRICK_COLOR: Final[str] = 'BrickColor'
 
 @_b.register(BRICK_COLOR)
-class BrickColor(_m.Color4ChannelsMeta):
+class BrickColor(_m.ColorMeta):
     """Brick's color"""
 
     DEFAULT_COLOR: Final[int] = 0xbcbcbcff
@@ -323,7 +323,7 @@ class CouplingMode(_m.EnumMeta):
 DISPLAY_COLOR: Final[str] = 'DisplayColor'
 
 @_b.register(DISPLAY_COLOR)
-class DisplayColor(_m.Color4ChannelsMeta):
+class DisplayColor(_m.ColorMeta):
     """Digit display color for display bricks"""
 
 
@@ -441,7 +441,7 @@ class Image(_m.EnumMeta):
 IMAGE_COLOR: Final[str] = 'ImageColor'
 
 @_b.register(IMAGE_COLOR)
-class ImageColor(_m.Color4ChannelsMeta):
+class ImageColor(_m.ColorMeta):
     """Color of the image of an image brick"""
     DEFAULT_COLOR: Final[str] = 0xffffff
 
@@ -791,7 +791,7 @@ class SpinnerSize(_m.Vec2Meta):
 SMOKE_COLOR: Final[str] = 'SmokeColor'
 
 @_b.register(SMOKE_COLOR)
-class SmokeColor(_m.Color4ChannelsMeta):
+class SmokeColor(_m.ColorMeta):
     """Exhaust effect color"""
 
 
@@ -896,7 +896,7 @@ class TraceMask(_m.EnumMeta):
 TRACK_COLOR: Final[str] = 'TrackColor'
 
 @_b.register(TRACK_COLOR)
-class TrackColor(_m.Color4ChannelsMeta):
+class TrackColor(_m.ColorMeta):
     """Track color"""
     DEFAULT: Final[int] = 0x595959ff
 
@@ -1157,7 +1157,7 @@ class SensorType(_m.EnumMeta):
 
 TEXT_COLOR = 'TextColor'
 @_b.register(TEXT_COLOR)
-class TextColor(_m.Color4ChannelsMeta):
+class TextColor(_m.ColorMeta):
     """Text color property for text bricks."""
     DEFAULT_COLOR: Final[int] = 0x000000
 

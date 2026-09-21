@@ -12,7 +12,6 @@ from .. import vec as _vec
 # - isascii() or try: ... except UnicodeEncodeError,
 # and a few other things. These implementations seem optimal
 
-_STRUCT_INT8 = struct.Struct('b')
 _STRUCT_UINT8 = struct.Struct('B')
 _STRUCT_UINT16 = struct.Struct('<H')
 _STRUCT_INT16 = struct.Struct('<h')
@@ -57,7 +56,7 @@ class EnumMeta(_b.PropertyMeta[str]):
     def deserialize(v: bytes, version: int) -> str:
         return v[1: ].decode('ascii')
 
-class Int8Meta(_b.PropertyMeta[int]):
+class UInt8Meta(_b.PropertyMeta[int]):
     """Base class for integer properties"""
 
     @staticmethod
@@ -66,11 +65,11 @@ class Int8Meta(_b.PropertyMeta[int]):
         version: int,
         ref_to_idx: dict[str, int]
     ) -> bytes:
-        return _STRUCT_INT8.pack(v)
+        return _STRUCT_UINT8.pack(v)
 
     @staticmethod
     def deserialize(v: bytes, version: int) -> int:
-        return _STRUCT_INT8.unpack(v)[0]
+        return _STRUCT_UINT8.unpack(v)[0]
 
 
 class TextMeta(_b.PropertyMeta[str]):
@@ -156,7 +155,7 @@ class OptionalVec3Meta(Vec3Meta):
     # deserialize inherited
 
 
-class Color4ChannelsMeta(_b.PropertyMeta[int]):
+class ColorMeta(_b.PropertyMeta[int]):
     """Class for 4-channel colors"""
 
     @staticmethod
