@@ -624,7 +624,7 @@ class MaxAngle(_m.Float32Meta):
 NUM_FRACTIONAL_DIGITS: Final[str] = 'NumFractionalDigits'
 
 @_b.register(NUM_FRACTIONAL_DIGITS)
-class NumFractionalDigits(_m.Int8Meta):
+class NumFractionalDigits(_m.UInt8Meta):
     """Number of fractional digits displayed on the display"""
 
 
