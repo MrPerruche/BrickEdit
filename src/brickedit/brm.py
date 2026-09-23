@@ -177,13 +177,12 @@ class BRMFile:
 
         write(pack_B(visibility))
 
-        write(pack_H(len(tags)))
+        tags = (tags or [])[:3]
+        tags += ['None'] * (3 - len(tags))
         for t in tags:
-            encoded_tag = t.encode('ascii')
-            if len(encoded_tag) > 255:
-                raise ValueError(f"Tag is too long! Max: 255 bytes, got {len(encoded_tag)} bytes")
-            write(pack_B(len(encoded_tag)))
-            write(encoded_tag)
+            enc = t.encode('ascii')
+            write(pack_B(len(enc)))
+            write(enc)
 
         return buffer
 
@@ -331,15 +330,11 @@ class BRMFile:
         # -- Tags
         # Do not care about propertly updating offset if we don't load because this is EOF
         if config.tags:
-            num_tags, = unpack_from_H(mv, offset)
-            offset += 2
-            tags = [None] * num_tags
-            for i in range(num_tags):
-                tag_len = mv[offset]
-                offset += 1
-                tag = mv[offset : offset+tag_len].decode('ascii')
-                offset += tag_len
-                tags[i] = tag
+            tags = []
+            for _ in range(3):
+                n = mv[offset]; offset += 1
+                tags.append(bytes(mv[offset:offset+n]).decode('ascii'))
+                offset += n
             result.append(tags)
 
 
