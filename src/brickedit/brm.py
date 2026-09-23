@@ -122,6 +122,12 @@ class BRMFile:
 
         assert brick_count <= 65_534, "Too many bricks! Max: 65,534"
 
+        if tags is None:
+            tags = []
+
+        if len(tags) > 65_535:
+            raise ValueError(f"Too many tags! Max: 65,535, got {len(tags)}")
+
         # Init buffer
         buffer = bytearray()
 
@@ -160,6 +166,7 @@ class BRMFile:
         packed_author = encode_author(author)
         # (... + 7) // 8 is like ceil() for bytes.
         bin_author = packed_author.to_bytes((packed_author.bit_length() + 7)//8, 'little')
+        write(pack_B(len(bin_author)))
         write(bin_author)
 
         write(b'\x00\x00\x00\x00')  # The 4 forbidden bytes that breaks brms if you edit them
@@ -170,11 +177,13 @@ class BRMFile:
 
         write(pack_B(visibility))
 
-        if tags is not None:
-            write(pack_H(len(tags)))
-            for t in tags:
-                write(pack_B(len(t)))
-                write(t.encode('ascii'))
+        write(pack_H(len(tags)))
+        for t in tags:
+            encoded_tag = t.encode('ascii')
+            if len(encoded_tag) > 255:
+                raise ValueError(f"Tag is too long! Max: 255 bytes, got {len(encoded_tag)} bytes")
+            write(pack_B(len(encoded_tag)))
+            write(encoded_tag)
 
         return buffer
 
@@ -306,7 +315,7 @@ class BRMFile:
             result.append(creation_time)
         if config.last_update_time:
             result.append(last_update_time)
-        offset += 8
+        offset += 16
 
         if last_step <= 9:
             return result
@@ -322,7 +331,7 @@ class BRMFile:
         # -- Tags
         # Do not care about propertly updating offset if we don't load because this is EOF
         if config.tags:
-            num_tags, = unpack_from_h(mv, offset)
+            num_tags, = unpack_from_H(mv, offset)
             offset += 2
             tags = [None] * num_tags
             for i in range(num_tags):
@@ -335,3 +344,4 @@ class BRMFile:
 
 
         return result
+

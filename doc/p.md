@@ -126,7 +126,8 @@ Writing the serialization logic for every property is tedious and disallow insta
 | `ColorMeta`             | Integer from 0 to 4,294,967,295                   | 32-bit unsigned integer LE                                      | 4-channel RGB colors.                                                     |
 | `EnumMeta`              | Any ASCII string up to 255 characters             | len as u8 then ascii str                                        | For enum properties.                                                  |
 | `Float32Meta`           | Float numbers                                     | Single precision float LE                                       | Numeric values, not for input channel properties (see ValueMeta).     |
-| `UInt8Meta`             | 8-bit integers                                    | Unsigned 8-bit integer                                          | Represents integer values.
+| `Int8Meta`              | Integers from -127 to 128                         | Signed 8-bit integer                                            | Represents integer values.
+| `UInt8Meta`             | Integers from 0 to 255                            | Unsigned 8-bit integer                                          | Represents integer values.
 | `TextMeta`              | Any ASCII/UTF-16 string up to 32,738/32,727 chars | `(len if ascii else -len)` as i16 LE then encoded str           | For text values with large capacity.                                  |
 | `Vec2Meta`              | Vec2                                              | `x` then `y` as single precision floats LE                      | Represents a 2D vector.                                               |
 | `Vec3Meta`              | Vec3                                              | `x`, then `y`, then `z` as single precision floats LE           | Represents a 3D vector.                                               |
