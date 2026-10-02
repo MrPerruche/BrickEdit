@@ -60,6 +60,7 @@ Serialization is done using the `BRMFile.serialize` method. It takes the stored 
 - `weight` (`float`) = `0.0`: The weight of the vehicle in kilograms.
 - `price` (`float`) = `0.0`: The price of the vehicle in Brick Rigs currency.
 - `author` (`int | None`) = `None`: The author name of the vehicle.
+- `workshop_refs` (`Optional[list[tuple[str | bytes, int]]]`) = `None`: A list of workshop references associated with the vehicle. If a str is provided, a null character will automatically be appended if there isn't one already. Use bytes to bypass this mechanism. For steam workshop items, tuples must be `(b'Steam\0', <workshop item id>)`
 - `visibility` (`int`) = `VISIBILITY_PUBLIC`: The visibility level of the vehicle.
 - `tags` (`Optional[list[str]]`) = `None`: A list of tags associated with the vehicle.
 - `creation_time` (`int | None`) = `None`: The creation time of the vehicle as a .NET ticks timestamp.
@@ -82,6 +83,7 @@ Deserializing a BRMFile using brickedit will return a tuple containing selected 
 - `weight`: Whether to deserialize the weight.
 - `price`: Whether to deserialize the price.
 - `author`: Whether to deserialize the author.
+- `workshop_refs`: Whether to deserialize the workshop references. Note: service is returned as a python string terminated by a null character.
 - `creation_time`: Whether to deserialize the creation time.
 - `last_update_time`: Whether to deserialize the last update time.
 - `visibility`: Whether to deserialize the visibility.

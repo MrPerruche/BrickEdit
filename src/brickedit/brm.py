@@ -1,4 +1,5 @@
 import io
+from os import write
 import struct
 from typing import Optional, Any
 
@@ -47,6 +48,7 @@ class BRMDeserializationConfig:
     weight: bool = False
     price: bool = False
     author: bool = False
+    workshop_refs: bool = False
     creation_time: bool = False
     last_update_time: bool = False
     visibility: bool = False
@@ -64,10 +66,11 @@ class BRMDeserializationConfig:
             self.weight           << 5  |
             self.price            << 6  |
             self.author           << 7  |
-            self.creation_time    << 8  |
-            self.last_update_time << 9  |
-            self.visibility       << 10 |
-            self.tags             << 11
+            self.workshop_refs    << 8  |
+            self.creation_time    << 9  |
+            self.last_update_time << 10 |
+            self.visibility       << 11 |
+            self.tags             << 12
         ).bit_length())
 
     def length(self) -> int:
@@ -90,6 +93,7 @@ class BRMFile:
         weight: float = 0.0,
         price: float = 0.0,
         author: int = 0,
+        workshop_refs: Optional[list[tuple[str | bytes, int]]] = None,
         visibility: int = 0,
         tags: Optional[list[str]] = None,
         creation_time: int | None = None,
@@ -106,6 +110,11 @@ class BRMFile:
             size (_Vec3, optional): Size. Defaults to _Vec3(0, 0, 0).
             weight (float, optional): Weight. Defaults to 0.0.
             price (float, optional): Price. Defaults to 0.0.
+            author (int, optional): Author. Defaults to 0.
+            workshop_refs (Optional[list[tuple[str | bytes, int]]], optional): Workshop references. Defaults to None
+                WARNING: Automatically places null character. To avoid automatic placement, use bytes instead of str.
+            visibility (int, optional): Visibility. Defaults to 0.
+            tags (Optional[list[str]], optional): Tags. Defaults to None.
             creation_time (int | None, optional): Creation time in BR's format. Defaults to None.
             last_update_time (int | None, optional): Creation time in BR's format. Defaults to None.
         """
@@ -137,7 +146,7 @@ class BRMFile:
         # Precompile struct
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
         pack_H = struct.Struct('<H').pack  # '<H' → uint16 LE
-        # pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
+        pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
         pack_Q = struct.Struct('<Q').pack  # '<Q' → uint64 LE
         pack_f = struct.Struct('<f').pack  # '<f' → sp float LE
         pack_vec3 = struct.Struct('<3f').pack
@@ -169,7 +178,15 @@ class BRMFile:
         write(pack_B(len(bin_author)))
         write(bin_author)
 
-        write(b'\x00\x00\x00\x00')  # The 4 forbidden bytes that breaks brms if you edit them
+        # Workshop refs
+        refs = workshop_refs or []
+        write(pack_I(len(refs)))
+
+        for service, sid in refs:
+            if isinstance(service, str) and not service.endswith('\0'):
+                service += '\0'
+            write(_UserTextSerialization.serialize(service, self.version, {}))
+            write(pack_Q(sid))
 
         # Creation and update time
         write(pack_Q(creation_time))
@@ -192,7 +209,9 @@ class BRMFile:
     _UNPACK_FROM_h = struct.Struct('<h').unpack_from
     _UNPACK_FROM_H = struct.Struct('<H').unpack_from
     _UNPACK_FROM_5f = struct.Struct('<5f').unpack_from
+    _UNPACK_FROM_Q = struct.Struct('<Q').unpack_from
     _UNPACK_FROM_2Q = struct.Struct('<2Q').unpack_from
+    _UNPACK_FROM_I = struct.Struct('<I').unpack_from
 
 
     def deserialize(self, buffer: bytes | bytearray, config: BRMDeserializationConfig, auto_version: bool = False) -> list[Any]:
@@ -228,7 +247,9 @@ class BRMFile:
         unpack_from_B = self._UNPACK_FROM_B
         unpack_from_h = self._UNPACK_FROM_h
         unpack_from_H = self._UNPACK_FROM_H
+        unpack_from_I = self._UNPACK_FROM_I
         unpack_from_5f = self._UNPACK_FROM_5f
+        unpack_from_Q = self._UNPACK_FROM_Q
         unpack_from_2Q = self._UNPACK_FROM_2Q
 
 
@@ -305,10 +326,29 @@ class BRMFile:
         if last_step <= 7:
             return result
 
-        # -- 4 bytes of dread
-        offset += 4
+        # -- 4 bytes of dread (workshop refs)
+        workshop_refs_count, = unpack_from_I(mv, offset); offset += 4
+        for _ in range(workshop_refs_count):
+            # Get service length
+            service_len, = unpack_from_I(mv, offset); offset += 4  # Might be signed but whatever, if you shove a 3GB string in a file that's usually a few KB you should get what you deserve
+            if config.workshop_refs:
+                # Get service
+                if service_len >= 0:  # ASCII
+                    service = bytes(mv[offset : offset+service_len]).decode('ascii')
+                else:  # UTF-16
+                    service_len = -2*service_len
+                    service = bytes(mv[offset : offset+service_len]).decode('utf-16-le')
+                # Get Id
+                sid = unpack_from_Q(mv, offset+service_len)
+                result.append((service, sid))
+            offset += service_len + 8  # Service and ID offset
+
+        if last_step <= 8:
+            return result
+
 
         # Create and update time (.NET)
+        # DOING STEP 9 & 10 SIMULTANEOUSLY
         creation_time, last_update_time = unpack_from_2Q(mv, offset)
         if config.creation_time:
             result.append(creation_time)
@@ -316,7 +356,7 @@ class BRMFile:
             result.append(last_update_time)
         offset += 16
 
-        if last_step <= 9:
+        if last_step <= 10:
             return result
 
         # -- Visibility
@@ -324,7 +364,7 @@ class BRMFile:
             result.append(mv[offset])
         offset += 1
 
-        if last_step <= 10:
+        if last_step <= 11:
             return result
 
         # -- Tags
