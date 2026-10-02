@@ -183,9 +183,11 @@ class BRMFile:
         write(pack_I(len(refs)))
 
         for service, sid in refs:
-            if isinstance(service, str) and not service.endswith('\0'):
-                service += '\0'
-            write(_UserTextSerialization.serialize(service, self.version, {}))
+            if isinstance(service, str):
+                if not service.endswith('\0'):
+                    service += '\0'
+                service = service.encode('ascii' if service.isascii() else 'utf-16-le')
+            write(service)
             write(pack_Q(sid))
 
         # Creation and update time
@@ -208,10 +210,11 @@ class BRMFile:
     _UNPACK_FROM_B = struct.Struct('B').unpack_from
     _UNPACK_FROM_h = struct.Struct('<h').unpack_from
     _UNPACK_FROM_H = struct.Struct('<H').unpack_from
+    _UNPACK_FROM_i = struct.Struct('<i').unpack_from
+    _UNPACK_FROM_I = struct.Struct('<I').unpack_from
     _UNPACK_FROM_5f = struct.Struct('<5f').unpack_from
     _UNPACK_FROM_Q = struct.Struct('<Q').unpack_from
     _UNPACK_FROM_2Q = struct.Struct('<2Q').unpack_from
-    _UNPACK_FROM_I = struct.Struct('<I').unpack_from
 
 
     def deserialize(self, buffer: bytes | bytearray, config: BRMDeserializationConfig, auto_version: bool = False) -> list[Any]:
@@ -247,6 +250,7 @@ class BRMFile:
         unpack_from_B = self._UNPACK_FROM_B
         unpack_from_h = self._UNPACK_FROM_h
         unpack_from_H = self._UNPACK_FROM_H
+        unpack_from_i = self._UNPACK_FROM_i
         unpack_from_I = self._UNPACK_FROM_I
         unpack_from_5f = self._UNPACK_FROM_5f
         unpack_from_Q = self._UNPACK_FROM_Q
@@ -327,21 +331,26 @@ class BRMFile:
             return result
 
         # -- 4 bytes of dread (workshop refs)
+        do_workshop_refs = config.workshop_refs
         workshop_refs_count, = unpack_from_I(mv, offset); offset += 4
+        workshop_refs_result = []
+
         for _ in range(workshop_refs_count):
             # Get service length
-            service_len, = unpack_from_I(mv, offset); offset += 4  # Might be signed but whatever, if you shove a 3GB string in a file that's usually a few KB you should get what you deserve
-            if config.workshop_refs:
-                # Get service
-                if service_len >= 0:  # ASCII
-                    service = bytes(mv[offset : offset+service_len]).decode('ascii')
-                else:  # UTF-16
-                    service_len = -2*service_len
-                    service = bytes(mv[offset : offset+service_len]).decode('utf-16-le')
+            service_len, = unpack_from_i(mv, offset); offset += 4
+            is_ascii, service_len = service_len >= 0, service_len // 2
+
+            if do_workshop_refs:
+                # Get Service
+                service = bytes(mv[offset : offset+service_len]).decode('ascii' if is_ascii else 'utf-16-le')
                 # Get Id
-                sid = unpack_from_Q(mv, offset+service_len)
-                result.append((service, sid))
+                sid, = unpack_from_Q(mv, offset+service_len)
+                workshop_refs_result.append((service, sid))
             offset += service_len + 8  # Service and ID offset
+
+        # Add to result only if we care. Results are not build if we don't btw
+        if do_workshop_refs:
+            result.append(workshop_refs_result)
 
         if last_step <= 8:
             return result
