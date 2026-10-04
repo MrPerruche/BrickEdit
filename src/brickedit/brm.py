@@ -175,7 +175,7 @@ class BRMFile:
         write(b'\x1D')  # Steam id stuff
         packed_author = encode_author(author)
         # (... + 7) // 8 is like ceil() for bytes.
-        bin_author = packed_author.to_bytes((packed_author.bit_length() + 7)//8, 'little')
+        bin_author = packed_author.to_bytes((packed_author.bit_length() + 7)//8, 'big')
         write(pack_B(len(bin_author)))
         write(bin_author)
 
