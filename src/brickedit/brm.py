@@ -25,7 +25,7 @@ def encode_author(author: int) -> int:
 def decode_author(buf: bytes | bytearray | memoryview) -> int:
     result = 0
     mul = 1
-    for b in buf:
+    for b in reversed(buf):
         lo = b & 0x0F
         hi = b >> 4
 
@@ -146,6 +146,7 @@ class BRMFile:
         # Precompile struct
         pack_B = struct.Struct('B').pack   # 'B'  → uint8
         pack_H = struct.Struct('<H').pack  # '<H' → uint16 LE
+        pack_i = struct.Struct('<i').pack  # '<i' → int32 LE
         pack_I = struct.Struct('<I').pack  # '<I' → uint32 LE
         pack_Q = struct.Struct('<Q').pack  # '<Q' → uint64 LE
         pack_f = struct.Struct('<f').pack  # '<f' → sp float LE
@@ -186,8 +187,15 @@ class BRMFile:
             if isinstance(service, str):
                 if not service.endswith('\0'):
                     service += '\0'
-                service = service.encode('ascii' if service.isascii() else 'utf-16-le')
-            write(service)
+                if service.isascii():
+                    write(pack_i(len(service)))
+                    write(service.encode('ascii'))
+                else:
+                    enc = service.encode('utf-16-le')
+                    write(pack_i(-(len(enc) // 2)))
+                    write(enc)
+            else:
+                write(pack_i(len(service))); write(service)  # raw ASCII bytes
             write(pack_Q(sid))
 
         # Creation and update time
@@ -338,15 +346,14 @@ class BRMFile:
         for _ in range(workshop_refs_count):
             # Get service length
             service_len, = unpack_from_i(mv, offset); offset += 4
-            is_ascii, service_len = service_len >= 0, service_len // 2
+            is_ascii = service_len >= 0
+            service_byte_len = service_len if is_ascii else -2 * service_len
 
             if do_workshop_refs:
-                # Get Service
-                service = bytes(mv[offset : offset+service_len]).decode('ascii' if is_ascii else 'utf-16-le')
-                # Get Id
-                sid, = unpack_from_Q(mv, offset+service_len)
+                service = bytes(mv[offset : offset+service_byte_len]).decode('ascii' if is_ascii else 'utf-16-le')
+                sid, = unpack_from_Q(mv, offset+service_byte_len)
                 workshop_refs_result.append((service, sid))
-            offset += service_len + 8  # Service and ID offset
+            offset += service_byte_len + 8
 
         # Add to result only if we care. Results are not build if we don't btw
         if do_workshop_refs:
