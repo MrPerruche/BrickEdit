@@ -491,7 +491,7 @@ class BumperBrickMeta(_b.BrickMeta):
         }
 
 BUMPER_4SX6X2: Final = BumperBrickMeta('Bumper_4sx6x2')
-BUMPER_4SX8X7S: Final = BumperBrickMeta('Bumper_4x8x7s')
+BUMPER_4SX8X7S: Final = BumperBrickMeta('Bumper_4sx8x7s')
 
 
 
@@ -753,7 +753,7 @@ class GrilleBrickMeta(_b.BrickMeta):
 
 GRID_2X1X1S: Final = GrilleBrickMeta('Grid_2x1x1s')
 GRID_2X1X1S_02: Final = GrilleBrickMeta('Grid_2x1x1s_02')
-GRID_CYLINDER_2X1X1S: Final = GrilleBrickMeta('GridZylinder_2x1x1s')
+GRID_CYLINDER_2X1X1S: Final = GrilleBrickMeta('GridZylinder_2x2x1s')
 
 
 

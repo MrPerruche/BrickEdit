@@ -534,11 +534,11 @@ class InputCnl_C_Value(_m.ValueMeta):
 class InputCnl_D_InputAxis(_m.InputAxisMeta):
     """Input type for InputChannelD"""
 
-@_b.register(INPUT_CNL_A_SOURCE_BRICKS)
+@_b.register(INPUT_CNL_D_SOURCE_BRICKS)
 class InputCnl_D_SourceBricks(_m.SourceBricksMeta):
     """Source bricks for InputChannelD"""
 
-@_b.register(INPUT_CNL_A_VALUE)
+@_b.register(INPUT_CNL_D_VALUE)
 class InputCnl_D_Value(_m.ValueMeta):
     """Constant value for InputChannelD"""
 
